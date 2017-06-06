@@ -10,8 +10,52 @@
 	<classpathentry kind="lib" path="dependencies/lwjgl-jawt.jar"/>
 	<classpathentry kind="lib" path="dependencies/lwjgl-jemalloc.jar"/>
 	<classpathentry kind="lib" path="dependencies/lwjgl-nfd.jar"/>
-	<classpathentry kind="lib" path="dependencies/lwjgl-openal.jar" sourcepath="dependencies/lwjgl-openal-sources.jar"/>
 	<classpathentry kind="lib" path="dependencies/lwjgl-opengl.jar" sourcepath="dependencies/lwjgl-opengl-sources.jar"/>
-	<classpathentry kind="lib" path="dependencies/lwjgl.jar" sourcepath="dependencies/lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl.jar" sourcepath="dependencies/lwjgl-sources.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GameEngine/dependencies"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="dependencies/lwjgl-assimp-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-assimp-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-assimp-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-bgfx-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-bgfx-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-bgfx-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-egl-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-egl-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-glfw-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-glfw-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-jawt-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-jawt-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-jemalloc-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-jemalloc-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-jemalloc-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nanovg-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nanovg-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nanovg-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nanovg.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nfd-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nfd-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nfd-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nuklear-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nuklear-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nuklear-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-nuklear.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-opengl-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-opengl-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-sse-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-sse-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-sse-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-sse.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-stb-javadoc.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-stb-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl-stb.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
