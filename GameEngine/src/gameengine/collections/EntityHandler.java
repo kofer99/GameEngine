@@ -62,6 +62,17 @@ public class EntityHandler {
 		flush();
 	}
 
+	/**
+	 * 
+	 * @param list
+	 */
+	public void addComponents(ComponentList< Component> list) {
+		for (Component c : currentComponents) {
+			if (c.getType() == list.getType())
+				list.add(c);
+		}
+	}
+
 	public ArrayList<Entity> getRemovedEntities() {
 		return removedEntities;
 	}
