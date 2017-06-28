@@ -10,12 +10,14 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import org.lwjgl.opengl.GL11;
 
+import game.TestGame;
 import gameengine.collections.EntityHandler;
 import gameengine.core.GLWindow;
 import gameengine.core.Keyboard;
 import gameengine.core.Mouse;
 import gameengine.objects.Component;
 import gameengine.objects.Entity;
+import gameengine.objects.Game;
 import gameengine.util.OpenGLErrorCatcher;
 
 /**
@@ -26,6 +28,8 @@ public class Engine {
 	private GLWindow window;
 
 	private EntityHandler entities;
+
+	private Game game;
 
 	public Engine() {
 		window = new GLWindow(new Keyboard(), new Mouse());
@@ -42,6 +46,8 @@ public class Engine {
 		entities = new EntityHandler();
 
 		// Game init
+		game = new TestGame();
+		game.init();
 
 		// System init
 
@@ -132,7 +138,8 @@ public class Engine {
 	/**
 	 * Adds an Entity.
 	 * 
-	 * @param e The new Entity
+	 * @param e
+	 *            The new Entity
 	 */
 	public void addEntity(Entity e) {
 		entities.addEntity(e);
@@ -142,17 +149,19 @@ public class Engine {
 	 * Adds a Component, witch can be retrieved through the addedComponent list
 	 * of the EntityHandler.
 	 * 
-	 * @param c The new Component
+	 * @param c
+	 *            The new Component
 	 */
 	public void addComponent(Component c) {
 		entities.addComponent(c);
 	}
 
 	/**
-	 * Removes an Entity, the Entity can be retrieved through the removedEntities
-	 * list of the EnityHandler.
+	 * Removes an Entity, the Entity can be retrieved through the
+	 * removedEntities list of the EnityHandler.
 	 * 
-	 * @param eID The id of the Entity
+	 * @param eID
+	 *            The id of the Entity
 	 * 
 	 */
 	public void removeEntity(int eID) {
