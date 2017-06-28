@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 import gameengine.core.GLWindow;
 import gameengine.core.Keyboard;
 import gameengine.core.Mouse;
+import gameengine.util.EngineLogger;
 import gameengine.util.OpenGLErrorCatcher;
 
 /**
@@ -21,6 +22,8 @@ import gameengine.util.OpenGLErrorCatcher;
  */
 public class Engine {
 	GLWindow window;
+
+	private static final EngineLogger logger = new EngineLogger(EngineLogger.LOGALL);
 
 	public Engine() {
 		window = new GLWindow(new Keyboard(), new Mouse());
