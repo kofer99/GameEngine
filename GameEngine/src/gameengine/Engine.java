@@ -10,9 +10,12 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import org.lwjgl.opengl.GL11;
 
+import gameengine.collections.EntityHandler;
 import gameengine.core.GLWindow;
 import gameengine.core.Keyboard;
 import gameengine.core.Mouse;
+import gameengine.objects.Component;
+import gameengine.objects.Entity;
 import gameengine.util.OpenGLErrorCatcher;
 
 /**
@@ -20,12 +23,29 @@ import gameengine.util.OpenGLErrorCatcher;
  *
  */
 public class Engine {
-	GLWindow window;
+	private GLWindow window;
+
+	private EntityHandler entities;
 
 	public Engine() {
 		window = new GLWindow(new Keyboard(), new Mouse());
 		window.init();
+	}
+
+	public void start() {
+		init();
 		run();
+		cleanup();
+	}
+
+	private void init() {
+		entities = new EntityHandler();
+
+		// Game init
+
+		// System init
+
+		entities.flushAfterInit();
 	}
 
 	private void run() {
@@ -69,9 +89,11 @@ public class Engine {
 				break;
 			}
 		}
-		cleanUp();
 	}
 
+	/**
+	 * This method calls the master renderer for rendering.
+	 */
 	private void render() {
 		GL11.glBegin(GL11.GL_TRIANGLES);
 		GL11.glColor3f(0.5f, 0.5f, 0.5f);
@@ -81,21 +103,60 @@ public class Engine {
 		GL11.glColor3f(1.0f, 1.0f, 1.0f);
 		GL11.glVertex3f(0.0f, 0.5f, -0.5f);
 		GL11.glEnd();
+
+		// swap the window and pool the events
 		window.poll();
 	}
 
+	/**
+	 * This method updates all the systems of the engine in order and updates
+	 * the lists of the systems
+	 * 
+	 * @param delta
+	 */
 	private void update(double delta) {
+		// Systems update
+
+		// update systems lists
+
+		entities.flush();
 	}
 
-	private void cleanUp() {
+	/**
+	 * Cleans up all the loose ends
+	 */
+	private void cleanup() {
 		window.destroy();
 	}
 
 	/**
-	 * @param args
+	 * Adds an Entity.
+	 * 
+	 * @param e The new Entity
 	 */
-	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		Engine engine = new Engine();
+	public void addEntity(Entity e) {
+		entities.addEntity(e);
 	}
+
+	/**
+	 * Adds a Component, witch can be retrieved through the addedComponent list
+	 * of the EntityHandler.
+	 * 
+	 * @param c The new Component
+	 */
+	public void addComponent(Component c) {
+		entities.addComponent(c);
+	}
+
+	/**
+	 * Removes an Entity, the Entity can be retrieved through the removedEntities
+	 * list of the EnityHandler.
+	 * 
+	 * @param eID The id of the Entity
+	 * 
+	 */
+	public void removeEntity(int eID) {
+		entities.removeEntity(eID);
+	}
+
 }
