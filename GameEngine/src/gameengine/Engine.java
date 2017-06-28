@@ -8,6 +8,8 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 
+import org.lwjgl.opengl.GL11;
+
 import gameengine.core.GLWindow;
 import gameengine.core.Keyboard;
 import gameengine.core.Mouse;
@@ -41,7 +43,7 @@ public class Engine {
 		while (!window.shouldClose()) {
 			// Clear all
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glClearColor(1.0f, 1.0f, 0.0f, 0.0f);
+			glClearColor(0.25f, 0.25f, 0.25f, 0.0f);
 
 			render();
 
@@ -71,6 +73,14 @@ public class Engine {
 	}
 
 	private void render() {
+		GL11.glBegin(GL11.GL_TRIANGLES);
+		GL11.glColor3f(0.5f, 0.5f, 0.5f);
+		GL11.glVertex3f(-0.5f, -0.5f, -0.5f);
+		GL11.glColor3f(0.75f, 0.75f, 0.75f);
+		GL11.glVertex3f(0.5f, -0.5f, -0.5f);
+		GL11.glColor3f(1.0f, 1.0f, 1.0f);
+		GL11.glVertex3f(0.0f, 0.5f, -0.5f);
+		GL11.glEnd();
 		window.poll();
 	}
 
@@ -85,6 +95,7 @@ public class Engine {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		Engine engine = new Engine();
 	}
 }
