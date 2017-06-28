@@ -190,6 +190,11 @@ public class Vec {
 			return false;
 	}
 
+	@Override
+	public String toString() {
+		return "(" + x + ", " + y + ", " + z + ", " + w + ")";
+	}
+
 	// Test stuff
 	public void print() {
 		System.out.println("Value: " + x + ", " + y + ", " + z + ", " + w);
