@@ -21,8 +21,8 @@ import gameengine.objects.Component;
 import gameengine.objects.EngineSystem;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
-//import gameengine.systems.EngineActionController;
-//import gameengine.systems.Physics;
+import gameengine.systems.EngineActionController;
+import gameengine.systems.Physics;
 import gameengine.util.EngineLogger;
 import gameengine.util.OpenGLErrorCatcher;
 
@@ -62,11 +62,11 @@ public class Engine {
 		game.init();
 
 		// System init
-		//physics = new Physics();
+		physics = new Physics();
 		physics.init(entities);
 		systems.add(physics);
 
-		//aController = new EngineActionController();
+		aController = new EngineActionController();
 		aController.init(entities);
 		systems.add(aController);
 
