@@ -66,7 +66,7 @@ public class EntityHandler {
 	 * 
 	 * @param list
 	 */
-	public void addComponents(ComponentList< Component> list) {
+	public void addComponents(CList list) {
 		for (Component c : currentComponents) {
 			if (c.getType() == list.getType())
 				list.add(c);

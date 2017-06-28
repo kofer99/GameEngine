@@ -13,7 +13,7 @@ import gameengine.util.exceptions.NotFoundException;
  * @author Florian Albrecht
  *
  */
-public class ComponentList<E extends Component> extends ArrayList<E> {
+public class ComponentList<E extends Component> extends ArrayList<E> implements CList {
 
 	/**
 	 * 
@@ -33,8 +33,8 @@ public class ComponentList<E extends Component> extends ArrayList<E> {
 	/**
 	 * Adds a Component to the List.
 	 */
-	public boolean add(E comp) {
-		return super.add(comp);
+	public boolean add(Component comp) {
+		return super.add((E) comp);
 	}
 
 	/**

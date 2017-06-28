@@ -8,5 +8,6 @@ package gameengine.objects;
  *
  */
 public enum ComponentType {
+	TRANSFORM, RENDERABLE
 
 }

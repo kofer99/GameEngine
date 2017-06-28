@@ -22,6 +22,11 @@ public class Entity {
 		Main.engine.addEntity(this);
 	}
 
+	public void add(Component component) {
+		component.setEntityID(id);
+		Main.engine.addComponent(component);
+	}
+
 	/**
 	 * Sets the id
 	 * 

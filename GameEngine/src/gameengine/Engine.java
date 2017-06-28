@@ -8,6 +8,8 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.GL11;
 
 import game.TestGame;
@@ -16,8 +18,11 @@ import gameengine.core.GLWindow;
 import gameengine.core.Keyboard;
 import gameengine.core.Mouse;
 import gameengine.objects.Component;
+import gameengine.objects.EngineSystem;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
+import gameengine.systems.EngineActionController;
+import gameengine.systems.Physics;
 import gameengine.util.OpenGLErrorCatcher;
 
 /**
@@ -28,7 +33,11 @@ public class Engine {
 	private GLWindow window;
 
 	private EntityHandler entities;
+	private ArrayList<EngineSystem> systems = new ArrayList<EngineSystem>();
 
+	private EngineSystem physics;
+	private EngineSystem aController;
+	
 	private Game game;
 
 	public Engine() {
@@ -50,6 +59,13 @@ public class Engine {
 		game.init();
 
 		// System init
+		physics = new Physics();
+		physics.init(entities);
+		systems.add(physics);
+
+		aController = new EngineActionController();
+		aController.init(entities);
+		systems.add(aController);
 
 		entities.flushAfterInit();
 	}
@@ -120,10 +136,22 @@ public class Engine {
 	 * 
 	 * @param delta
 	 */
-	private void update(double delta) {
-		// Systems update
+	int i = 0;
 
-		// update systems lists
+	private void update(double delta) {
+		i++;
+		aController.update();
+		physics.update();
+
+		for (EngineSystem sys : systems) {
+			sys.updateLists(entities);
+		}
+
+		if (i % 100 == 0) {
+			i = i - 1;
+
+			i = i + 1;
+		}
 
 		entities.flush();
 	}
