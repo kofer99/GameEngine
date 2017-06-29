@@ -46,5 +46,9 @@ public class Physics extends EngineSystem {
 
 			return;
 		}
+		for(Renderable r: renderable){
+			
+			r.render();
+		}
 	}
 }
