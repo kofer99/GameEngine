@@ -38,7 +38,7 @@ public class Engine {
 
 	private EngineSystem physics;
 	private EngineSystem aController;
-	
+
 	private Game game;
 
 	private static final EngineLogger logger = new EngineLogger(EngineLogger.LOGALL);
@@ -63,11 +63,11 @@ public class Engine {
 
 		// System init
 		physics = new Physics();
-		physics.init(entities);
+		physics.initialize(entities);
 		systems.add(physics);
 
 		aController = new EngineActionController();
-		aController.init(entities);
+		aController.initialize(entities);
 		systems.add(aController);
 
 		entities.flushAfterInit();

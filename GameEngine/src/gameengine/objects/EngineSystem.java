@@ -19,7 +19,14 @@ public abstract class EngineSystem {
 	protected EngineSystem() {
 	}
 
-	public abstract void init(EntityHandler entities);
+	public void initialize(EntityHandler entities) {
+		for (CList l : lists) {
+			entities.addComponents(l);
+		}
+		init();
+	}
+
+	public abstract void init();
 
 	public abstract void update();
 

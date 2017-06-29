@@ -26,8 +26,7 @@ public class EngineActionController extends EngineSystem {
 	}
 
 	@Override
-	public void init(EntityHandler entities) {
-		entities.addComponents(transforms);
+	public void init() {
 	}
 
 	int i = 0;
