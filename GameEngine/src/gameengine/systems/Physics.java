@@ -5,6 +5,7 @@ package gameengine.systems;
 
 import gameengine.collections.ComponentList;
 import gameengine.collections.EntityHandler;
+import gameengine.components.Renderable;
 import gameengine.components.Transform;
 import gameengine.objects.ComponentType;
 import gameengine.objects.EngineSystem;
@@ -16,16 +17,19 @@ import gameengine.objects.EngineSystem;
 public class Physics extends EngineSystem {
 
 	private ComponentList<Transform> transforms;
+	private ComponentList<Renderable> renderable;
 
 	public Physics() {
 		transforms = new ComponentList<Transform>(ComponentType.TRANSFORM);
+		renderable = new ComponentList<Renderable>(ComponentType.RENDERABLE);
 		super.addList(transforms);
+		super.addList(renderable);
 	}
 
 	public void init(EntityHandler entities) {
 		entities.addComponents(transforms);
-
-		System.out.println("transforms " + transforms.size());
+		entities.addComponents(renderable);
+		System.out.println("transforms " + transforms.size()+"renderables"+renderable.size());
 	}
 
 	int i = 0;
@@ -39,6 +43,7 @@ public class Physics extends EngineSystem {
 				string += t.getEntityID() + t.getPosition().toString() + "/";
 			}
 			System.out.println("Transforms.size = " + string);
+
 			return;
 		}
 	}

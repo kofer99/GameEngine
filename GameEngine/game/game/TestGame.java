@@ -33,6 +33,8 @@ public class TestGame implements Game {
 		e2.add(new Transform(new Vec3f(0f, 0f, 0f)));
 		
 		Entity e3 = new Entity();
+		e3.add(new Renderable(null));
+		e3.add(new Transform(new Vec3f(0f, 0f, 0f)));
 	}
 
 }

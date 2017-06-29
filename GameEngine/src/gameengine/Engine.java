@@ -21,6 +21,8 @@ import gameengine.objects.Component;
 import gameengine.objects.EngineSystem;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
+import gameengine.systems.EngineActionController;
+import gameengine.systems.Physics;
 //import gameengine.systems.EngineActionController;
 //import gameengine.systems.Physics;
 import gameengine.util.EngineLogger;
@@ -62,11 +64,12 @@ public class Engine {
 		game.init();
 
 		// System init
-		//physics = new Physics();
+		physics = new Physics();
 		physics.init(entities);
+		
 		systems.add(physics);
-
-		//aController = new EngineActionController();
+		
+		aController = new EngineActionController();
 		aController.init(entities);
 		systems.add(aController);
 
@@ -120,16 +123,17 @@ public class Engine {
 	 * This method calls the master renderer for rendering.
 	 */
 	private void render() {
-		GL11.glBegin(GL11.GL_TRIANGLES);
+	/*	GL11.glBegin(GL11.GL_TRIANGLES);
 		GL11.glColor3f(0.5f, 0.5f, 0.5f);
 		GL11.glVertex3f(-0.5f, -0.5f, -0.5f);
 		GL11.glColor3f(0.75f, 0.75f, 0.75f);
 		GL11.glVertex3f(0.5f, -0.5f, -0.5f);
 		GL11.glColor3f(1.0f, 1.0f, 1.0f);
 		GL11.glVertex3f(0.0f, 0.5f, -0.5f);
-		GL11.glEnd();
+		GL11.glEnd();*/
 
 		// swap the window and pool the events
+		
 		window.poll();
 	}
 
