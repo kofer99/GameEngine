@@ -23,6 +23,7 @@ import gameengine.objects.Entity;
 import gameengine.objects.Game;
 import gameengine.systems.EngineActionController;
 import gameengine.systems.Physics;
+import gameengine.systems.Shader;
 //import gameengine.systems.EngineActionController;
 //import gameengine.systems.Physics;
 import gameengine.util.EngineLogger;
@@ -66,6 +67,8 @@ public class Engine {
 		// System init
 		physics = new Physics();
 		physics.init(entities);
+		
+		new Shader().createShader();
 		
 		systems.add(physics);
 		
@@ -133,7 +136,7 @@ public class Engine {
 		GL11.glEnd();*/
 
 		// swap the window and pool the events
-		
+		physics.update();
 		window.poll();
 	}
 

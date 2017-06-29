@@ -17,9 +17,12 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 
 import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
+import gameengine.systems.Shader;
 /**
  * @author Florian Albrecht
  *
@@ -46,6 +49,8 @@ public class Renderable extends Component {
 			    1, 2, 3    // second triangle
 			}; 
 		EBO = GL15.glGenBuffers();
+		VAO = GL30.glGenVertexArrays();
+		VBO = GL15.glGenBuffers();
 		// 1. bind Vertex Array Object
 		 glBindVertexArray(VAO);
 		 // 2. copy our vertices array in a vertex buffer for OpenGL to use
@@ -55,12 +60,12 @@ public class Renderable extends Component {
 		 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		 glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
 		 // 4. then set the vertex attributes pointers
-		 glVertexAttribPointer(0, 3, GL_FLOAT, false, 3*4,0);
+		 glVertexAttribPointer(0, 3, GL_FLOAT, false,0,0);
 		 glEnableVertexAttribArray(0);
 
 	}
 	public void render(){
-	//	glUseProgram(shaderProgram);
+		//GL20.glUseProgram(Shader.shaderProgram);
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
