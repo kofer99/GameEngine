@@ -22,9 +22,7 @@ public class Physics extends EngineSystem {
 		super.addList(transforms);
 	}
 
-	public void init(EntityHandler entities) {
-		entities.addComponents(transforms);
-
+	public void init() {
 		System.out.println("transforms " + transforms.size());
 	}
 
