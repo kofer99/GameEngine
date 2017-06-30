@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import gameengine.objects.Component;
 import gameengine.objects.Entity;
+import gameengine.util.exceptions.NotFoundException;
 
 /**
  * @author Florian Albrecht

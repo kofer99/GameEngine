@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import gameengine.objects.Entity;
 
 /**
+ * This class keeps track of all entities currently in the game.
+ * 
  * @author Florian Albrecht
  *
  */
@@ -18,7 +20,14 @@ public class EntityList extends ArrayList<Entity> {
 	 */
 	private static final long serialVersionUID = 6927682181843481321L;
 
+	/**
+	 * Points to the next free id.
+	 */
 	private static int nextID = 0;
+
+	/**
+	 * Stores the freed ids.
+	 */
 	private static ArrayList<Integer> freeIDs = new ArrayList<Integer>(100);
 
 	/**
