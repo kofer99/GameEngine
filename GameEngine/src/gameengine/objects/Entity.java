@@ -6,22 +6,31 @@ package gameengine.objects;
 import gameengine.Main;
 
 /**
+ * This class represents a Entity, witch is only and identifier.<br>
+ * It also handles the connection to the engine to make the usage easier and
+ * clearer.
+ * 
  * @author Florian Albrecht
  *
  */
 public class Entity {
 
 	private int id;
+
 	private boolean deleted = false;
 
 	/**
-	 * Calls the Main.engine.addEntity method to add itself to the EntityHandler
-	 * and to get its id.
+	 * Adds itself to the Engine to get its id.
 	 */
 	public Entity() {
 		Main.engine.addEntity(this);
 	}
 
+	/**
+	 * This method sets the Components EntityID and adds it to the Engine.
+	 * 
+	 * @param component
+	 */
 	public void add(Component component) {
 		component.setEntityID(id);
 		Main.engine.addComponent(component);

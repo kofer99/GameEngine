@@ -31,29 +31,79 @@ import gameengine.util.OpenGLErrorCatcher;
  *
  */
 public class Engine {
+	/**
+	 * The window object.
+	 */
 	private GLWindow window;
 
+	/**
+	 * The keyboard object to access the user input from everywhere in the
+	 * engine.
+	 */
+	public static Keyboard keyboard;
+
+	/**
+	 * The mouse object to access the user input from everywhere in the engine.
+	 */
+	public static Mouse mouse;
+
+	/**
+	 * This object handles the Entity-Component connection.
+	 */
 	private EntityHandler entities;
+
+	/**
+	 * This list is used to update all the systems <code>ComponentLists</code>.
+	 */
 	private ArrayList<EngineSystem> systems = new ArrayList<EngineSystem>();
 
+	/**
+	 * All the systems, except the MasterRenderer
+	 */
 	private EngineSystem physics;
 	private EngineSystem aController;
 
+	/**
+	 * The Master renderer is handled specialty, because of its
+	 */
+	// private MasterRenderer renderer;
+
+	/**
+	 * The Game object
+	 */
 	private Game game;
 
+	/**
+	 * This is only to create a Logger instance, it is never used directly but
+	 * only through static members
+	 */
 	private static final EngineLogger logger = new EngineLogger(EngineLogger.LOGALL);
 
 	public Engine() {
-		window = new GLWindow(new Keyboard(), new Mouse());
+		keyboard = new Keyboard();
+		mouse = new Mouse();
+		window = new GLWindow(keyboard, mouse);
 		window.init();
 	}
 
+	/**
+	 * Controls the program flow (init, run and cleanup)
+	 */
 	public void start() {
 		init();
 		run();
 		cleanup();
 	}
 
+	/**
+	 * This method initializes the <code>EntityHandler</code>, the
+	 * <code>Game</code> and every <code>System</code> (<strong>Order
+	 * matters</strong>).
+	 * <p>
+	 * Every <code>System</code> has to be created, initialized and added to the
+	 * systems List!
+	 * </p>
+	 */
 	private void init() {
 		entities = new EntityHandler();
 
@@ -70,9 +120,19 @@ public class Engine {
 		aController.initialize(entities);
 		systems.add(aController);
 
+		// The EntityHandler needs to be flushed after every tick and after the
+		// init
 		entities.flushAfterInit();
 	}
 
+	/**
+	 * This method runs the main GameLoop.
+	 * <p>
+	 * It calls the render and after that the update method and implements the
+	 * FPS/UPS counter and logs it at the info log level. After every loop it
+	 * checks for OpenGL errors.
+	 * </p>
+	 */
 	private void run() {
 		int updates = 0;
 		int frames = 0;
@@ -110,14 +170,15 @@ public class Engine {
 				frames = 0;
 			}
 
-			if (OpenGLErrorCatcher.checkOpenGLError("render loop") != true) {
+			if (OpenGLErrorCatcher.checkOpenGLError("Main loop") != true) {
 				break;
 			}
 		}
 	}
 
 	/**
-	 * This method calls the master renderer for rendering.
+	 * This method calls the master renderer for rendering and swaps the
+	 * buffers.
 	 */
 	private void render() {
 		GL11.glBegin(GL11.GL_TRIANGLES);
@@ -134,33 +195,30 @@ public class Engine {
 	}
 
 	/**
-	 * This method updates all the systems of the engine in order and updates
-	 * the lists of the systems
+	 * This method updates all the systems of the engine in the correct order
+	 * and updates the lists of the systems.<br>
+	 * Catches if something is wrong with the ComponentLists.
 	 * 
 	 * @param delta
 	 */
-	int i = 0;
-
 	private void update(double delta) {
-		i++;
-		aController.update();
-		physics.update();
+		try {
+			aController.update();
+			physics.update();
+		} catch (ClassCastException e) {
+			System.err.println("A ComponentList is messed up! (take a look at the StackTrace)");
+			e.printStackTrace();
+		}
 
 		for (EngineSystem sys : systems) {
 			sys.updateLists(entities);
-		}
-
-		if (i % 100 == 0) {
-			i = i - 1;
-
-			i = i + 1;
 		}
 
 		entities.flush();
 	}
 
 	/**
-	 * Cleans up all the loose ends
+	 * Cleans up all the loose ends.
 	 */
 	private void cleanup() {
 		window.destroy();
