@@ -21,8 +21,8 @@ import gameengine.objects.Component;
 import gameengine.objects.EngineSystem;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
-import gameengine.systems.EngineActionController;
 import gameengine.systems.InputController;
+import gameengine.systems.MasterRenderer;
 import gameengine.systems.Physics;
 import gameengine.util.EngineLogger;
 import gameengine.util.OpenGLErrorCatcher;
@@ -62,7 +62,7 @@ public class Engine {
 	 * All the systems, except the MasterRenderer
 	 */
 	private EngineSystem physics;
-	private EngineSystem aController;
+	private EngineSystem renderer;
 	private EngineSystem inputController;
 
 	/**
@@ -118,14 +118,14 @@ public class Engine {
 			e.printStackTrace();
 		}
 
+		renderer = new MasterRenderer();
+		renderer.initialize(entities);
+		systems.add(renderer);
+
 		// System init
 		physics = new Physics();
 		physics.initialize(entities);
 		systems.add(physics);
-
-		aController = new EngineActionController();
-		aController.initialize(entities);
-		systems.add(aController);
 
 		inputController = new InputController();
 		inputController.initialize(entities);
@@ -192,15 +192,8 @@ public class Engine {
 	 * buffers.
 	 */
 	private void render() {
-		GL11.glBegin(GL11.GL_TRIANGLES);
-		GL11.glColor3f(0.5f, 0.5f, 0.5f);
-		GL11.glVertex3f(-0.5f, -0.5f, -0.5f);
-		GL11.glColor3f(0.75f, 0.75f, 0.75f);
-		GL11.glVertex3f(0.5f, -0.5f, -0.5f);
-		GL11.glColor3f(1.0f, 1.0f, 1.0f);
-		GL11.glVertex3f(0.0f, 0.5f, -0.5f);
-		GL11.glEnd();
-
+		// AKA render
+		renderer.update();
 		// swap the window and pool the events
 		window.poll();
 	}

@@ -27,18 +27,8 @@ public class Physics extends EngineSystem {
 		System.out.println("transforms " + transforms.size());
 	}
 
-	int i = 0;
-
 	@Override
 	public void update() {
-		i++;
-		if (i % 100 == 0) {
-			String string = "" + transforms.size() + ": ";
-			for (Transform t : transforms) {
-				string += t.getEntityID() + t.getPosition().toString() + "/";
-			}
-			System.out.println("Transforms.size = " + string);
-			return;
-		}
+
 	}
 }
