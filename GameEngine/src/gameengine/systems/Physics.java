@@ -4,8 +4,7 @@
 package gameengine.systems;
 
 import gameengine.collections.ComponentList;
-import gameengine.collections.EntityHandler;
-import gameengine.components.Transform;
+import gameengine.components.PhysicComponent;
 import gameengine.objects.ComponentType;
 import gameengine.objects.EngineSystem;
 
@@ -15,16 +14,16 @@ import gameengine.objects.EngineSystem;
  */
 public class Physics extends EngineSystem {
 
-	private ComponentList<Transform> transforms;
+	private ComponentList<PhysicComponent> phy;
 
 	public Physics() {
-		transforms = new ComponentList<Transform>(ComponentType.TRANSFORM);
-		super.addList(transforms);
+		phy = new ComponentList<PhysicComponent>(ComponentType.PYSIC);
+		super.addList(phy);
 	}
 
 	@Override
 	protected void init() {
-		System.out.println("transforms " + transforms.size());
+		System.out.println("phy " + phy.size());
 	}
 
 	@Override

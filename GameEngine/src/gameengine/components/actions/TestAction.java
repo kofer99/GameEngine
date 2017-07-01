@@ -3,8 +3,9 @@
  */
 package gameengine.components.actions;
 
+import far.math.vec.Vec3f;
 import gameengine.components.ActionComponent;
-import gameengine.components.Transform;
+import gameengine.components.PhysicComponent;
 
 /**
  * @author Florian Albrecht
@@ -12,18 +13,18 @@ import gameengine.components.Transform;
  */
 public class TestAction extends ActionComponent {
 
-	private Transform t;
+	private PhysicComponent ph;
 
 	/**
 	 * @param type
 	 */
-	public TestAction(Transform t) {
-		this.t = t;
+	public TestAction(PhysicComponent ph) {
+		this.ph = ph;
 	}
 
 	@Override
 	public void action(int key) {
-		System.out.println("Action test! XD " + key);
+		ph.addVelocity(new Vec3f(0.1f, 0, 0));
 	}
 
 }

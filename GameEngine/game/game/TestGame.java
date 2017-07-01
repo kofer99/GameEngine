@@ -6,6 +6,7 @@ package game;
 import far.math.vec.Vec3f;
 import gameengine.components.ActionComponent;
 import gameengine.components.InputComponent;
+import gameengine.components.PhysicComponent;
 import gameengine.components.Renderable;
 import gameengine.components.Transform;
 import gameengine.components.actions.TestAction;
@@ -27,13 +28,15 @@ public class TestGame implements Game {
 		Entity e = new Entity();
 		Transform t = new Transform(new Vec3f(0f, 0f, 0f));
 		e.add(t);
-		e.add(new Renderable("TEST"));
-		ActionComponent a = new TestAction(t);
+		e.add(new Renderable(t));
+		PhysicComponent ph = new PhysicComponent(t);
+		ActionComponent a = new TestAction(ph);
 		e.add(new InputComponent(a));
 
 		Entity e1 = new Entity();
-		e1.add(new Transform(new Vec3f(0f, 0f, 0f)));
-		e1.add(new Renderable("TEST"));
+		Transform t1 = new Transform(new Vec3f(0f, 0f, 0f));
+		e1.add(t1);
+		e1.add(new Renderable(t1));
 
 		Entity e2 = new Entity();
 		e2.add(new Transform(new Vec3f(0f, 0f, 0f)));

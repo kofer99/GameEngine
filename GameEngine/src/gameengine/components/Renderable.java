@@ -15,7 +15,7 @@ public class Renderable extends Component {
 	/**
 	 * @param type
 	 */
-	public Renderable(String texture) {
+	public Renderable(Transform transform) {
 		super(ComponentType.RENDERABLE);
 	}
 
