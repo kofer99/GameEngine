@@ -26,7 +26,7 @@ public class EngineActionController extends EngineSystem {
 	}
 
 	@Override
-	public void init() {
+	protected void init() {
 	}
 
 	int i = 0;

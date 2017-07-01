@@ -49,7 +49,7 @@ public abstract class EngineSystem {
 	 * All the initialization not done in the constructor and with access to the
 	 * <code>Components</code>.
 	 */
-	public abstract void init();
+	protected abstract void init();
 
 	/**
 	 * 

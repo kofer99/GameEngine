@@ -22,6 +22,7 @@ import gameengine.objects.EngineSystem;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
 import gameengine.systems.EngineActionController;
+import gameengine.systems.InputController;
 import gameengine.systems.Physics;
 import gameengine.util.EngineLogger;
 import gameengine.util.OpenGLErrorCatcher;
@@ -62,6 +63,7 @@ public class Engine {
 	 */
 	private EngineSystem physics;
 	private EngineSystem aController;
+	private EngineSystem inputController;
 
 	/**
 	 * The Master renderer is handled specialty, because of its
@@ -82,6 +84,7 @@ public class Engine {
 	public Engine() {
 		keyboard = new Keyboard();
 		mouse = new Mouse();
+
 		window = new GLWindow(keyboard, mouse);
 		window.init();
 	}
@@ -108,8 +111,12 @@ public class Engine {
 		entities = new EntityHandler();
 
 		// Game init
-		game = new TestGame();
-		game.init();
+		try {
+			game = new TestGame();
+			game.init();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		// System init
 		physics = new Physics();
@@ -119,6 +126,10 @@ public class Engine {
 		aController = new EngineActionController();
 		aController.initialize(entities);
 		systems.add(aController);
+
+		inputController = new InputController();
+		inputController.initialize(entities);
+		systems.add(inputController);
 
 		// The EntityHandler needs to be flushed after every tick and after the
 		// init
@@ -203,8 +214,9 @@ public class Engine {
 	 */
 	private void update(double delta) {
 		try {
-			aController.update();
-			physics.update();
+			for (EngineSystem sys : systems) {
+				sys.update();
+			}
 		} catch (ClassCastException e) {
 			System.err.println("A ComponentList is messed up! (take a look at the StackTrace)");
 			e.printStackTrace();

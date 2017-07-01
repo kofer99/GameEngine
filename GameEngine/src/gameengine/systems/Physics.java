@@ -22,7 +22,8 @@ public class Physics extends EngineSystem {
 		super.addList(transforms);
 	}
 
-	public void init() {
+	@Override
+	protected void init() {
 		System.out.println("transforms " + transforms.size());
 	}
 
