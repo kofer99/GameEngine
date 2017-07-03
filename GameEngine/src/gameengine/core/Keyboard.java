@@ -26,6 +26,7 @@ public class Keyboard {
 
 	public void setKeyUp(int key) {
 		keysUp[key] = true;
+		keysDown[key] = false;
 	}
 
 	public boolean isDown(int key) {

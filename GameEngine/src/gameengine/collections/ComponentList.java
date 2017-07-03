@@ -10,6 +10,9 @@ import gameengine.objects.ComponentType;
 import gameengine.util.exceptions.NotFoundException;
 
 /**
+ * This Class extends the ArrayList class to add the necessary functionality
+ * needed for the Entity-Component System.
+ * 
  * @author Florian Albrecht
  *
  */
@@ -20,11 +23,16 @@ public class ComponentList<E extends Component> extends ArrayList<E> implements 
 	 */
 	private static final long serialVersionUID = -5397752368499171040L;
 
+	/**
+	 * Every ComponentList needs a type of the Components it contains.
+	 */
 	private ComponentType type;
 
 	/**
 	 * 
 	 * @param type
+	 *            The type of the Components in this List (<strong>Must be the
+	 *            correct one</strong>)
 	 */
 	public ComponentList(ComponentType type) {
 		this.type = type;
@@ -32,7 +40,10 @@ public class ComponentList<E extends Component> extends ArrayList<E> implements 
 
 	/**
 	 * Adds a Component to the List.
+	 * <h2>Warning: if the ComponentType is not the correct one this will throw
+	 * a ClassCastException!</h2>
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean add(Component comp) {
 		return super.add((E) comp);
 	}
