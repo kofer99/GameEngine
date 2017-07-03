@@ -23,12 +23,11 @@ import gameengine.objects.Entity;
 import gameengine.objects.Game;
 import gameengine.systems.EngineActionController;
 import gameengine.systems.Physics;
-<<<<<<< HEAD
+
 import gameengine.systems.Shader;
-//import gameengine.systems.EngineActionController;
-//import gameengine.systems.Physics;
-=======
->>>>>>> refs/remotes/albrecht-flo/master
+import gameengine.systems.EngineActionController;
+import gameengine.systems.Physics;
+
 import gameengine.util.EngineLogger;
 import gameengine.util.OpenGLErrorCatcher;
 
@@ -74,11 +73,7 @@ public class Engine {
 		new Shader().createShader();
 		
 		systems.add(physics);
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> refs/remotes/albrecht-flo/master
 		aController = new EngineActionController();
 		aController.init(entities);
 		systems.add(aController);

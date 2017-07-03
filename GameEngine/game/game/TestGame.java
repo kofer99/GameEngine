@@ -3,6 +3,7 @@
  */
 package game;
 
+import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.components.Renderable;
 import gameengine.components.Transform;
@@ -24,8 +25,8 @@ public class TestGame implements Game {
 	//	Entity e = new Entity();
 
 		Entity e3 = new Entity();
-		e3.add(new Renderable(null));
-		e3.add(new Transform(new Vec3f(0f, 0f, 0f)));
+		e3.add(new Renderable(null, new Transform(new Vec3f(1f,1f,0.6f), new Vec2f(1f,1f))));
+	//	e3.add(new Transform(new Vec3f(0f, 0f, 0f)));
 	}
 
 }

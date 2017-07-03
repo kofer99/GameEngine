@@ -36,11 +36,11 @@ public class EngineActionController extends EngineSystem {
 	public void update() {
 		i++;
 		if (i % 100 == 0) {
-			Entity e = new Entity();
-			e.add(new Transform(new Vec3f(i, 0f, 0f)));
+		//	Entity e = new Entity();
+		//	e.add(new Transform(new Vec3f(i, 0f, 0f)));
 		}
-		if (i % 400 == 0)
-			Main.engine.removeEntity(1);
+		if (i % 400 == 0){}
+		//	Main.engine.removeEntity(1);
 	}
 
 }
