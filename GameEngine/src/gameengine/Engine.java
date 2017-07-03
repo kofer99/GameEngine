@@ -129,14 +129,14 @@ public class Engine {
 
 		// System init
 		physics = new Physics();
-<<<<<<< HEAD
-		physics.init(entities);
+
+		physics.initialize(entities);
 		
 		new Shader().createShader();
 		
-=======
+
 		physics.initialize(entities);
->>>>>>> refs/remotes/albrecht-flo/master
+
 		systems.add(physics);
 
 		inputController = new InputController();
@@ -204,7 +204,7 @@ public class Engine {
 	 * buffers.
 	 */
 	private void render() {
-<<<<<<< HEAD
+
 	/*	GL11.glBegin(GL11.GL_TRIANGLES);
 		GL11.glColor3f(0.5f, 0.5f, 0.5f);
 		GL11.glVertex3f(-0.5f, -0.5f, -0.5f);
@@ -214,10 +214,9 @@ public class Engine {
 		GL11.glVertex3f(0.0f, 0.5f, -0.5f);
 		GL11.glEnd();*/
 
-=======
 		// AKA render
 		renderer.update();
->>>>>>> refs/remotes/albrecht-flo/master
+
 		// swap the window and pool the events
 		physics.update();
 		window.poll();

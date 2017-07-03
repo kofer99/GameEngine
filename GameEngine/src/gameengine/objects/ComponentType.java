@@ -10,10 +10,8 @@ package gameengine.objects;
  *
  */
 public enum ComponentType {
-<<<<<<< HEAD
-	TRANSFORM, RENDERABLE, QUAD
-=======
-	TRANSFORM, RENDERABLE, INPUT, ACTION, PYSIC
->>>>>>> refs/remotes/albrecht-flo/master
+
+ QUAD,TRANSFORM, RENDERABLE, INPUT, ACTION, PHYSIC
+
 
 }

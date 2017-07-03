@@ -20,7 +20,7 @@ public class PhysicComponent extends Component {
 	 * @param type
 	 */
 	public PhysicComponent(Transform transform) {
-		super(ComponentType.PYSIC);
+		super(ComponentType.PHYSIC);
 		this.transform = transform;
 		velocity = new Vec3f();
 	}

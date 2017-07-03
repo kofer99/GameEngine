@@ -26,7 +26,7 @@ public class EngineActionController extends EngineSystem {
 	}
 
 	@Override
-	public void init(EntityHandler entities) {
+	public void initialize(EntityHandler entities) {
 		entities.addComponents(transforms);
 	}
 
@@ -41,6 +41,15 @@ public class EngineActionController extends EngineSystem {
 		}
 		if (i % 400 == 0){}
 		//	Main.engine.removeEntity(1);
+	}
+
+	/* (non-Javadoc)
+	 * @see gameengine.objects.EngineSystem#init()
+	 */
+	@Override
+	protected void init() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

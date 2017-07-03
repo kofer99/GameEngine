@@ -75,10 +75,10 @@ public class Renderable extends Component {
 		float vertices[] = {
 				//x,y,z
 				
-			     position.x +0.5f, position.y +0.5f, position.z +0.0f,  // top right
-			     position.x +0.5f, position.y -0.5f, position.z +0.0f,  // bottom right
-			     position.x -0.5f, position.y -0.5f, position.z +0.0f,  // bottom left
-			     position.x -0.5f, position.y +0.5f, position.z +0.0f   // top left 
+			      +0.5f,  +0.5f,  +0.0f,  // top right
+			      +0.5f,  -0.5f,  +0.0f,  // bottom right
+			      -0.5f, -0.5f,  +0.0f,  // bottom left
+			      -0.5f,  +0.5f,  +0.0f   // top left 
 			};
 		
 		
