@@ -24,7 +24,7 @@ public class TestAction extends ActionComponent {
 
 	@Override
 	public void action(int key) {
-		ph.addVelocity(new Vec3f(0.1f, 0, 0));
+		ph.setVelocity(new Vec3f(0.1f, 0, 0));
 	}
 
 }

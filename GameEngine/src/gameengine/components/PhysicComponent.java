@@ -47,4 +47,11 @@ public class PhysicComponent extends Component {
 		this.velocity.add(nvelocity);
 	}
 
+	/**
+	 * @param vec3f
+	 */
+	public void setVelocity(Vec3f nvelocity) {
+		this.velocity = nvelocity;
+	}
+
 }

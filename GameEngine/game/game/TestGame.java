@@ -30,6 +30,7 @@ public class TestGame implements Game {
 		e.add(t);
 		e.add(new Renderable(t));
 		PhysicComponent ph = new PhysicComponent(t);
+		e.add(ph);
 		ActionComponent a = new TestAction(ph);
 		e.add(new InputComponent(a));
 

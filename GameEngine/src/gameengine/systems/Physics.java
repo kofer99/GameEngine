@@ -28,6 +28,8 @@ public class Physics extends EngineSystem {
 
 	@Override
 	public void update() {
-
+		for (PhysicComponent p : phy) {
+			//System.out.println("test " + p.getVelocity().toString());
+		}
 	}
 }
