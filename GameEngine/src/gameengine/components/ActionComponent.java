@@ -19,6 +19,6 @@ public abstract class ActionComponent extends Component {
 		super(ComponentType.ACTION);
 	}
 
-	public abstract void action(int key);
+	public abstract void action();
 
 }

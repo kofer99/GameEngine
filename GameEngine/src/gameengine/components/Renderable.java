@@ -44,7 +44,7 @@ public class Renderable extends Component {
 		this.transform = transform;
 	//	shaderProgram = glCreateProgram();
 		
-		float vertices[] = setPosition(transform);
+		float vertices[] = setPosition();
 		
 		 int indices[] = {  // note that we start from 0!
 			    0, 1, 3,   // first triangle
@@ -75,17 +75,15 @@ public class Renderable extends Component {
 		glBindVertexArray(0);
 	}
 	
-	public float[] setPosition(Transform transform){
-		Vec3f position = transform.getPosition();
-		Vec2f scale = transform.getScale();
+	public float[] setPosition(){
+
 		
 		float vertices[] = {
 				//x,y,z
-				
-			     position.x+(0.5f*scale.x), position.y+(0.5f*scale.y), position.z +0.0f,  // top right
-			     position.x+(0.5f*scale.x), position.y-(0.5f*scale.y), position.z +0.0f,  // bottom right
-			     position.x-(0.5f*scale.x), position.y-(0.5f*scale.y), position.z +0.0f, // bottom left
-			     position.x-(0.5f*scale.x), position.y+(0.5f*scale.y), position.z +0.0f,  // top left 
+			     0.5f,  0.5f, 0.0f,  // top right
+			     0.5f, -0.5f, 0.0f,  // bottom right
+			    -0.5f, -0.5f, 0.0f,  // bottom left
+			    -0.5f,  0.5f, 0.0f   // top left 
 			};
 		
 		
