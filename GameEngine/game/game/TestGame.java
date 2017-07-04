@@ -32,7 +32,7 @@ public class TestGame implements Game {
 
 	@Override
 	public void init() {
-		Player = new Transform(new Vec3f(13f,-5f,0f), new Vec2f(2f,4f));
+		Player = new Transform(new Vec3f(13f,-5f,0f), new Vec2f(1f,1f));
 		PlPh = new PhysicComponent(Player);
 		p1 = new Player(PlPh);
 		
