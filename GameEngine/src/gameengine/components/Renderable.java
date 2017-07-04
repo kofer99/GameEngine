@@ -69,10 +69,10 @@ public class Renderable extends Component {
 		 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		 glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
 		 // 4. then set the vertex attributes pointers
-		 glVertexAttribPointer(0, 3, GL_FLOAT, false,0,0);
+		 glVertexAttribPointer(0, 3, GL_FLOAT, false,20,0);
 		 glEnableVertexAttribArray(0);
 		 // 5. Set Texture Pointers
-		 glVertexAttribPointer(1, 2, GL_FLOAT, false,24,12);
+		 glVertexAttribPointer(1, 2, GL_FLOAT, false,20,12);
 		 glEnableVertexAttribArray(1);
 		 
 
@@ -92,10 +92,10 @@ public class Renderable extends Component {
 		
 		float vertices[] = {
 				//x,y,z
-			     0.5f,  0.5f, 0.0f, 1.0f, 1.0f,  // top right
-			     0.5f, -0.5f, 0.0f, 1.0f, 0.0f,// bottom right
-			    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
-			    -0.5f,  0.5f, 0.0f, 0.0f, 1.0f // top left 
+			     0.5f,  0.5f, 0.0f, 1.0f, 0.0f,  // top right
+			     0.5f, -0.5f, 0.0f, 1.0f, 1.0f,// bottom right
+			    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom left
+			    -0.5f,  0.5f, 0.0f, 0.0f, 0.0f // top left 
 			};
 		
 		
