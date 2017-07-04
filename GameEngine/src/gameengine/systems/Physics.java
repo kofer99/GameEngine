@@ -51,6 +51,7 @@ public class Physics extends EngineSystem {
 			
 			p.getTransform().add(Vec3f.div(p.getVelocity(),1000));
 			}
+		
 		}
 	
 

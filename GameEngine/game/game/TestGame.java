@@ -41,7 +41,7 @@ public class TestGame implements Game {
 	//	Entity e = new Entity();
 		
 		Entity e3 = new Entity();
-		e3.add(new Renderable(null,Player));
+		e3.add(new Renderable("Player.png",Player));
 		e3.add(PlPh);
 		e3.add(p1);
 		

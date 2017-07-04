@@ -8,6 +8,10 @@ import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
 import static org.lwjgl.opengl.GL11.glDrawElements;
 import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
@@ -26,6 +30,7 @@ import far.math.vec.Vec3f;
 import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
 import gameengine.systems.Shader;
+import gameengine.util.Texture;
 /**
  * @author Florian Albrecht
  *
@@ -35,6 +40,7 @@ public class Renderable extends Component {
 	 int EBO;
 	 int VAO;
 	 Transform transform;
+	 Texture texture;
 	// int shaderProgram;
 	/**
 	 * @param type
@@ -42,6 +48,7 @@ public class Renderable extends Component {
 	public Renderable(String texture, Transform transform) {
 		super(ComponentType.RENDERABLE);
 		this.transform = transform;
+		this.texture = new Texture(texture);
 	//	shaderProgram = glCreateProgram();
 		
 		float vertices[] = setPosition();
@@ -64,6 +71,10 @@ public class Renderable extends Component {
 		 // 4. then set the vertex attributes pointers
 		 glVertexAttribPointer(0, 3, GL_FLOAT, false,0,0);
 		 glEnableVertexAttribArray(0);
+		 // 5. Set Texture Pointers
+		 glVertexAttribPointer(1, 2, GL_FLOAT, false,24,12);
+		 glEnableVertexAttribArray(1);
+		 
 
 	}
 	public void render(){
@@ -71,6 +82,7 @@ public class Renderable extends Component {
 		GL20.glUseProgram(Shader.shaderProgram);
 		Shader.updateShader(transform);
 		glBindVertexArray(VAO);
+		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
@@ -80,10 +92,10 @@ public class Renderable extends Component {
 		
 		float vertices[] = {
 				//x,y,z
-			     0.5f,  0.5f, 0.0f,  // top right
-			     0.5f, -0.5f, 0.0f,  // bottom right
-			    -0.5f, -0.5f, 0.0f,  // bottom left
-			    -0.5f,  0.5f, 0.0f   // top left 
+			     0.5f,  0.5f, 0.0f, 1.0f, 1.0f,  // top right
+			     0.5f, -0.5f, 0.0f, 1.0f, 0.0f,// bottom right
+			    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
+			    -0.5f,  0.5f, 0.0f, 0.0f, 1.0f // top left 
 			};
 		
 		
