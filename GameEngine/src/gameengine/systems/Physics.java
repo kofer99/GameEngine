@@ -3,6 +3,8 @@
  */
 package gameengine.systems;
 
+import java.util.ArrayList;
+
 import far.math.vec.Vec3f;
 import gameengine.collections.ComponentList;
 
@@ -22,8 +24,9 @@ import gameengine.objects.EngineSystem;
 public class Physics extends EngineSystem {
 
 	private ComponentList<Transform> transforms;
-
-
+	private ComponentList<PhysicComponent> collidables;
+	private ComponentList<PhysicComponent> phy;
+	
 	public Physics() {
 		phy = new ComponentList<PhysicComponent>(ComponentType.PHYSIC);
 		super.addList(phy);
@@ -31,16 +34,30 @@ public class Physics extends EngineSystem {
 		transforms = new ComponentList<Transform>(ComponentType.TRANSFORM);
 		
 		super.addList(transforms);
-		
+		collidables = new ComponentList<PhysicComponent>(ComponentType.Coll);
 	}
-
+	
+	
 	public void inititialize(EntityHandler entities) {
 		entities.addComponents(transforms);
+		
 
+		
 		System.out.println("transforms " + transforms.size());
 		System.out.println("phy " + phy.size());
+		
 	}
-	private ComponentList<PhysicComponent> phy;
+	@Override
+	protected void init() {
+		// TODO Auto-generated method stub
+		for(PhysicComponent p : phy){
+			if(p.isCollidable() == true){
+				collidables.add(p);
+				System.out.println("Coll" + collidables.size());
+			}
+		}
+		
+	}
 
 
 
@@ -58,9 +75,5 @@ public class Physics extends EngineSystem {
 	/* (non-Javadoc)
 	 * @see gameengine.objects.EngineSystem#init()
 	 */
-	@Override
-	protected void init() {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

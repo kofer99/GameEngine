@@ -133,7 +133,7 @@ public class Vec3f extends Vec {
 	public static Vec3f mul(float factor, Vec3f vec) {
 		return new Vec3f(vec.x * factor, vec.y * factor, vec.z * factor);
 	}
-
+	
 	/**
 	 * Divides the passed in vector with the factor and stores the result in a
 	 * new Vec3f. <br>
@@ -146,7 +146,14 @@ public class Vec3f extends Vec {
 	public static Vec3f div(Vec3f vec, float factor) {
 		return new Vec3f(vec.x / factor, vec.y / factor, vec.z / factor);
 	}
-
+	
+	public static Vec3f normalize(Vec3f vec){
+			float temp;
+			temp = Math.abs(vec.x) + Math.abs(vec.y)+Math.abs(vec.z);
+			vec = div(vec, temp);
+		return vec;
+		
+	}
 	public void add(Vec3f vec) {
 		x += vec.x;
 		y += vec.y;

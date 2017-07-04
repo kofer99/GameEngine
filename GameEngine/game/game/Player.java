@@ -13,6 +13,7 @@ import gameengine.components.PhysicComponent;
 
 /**
  * @author Daniel
+ * @author Amir
  *
  */
 public class Player extends ActionComponent {
@@ -53,60 +54,38 @@ public class Player extends ActionComponent {
 	 */
 	private void updateMovement() {
 		// TODO Auto-generated method stub
-		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_RIGHT) && !hasXMovement) {
+        float xmov = 0.0f;
+        float ymov = 0.0f;
 
-			playerPh.setVelocity(new Vec3f(1f, 0f, 0.0f));
-			hasXMovement = true;
-			if (playerPh.getTransform().getPosition().x >= mxr) {
-				playerPh.setVelocity(new Vec3f(0f, 0f, 0f));
-
-			}
-
-		}
-		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_LEFT) && !hasX2Movement) {
-			playerPh.setVelocity(new Vec3f(-1f, 0f, 0.0f));
-			hasX2Movement = true;
-			if (playerPh.getTransform().getPosition().x <= -mxr) {
-				playerPh.setVelocity(new Vec3f(0f, 0f, 0f));
-
-			}
-		}
-		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_UP) && !hasYMovement) {
-			playerPh.setVelocity(new Vec3f(0f, 1f, 0.0f));
-			hasYMovement = true;
-			if (playerPh.getTransform().getPosition().y >= myr) {
-				playerPh.setVelocity(new Vec3f(0f, 0f, 0f));
-
-			}
-		}
-		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_DOWN) && !hasY2Movement) {
-			playerPh.setVelocity(new Vec3f(0f, -1f, 0.0f));
-			hasY2Movement = true;
-			if (playerPh.getTransform().getPosition().y <= -myr) {
-				playerPh.setVelocity(new Vec3f(0f, 0f, 0f));
-
-			}
-		}
-
-		if (Engine.keyboard.isUp(GLFW.GLFW_KEY_DOWN) && hasY2Movement) {
-			playerPh.setVelocity(new Vec3f(0f, 0f, 0.0f));
-			hasY2Movement = false;
-
-		}
-		if (Engine.keyboard.isUp(GLFW.GLFW_KEY_UP) && hasYMovement) {
-			playerPh.setVelocity(new Vec3f(0f, 0f, 0.0f));
-			hasYMovement = false;
-
-		}
-		if (Engine.keyboard.isUp(GLFW.GLFW_KEY_RIGHT) && hasXMovement) {
-			playerPh.setVelocity(new Vec3f(0f, 0f, 0.0f));
-			hasXMovement = false;
-
-		}
-		if (Engine.keyboard.isUp(GLFW.GLFW_KEY_LEFT) && hasX2Movement) {
-			playerPh.setVelocity(new Vec3f(0f, 0f, 0.0f));
-			hasX2Movement = false;
-		}
+        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_RIGHT)) {
+            xmov += 1.0f;
+            if (playerPh.getTransform().getPosition().x >= mxr) {
+                xmov = 0;
+            }
+        }
+        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_LEFT)) {
+            xmov += -1.0f;
+            if (playerPh.getTransform().getPosition().x <= -mxr) {
+                xmov = 0;
+            }
+        }
+        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_UP)) {
+            ymov += 1.0f;
+            if (playerPh.getTransform().getPosition().y >= myr) {
+                ymov = 0;
+            }
+        }
+        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_DOWN)) {
+            ymov += -1.0f;
+            if (playerPh.getTransform().getPosition().y <= -myr) {
+                ymov = 0;
+            }
+        }
+        if(xmov==0 && ymov ==0 ){
+        	playerPh.setVelocity(new Vec3f(0f,0f,0f));
+        	return;
+        	}
+        playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov,ymov,0)));
 
 	}
 

@@ -33,11 +33,11 @@ public class TestGame implements Game {
 	@Override
 	public void init() {
 		Player = new Transform(new Vec3f(13f,-5f,0f), new Vec2f(1f,1f));
-		PlPh = new PhysicComponent(Player);
+		PlPh = new PhysicComponent(Player,true);
 		p1 = new Player(PlPh);
 		
 		Player2 = new Transform(new Vec3f(-5f,5f,0f), new Vec2f(2f,2f));
-		PlPh2 = new PhysicComponent(Player2);
+		PlPh2 = new PhysicComponent(Player2,false);
 	//	Entity e = new Entity();
 		
 		Entity e3 = new Entity();
