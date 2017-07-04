@@ -21,6 +21,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import far.math.mat.Mat4;
+import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
@@ -33,15 +34,18 @@ public class Renderable extends Component {
 	 int VBO;
 	 int EBO;
 	 int VAO;
+	 Transform transform;
 	// int shaderProgram;
 	/**
 	 * @param type
 	 */
 	public Renderable(String texture, Transform transform) {
 		super(ComponentType.RENDERABLE);
+		this.transform = transform;
 	//	shaderProgram = glCreateProgram();
 		
 		float vertices[] = setPosition(transform);
+		
 		 int indices[] = {  // note that we start from 0!
 			    0, 1, 3,   // first triangle
 			    1, 2, 3    // second triangle
@@ -63,7 +67,9 @@ public class Renderable extends Component {
 
 	}
 	public void render(){
+		
 		GL20.glUseProgram(Shader.shaderProgram);
+		Shader.updateShader(transform);
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
@@ -71,14 +77,15 @@ public class Renderable extends Component {
 	
 	public float[] setPosition(Transform transform){
 		Vec3f position = transform.getPosition();
+		Vec2f scale = transform.getScale();
 		
 		float vertices[] = {
 				//x,y,z
 				
-			      +0.5f,  +0.5f,  +0.0f,  // top right
-			      +0.5f,  -0.5f,  +0.0f,  // bottom right
-			      -0.5f, -0.5f,  +0.0f,  // bottom left
-			      -0.5f,  +0.5f,  +0.0f   // top left 
+			     position.x+(0.5f*scale.x), position.y+(0.5f*scale.y), position.z +0.0f,  // top right
+			     position.x+(0.5f*scale.x), position.y-(0.5f*scale.y), position.z +0.0f,  // bottom right
+			     position.x-(0.5f*scale.x), position.y-(0.5f*scale.y), position.z +0.0f, // bottom left
+			     position.x-(0.5f*scale.x), position.y+(0.5f*scale.y), position.z +0.0f,  // top left 
 			};
 		
 		
