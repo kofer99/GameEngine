@@ -15,12 +15,12 @@ public class PhysicComponent extends Component {
 
 	private Transform transform;
 	private Vec3f velocity;
-	private boolean collidable;
+	private int collidable;
 
 	/**
 	 * @param type
 	 */
-	public PhysicComponent(Transform transform, boolean collidable) {
+	public PhysicComponent(Transform transform, int collidable) {
 		super(ComponentType.PHYSIC);
 		this.collidable = collidable;
 		this.transform = transform;
@@ -59,14 +59,14 @@ public class PhysicComponent extends Component {
 	/**
 	 * @return the collidable
 	 */
-	public boolean isCollidable() {
+	public int isCollidable() {
 		return collidable;
 	}
 
 	/**
 	 * @param collidable the collidable to set
 	 */
-	public void setCollidable(boolean collidable) {
+	public void setCollidable(int collidable) {
 		this.collidable = collidable;
 	}
 

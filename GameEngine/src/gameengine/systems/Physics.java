@@ -51,7 +51,7 @@ public class Physics extends EngineSystem {
 	protected void init() {
 		// TODO Auto-generated method stub
 		for(PhysicComponent p : phy){
-			if(p.isCollidable() == true){
+			if(p.isCollidable() == 1){
 				collidables.add(p);
 				System.out.println("Coll" + collidables.size());
 			}
