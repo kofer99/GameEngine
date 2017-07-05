@@ -147,6 +147,11 @@ public class Vec3f extends Vec {
 		return new Vec3f(vec.x / factor, vec.y / factor, vec.z / factor);
 	}
 
+	public static Vec3f normalize(Vec3f vec) {
+		float length = length(vec);
+		return new Vec3f(vec.x / length, vec.y / length, vec.z / length);
+	}
+
 	public void add(Vec3f vec) {
 		x += vec.x;
 		y += vec.y;

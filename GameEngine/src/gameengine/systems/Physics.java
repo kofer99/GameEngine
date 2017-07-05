@@ -3,6 +3,7 @@
  */
 package gameengine.systems;
 
+import far.math.vec.Vec3f;
 import gameengine.collections.ComponentList;
 import gameengine.components.PhysicComponent;
 import gameengine.objects.ComponentType;
@@ -29,7 +30,8 @@ public class Physics extends EngineSystem {
 	@Override
 	public void update() {
 		for (PhysicComponent p : phy) {
-			//System.out.println("test " + p.getVelocity().toString());
+			// System.out.println("test " + p.getVelocity().toString());
+			p.getTransform().add(Vec3f.div(p.getVelocity(), 10));
 		}
 	}
 }

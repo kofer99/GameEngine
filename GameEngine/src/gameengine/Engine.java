@@ -21,7 +21,7 @@ import gameengine.objects.Component;
 import gameengine.objects.EngineSystem;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
-import gameengine.systems.InputController;
+import gameengine.systems.ActionController;
 import gameengine.systems.MasterRenderer;
 import gameengine.systems.Physics;
 import gameengine.util.EngineLogger;
@@ -127,7 +127,7 @@ public class Engine {
 		physics.initialize(entities);
 		systems.add(physics);
 
-		inputController = new InputController();
+		inputController = new ActionController();
 		inputController.initialize(entities);
 		systems.add(inputController);
 

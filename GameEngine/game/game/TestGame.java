@@ -9,6 +9,7 @@ import gameengine.components.ActionComponent;
 import gameengine.components.PhysicComponent;
 import gameengine.components.Renderable;
 import gameengine.components.Transform;
+import gameengine.components.actions.Player;
 import gameengine.components.actions.TestAction;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
@@ -31,13 +32,16 @@ public class TestGame implements Game {
 		player.add(new Renderable("Player.png", pT));
 		PhysicComponent ph = new PhysicComponent(pT);
 		player.add(ph);
-		ActionComponent a = new TestAction(ph);
+		ActionComponent a = new Player(ph);
 		player.add(a);
 
 		Entity enemy1 = new Entity();
 		Transform t1 = new Transform(new Vec3f(0f, 5f, 0f), new Vec2f(1.0f, 1.0f));
 		enemy1.add(t1);
 		enemy1.add(new Renderable("Enemy.png", t1));
+		PhysicComponent ph2 = new PhysicComponent(t1);
+		ph2.setVelocity(new Vec3f(0.25f, -0.25f, 0));
+		enemy1.add(ph2);
 	}
 
 }
