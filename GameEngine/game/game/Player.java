@@ -5,11 +5,15 @@ package game;
 
 import org.lwjgl.glfw.GLFW;
 
+import far.math.mat.Mat4;
+import far.math.vec.Vec;
 import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
 
 import gameengine.components.PhysicComponent;
+import math.Vector4f;
+import math.Vectorf;
 
 /**
  * @author Daniel
@@ -44,9 +48,29 @@ public class Player extends ActionComponent {
 		// TODO Auto-generated method stub
 		if (i % 60 == 0)
 			System.out.println(playerPh.getTransform().getPosition().toString());
-			checkBoundaries(mxr, myr, playerPh);
+
 			updateMovement();
+			updateRotation();
+			checkBoundaries(mxr, myr, playerPh);
 		i++;
+	}
+
+	/**
+	 * 
+	 */
+	private void updateRotation() {
+		
+        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_Q)) {
+        
+           playerPh.getTransform().getRot().z++ ;
+        
+        }
+        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_E)) {
+       
+            playerPh.getTransform().getRot().z--;
+        	
+         }
+		
 	}
 
 	/**
@@ -56,30 +80,24 @@ public class Player extends ActionComponent {
 		// TODO Auto-generated method stub
         float xmov = 0.0f;
         float ymov = 0.0f;
+        float currentrot = playerPh.getTransform().getRot().z;
 
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_RIGHT)) {
             xmov += 1.0f;
-            if (playerPh.getTransform().getPosition().x >= mxr) {
-                xmov = 0;
-            }
+
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_LEFT)) {
             xmov += -1.0f;
-            if (playerPh.getTransform().getPosition().x <= -mxr) {
-                xmov = 0;
-            }
+
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_UP)) {
-            ymov += 1.0f;
-            if (playerPh.getTransform().getPosition().y >= myr) {
-                ymov = 0;
-            }
+        	System.out.println(currentrot);
+        	  ymov += +1.0f;
+
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_DOWN)) {
             ymov += -1.0f;
-            if (playerPh.getTransform().getPosition().y <= -myr) {
-                ymov = 0;
-            }
+
         }
         if(xmov==0 && ymov ==0 ){
         	playerPh.setVelocity(new Vec3f(0f,0f,0f));

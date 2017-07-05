@@ -31,6 +31,7 @@ public class Shader {
 		static int fragmentShader;
 		public static int shaderProgram;
 		static int projmatloc;
+		static int rotmatloc;
 		public static int movmatloc;
 
 	public static void createShader(){
@@ -62,7 +63,8 @@ public class Shader {
 		glUniformMatrix4fv(projmatloc,false,Mat4.createOrtho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f).getValue());
 		movmatloc=glGetUniformLocation(shaderProgram, "movmat");
 		glUniformMatrix4fv(movmatloc,false,Mat4.createTransformScaleMatrix(transform.getPosition(), new Vec3f(transform.getScale(),1)).getValue());
-
+		rotmatloc = glGetUniformLocation(shaderProgram, "rotmat");
+		glUniformMatrix4fv(rotmatloc, false, Mat4.createRotationXYZMatrix(transform.getRot()).getValue());
 		
 	}
 	private static boolean checkShaderErrors(int shader, int type, String name) {

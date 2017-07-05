@@ -133,9 +133,6 @@ public class Engine {
 		physics.initialize(entities);
 		
 		new Shader().createShader();
-		
-
-		physics.initialize(entities);
 
 		systems.add(physics);
 
@@ -218,7 +215,7 @@ public class Engine {
 		renderer.update();
 
 		// swap the window and pool the events
-		physics.update();
+		//physics.update();
 		window.poll();
 	}
 

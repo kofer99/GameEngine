@@ -15,6 +15,7 @@ public class PhysicComponent extends Component {
 
 	private Transform transform;
 	private Vec3f velocity;
+
 	private int collidable;
 
 	/**
