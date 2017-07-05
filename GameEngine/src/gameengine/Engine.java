@@ -28,7 +28,7 @@ import gameengine.util.EngineLogger;
 import gameengine.util.OpenGLErrorCatcher;
 
 /**
- * @author Florian Albrecht
+ * @author Florian Albrecht, Daniel
  *
  */
 public class Engine {

@@ -3,9 +3,9 @@
  */
 package game;
 
+import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.components.ActionComponent;
-import gameengine.components.InputComponent;
 import gameengine.components.PhysicComponent;
 import gameengine.components.Renderable;
 import gameengine.components.Transform;
@@ -25,24 +25,19 @@ public class TestGame implements Game {
 
 	@Override
 	public void init() {
-		Entity e = new Entity();
-		Transform t = new Transform(new Vec3f(0f, 0f, 0f));
-		e.add(t);
-		e.add(new Renderable(t));
-		PhysicComponent ph = new PhysicComponent(t);
-		e.add(ph);
+		Entity player = new Entity();
+		Transform pT = new Transform(new Vec3f(0f, 0f, 0f), new Vec2f(1.0f, 1.0f));
+		player.add(pT);
+		player.add(new Renderable("Player.png", pT));
+		PhysicComponent ph = new PhysicComponent(pT);
+		player.add(ph);
 		ActionComponent a = new TestAction(ph);
-		e.add(new InputComponent(a));
+		player.add(a);
 
-		Entity e1 = new Entity();
-		Transform t1 = new Transform(new Vec3f(0f, 0f, 0f));
-		e1.add(t1);
-		e1.add(new Renderable(t1));
-
-		Entity e2 = new Entity();
-		e2.add(new Transform(new Vec3f(0f, 0f, 0f)));
-
-		Entity e3 = new Entity();
+		Entity enemy1 = new Entity();
+		Transform t1 = new Transform(new Vec3f(0f, 5f, 0f), new Vec2f(1.0f, 1.0f));
+		enemy1.add(t1);
+		enemy1.add(new Renderable("Enemy.png", t1));
 	}
 
 }
