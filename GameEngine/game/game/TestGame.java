@@ -27,6 +27,7 @@ public class TestGame implements Game {
 	PhysicComponent PlPh;
 	
 	Transform Player2;
+	Player2 p2;
 	PhysicComponent PlPh2;
 	public TestGame() {
 
@@ -34,12 +35,15 @@ public class TestGame implements Game {
 
 	@Override
 	public void init() {
-		Player = new Transform(new Vec3f(13f,-5f,0f), new Vec2f(1f,1f), new Vec3f(0,0,0));
+		Player = new Transform(new Vec3f(13f,5f,0f), new Vec2f(2f,2f), new Vec3f(0,0,0));
 		PlPh = new PhysicComponent(Player,1);
 		p1 = new Player(PlPh);
+		//System.out.println(Math.toDegrees(Math.atan(1)));
 		
-		Player2 = new Transform(new Vec3f(-5f,5f,0f), new Vec2f(2f,2f),new Vec3f(0,0,0));
+		Player2 = new Transform(new Vec3f(5f,5f,0f), new Vec2f(2f,2f),new Vec3f(0,0,0));
+		
 		PlPh2 = new PhysicComponent(Player2,1);
+		p2 = new Player2(PlPh2);
 	//	Entity e = new Entity();
 		
 		Entity e3 = new Entity();
@@ -49,9 +53,10 @@ public class TestGame implements Game {
 		
 		
 		Entity e = new Entity();
-		e.add(new Renderable("explosion.png",Player2));
+		e.add(new Renderable("grass.png",Player2));
 		e.add(PlPh2);
-		PlPh2.setVelocity(new Vec3f(0.5f,0.5f,0.0f));
+		e.add(p2);
+	//	PlPh2.setVelocity(new Vec3f(0.5f,0.5f,0.0f));
 		
 	
 	//	e3.add(new Transform(new Vec3f(0f, 0f, 0f)));
