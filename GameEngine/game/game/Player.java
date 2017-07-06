@@ -5,15 +5,10 @@ package game;
 
 import org.lwjgl.glfw.GLFW;
 
-import far.math.mat.Mat4;
-import far.math.vec.Vec;
 import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
-
 import gameengine.components.PhysicComponent;
-import math.Vector4f;
-import math.Vectorf;
 
 /**
  * @author Daniel
