@@ -35,8 +35,8 @@ public class Shader {
 		public static int movmatloc;
 
 	public static void createShader(){
-		String vpath = IOStream.read("src/gameengine/systems/std.vert");
-		String fpath = IOStream.read("src/gameengine/systems/std.frag");
+		String vpath = IOStream.read("res/Shader/std.vert");
+		String fpath = IOStream.read("res/Shader/std.frag");
 		
 
 		

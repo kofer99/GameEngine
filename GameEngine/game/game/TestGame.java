@@ -3,15 +3,12 @@
  */
 package game;
 
-import static org.lwjgl.glfw.GLFW.*;
-
-import far.math.mat.Mat4;
 import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
-import gameengine.components.ActionComponent;
 import gameengine.components.PhysicComponent;
 import gameengine.components.Renderable;
 import gameengine.components.Transform;
+import gameengine.components.actions.Player;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
 
@@ -34,6 +31,7 @@ public class TestGame implements Game {
 
 	@Override
 	public void init() {
+
 		Player = new Transform(new Vec3f(13f,5f,0f), new Vec2f(2f,2f), new Vec3f(0,0,0));
 		PlPh = new PhysicComponent(Player,1);
 		p1 = new Player(PlPh);
@@ -64,6 +62,7 @@ public class TestGame implements Game {
 	@Override
 	public void update(){
 		
+
 	}
 
 }

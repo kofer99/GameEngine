@@ -4,14 +4,12 @@
 package gameengine.components;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glDrawElements;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
@@ -24,24 +22,25 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import far.math.mat.Mat4;
-import far.math.vec.Vec2f;
-import far.math.vec.Vec3f;
 import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
 import gameengine.systems.Shader;
 import gameengine.util.Texture;
+
+
 /**
- * @author Florian Albrecht
+ * @author Daniel
  *
  */
 public class Renderable extends Component {
+
 	 int VBO;
 	 int EBO;
 	 int VAO;
 	 Transform transform;
 	 Texture texture;
 	// int shaderProgram;
+
 	/**
 	 * @param type
 	 */
@@ -49,6 +48,7 @@ public class Renderable extends Component {
 		super(ComponentType.RENDERABLE);
 		this.transform = transform;
 		this.texture = new Texture(texture);
+
 	//	shaderProgram = glCreateProgram();
 		
 		float vertices[] = setPosition();
@@ -77,8 +77,10 @@ public class Renderable extends Component {
 		 
 
 	}
-	public void render(){
-		
+
+
+	public void render() {
+
 		GL20.glUseProgram(Shader.shaderProgram);
 		Shader.updateShader(transform);
 		glBindVertexArray(VAO);
@@ -86,21 +88,20 @@ public class Renderable extends Component {
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
-	
-	public float[] setPosition(){
 
-		
+
+
+	public float[] setPosition() {
+
 		float vertices[] = {
-				//x,y,z
-			     0.5f,  0.5f, 0.0f, 1.0f, 0.0f,  // top right
-			     0.5f, -0.5f, 0.0f, 1.0f, 1.0f,// bottom right
-			    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom left
-			    -0.5f,  0.5f, 0.0f, 0.0f, 0.0f // top left 
-			};
-		
-		
+				// x,y,z
+				0.5f, 0.5f, 0.0f, 1.0f, 0.0f, // top right
+				0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // bottom right
+				-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom left
+				-0.5f, 0.5f, 0.0f, 0.0f, 0.0f // top left
+		};
+
 		return vertices;
-		
 	}
 
 }

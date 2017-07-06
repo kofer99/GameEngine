@@ -22,34 +22,24 @@ public abstract class ActionComponent extends Component {
 	}
 
 	public abstract void action();
-	public void checkBoundaries(float mxr,float myr,PhysicComponent ph){
-		Vec3f mov = new Vec3f();
+
+
+	protected void checkBoundaries(float mxr, float myr, PhysicComponent ph) {
 		if (ph.getTransform().getPosition().x >= mxr && ph.getVelocity().x > 0) {
-			mov.y = ph.getVelocity().y;
-			mov.x = 0;
-			mov.z = 0;
-			ph.setVelocity(mov);
+			ph.setVelocity(new Vec3f(0f, 0f, 0f));
 			return;
 		}
 		if (ph.getTransform().getPosition().x <= -mxr && ph.getVelocity().x < 0) {
-			mov.y = ph.getVelocity().y;
-			mov.x = 0;
-			mov.z = 0;
-			ph.setVelocity(mov);
+			ph.setVelocity(new Vec3f(0f, 0f, 0f));
 			return;
 		}
 		if (ph.getTransform().getPosition().y >= myr && ph.getVelocity().y > 0) {
-			mov.x = ph.getVelocity().x;
-			mov.y = 0;
-			mov.z = 0;
-			ph.setVelocity(mov);
+			ph.setVelocity(new Vec3f(0f, 0f, 0f));
 			return;
 		}
 		if (ph.getTransform().getPosition().y <= -myr && ph.getVelocity().y < 0) {
-			mov.x = ph.getVelocity().x;
-			mov.y = 0;
-			mov.z = 0;
-			ph.setVelocity(mov);
+			ph.setVelocity(new Vec3f(0f, 0f, 0f));
+
 			return;
 		}
 	}
