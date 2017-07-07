@@ -16,8 +16,7 @@ import gameengine.objects.ComponentType;
 import gameengine.objects.EngineSystem;
 
 /**
- * @author Florian Albrecht
- * @author Lukas Franke
+ * @author Team
  *
  */
 public class Physics extends EngineSystem {
