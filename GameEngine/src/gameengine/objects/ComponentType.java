@@ -10,6 +10,8 @@ package gameengine.objects;
  *
  */
 public enum ComponentType {
-	TRANSFORM, RENDERABLE, INPUT, ACTION, PYSIC
+
+ QUAD,TRANSFORM, RENDERABLE, INPUT, ACTION, PHYSIC,Coll
+
 
 }

@@ -10,4 +10,5 @@ package gameengine.objects;
 public interface Game {
 
 	public void init();
+	public void update();
 }

@@ -10,8 +10,6 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
-
 import game.TestGame;
 import gameengine.collections.EntityHandler;
 import gameengine.core.GLWindow;

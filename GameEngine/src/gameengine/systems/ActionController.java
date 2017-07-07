@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -9,7 +10,7 @@ import gameengine.objects.ComponentType;
 import gameengine.objects.EngineSystem;
 
 /**
- * @author Florian Albrecht, Daniel
+ * @author Florian Albrecht & Daniel
  *
  */
 public class ActionController extends EngineSystem {
@@ -28,8 +29,8 @@ public class ActionController extends EngineSystem {
 
 	@Override
 	public void update() throws ClassCastException {
-		for (ActionComponent a : actions) {
-			a.action();
+		for (ActionComponent i : actions) {
+			i.action();
 		}
 	}
 }

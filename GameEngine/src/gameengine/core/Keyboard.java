@@ -16,7 +16,7 @@ public class Keyboard {
 
 	public void setKeyDown(int key) {
 		keysDown[key] = true;
-
+		keysUp[key]= false;
 		if (textInput == true) {
 			if (key != 0 && key < 256) {
 				inputString += (char) key;

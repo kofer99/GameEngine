@@ -16,11 +16,13 @@ public class Transform extends Component {
 
 	private Vec3f position;
 	private Vec2f scale;
+	private Vec3f rot;
 
-	public Transform(Vec3f position, Vec2f scale) {
+	public Transform(Vec3f position, Vec2f scale, Vec3f rot) {
 		super(ComponentType.TRANSFORM);
 		this.position = position;
 		this.scale = scale;
+		this.rot = rot;
 	}
 
 	public Vec3f getPosition() {
@@ -44,6 +46,21 @@ public class Transform extends Component {
 	 */
 	public void setScale(Vec2f scale) {
 		this.scale = scale;
+	}
+
+	/**
+	 * @return the rot
+	 */
+	public Vec3f getRot() {
+		return rot;
+	}
+
+	/**
+	 * @param rot
+	 *            the rot to set
+	 */
+	public void setRot(Vec3f rot) {
+		this.rot = rot;
 	}
 
 }
