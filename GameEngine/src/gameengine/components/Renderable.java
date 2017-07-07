@@ -96,7 +96,6 @@ public class Renderable extends Component {
 		};
 
 		return vertices;
-
 	}
 
 }

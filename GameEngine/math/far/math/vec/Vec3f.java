@@ -148,8 +148,10 @@ public class Vec3f extends Vec {
 	}
 
 	public static Vec3f normalize(Vec3f vec) {
-		float length = length(vec);
-		return new Vec3f(vec.x / length, vec.y / length, vec.z / length);
+		float temp;
+		temp = Math.abs(vec.x) + Math.abs(vec.y) + Math.abs(vec.z);
+		vec = div(vec, temp);
+		return vec;
 	}
 
 	public void add(Vec3f vec) {

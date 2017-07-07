@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -31,6 +32,7 @@ public class Shader {
 	static int fragmentShader;
 	public static int shaderProgram;
 	static int projmatloc;
+	static int rotmatloc;
 	public static int movmatloc;
 
 	public static void createShader() {
@@ -62,6 +64,8 @@ public class Shader {
 		movmatloc = glGetUniformLocation(shaderProgram, "movmat");
 		glUniformMatrix4fv(movmatloc, false, Mat4
 				.createTransformScaleMatrix(transform.getPosition(), new Vec3f(transform.getScale(), 1)).getValue());
+		rotmatloc = glGetUniformLocation(shaderProgram, "rotmat");
+		glUniformMatrix4fv(rotmatloc, false, Mat4.createRotationXYZMatrix(transform.getRot()).getValue());
 
 	}
 
