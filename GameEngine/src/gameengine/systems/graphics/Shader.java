@@ -1,7 +1,7 @@
 /**
  * 
  */
-package gameengine.systems;
+package gameengine.systems.graphics;
 
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
@@ -35,8 +35,8 @@ public class Shader {
 		public static int movmatloc;
 
 	public static void createShader(){
-		String vpath = IOStream.read("src/gameengine/systems/std.vert");
-		String fpath = IOStream.read("src/gameengine/systems/std.frag");
+		String vpath = IOStream.read("res/shader/std.vert");
+		String fpath = IOStream.read("res/shader/std.frag");
 		
 
 		

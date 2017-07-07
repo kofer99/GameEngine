@@ -1,7 +1,7 @@
 /**
  * 
  */
-package game;
+package gameengine.components.actions;
 
 import org.lwjgl.glfw.GLFW;
 

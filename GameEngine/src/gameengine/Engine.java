@@ -10,8 +10,6 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
-
 import game.TestGame;
 import gameengine.collections.EntityHandler;
 import gameengine.core.GLWindow;
@@ -24,11 +22,7 @@ import gameengine.objects.Game;
 import gameengine.systems.ActionController;
 import gameengine.systems.MasterRenderer;
 import gameengine.systems.Physics;
-
-import gameengine.systems.Shader;
-import gameengine.systems.EngineActionController;
-import gameengine.systems.Physics;
-
+import gameengine.systems.graphics.Shader;
 import gameengine.util.EngineLogger;
 import gameengine.util.OpenGLErrorCatcher;
 

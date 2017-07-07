@@ -10,7 +10,7 @@
  * @version 0.0
  */
 
-package gameengine.util;
+package gameengine.systems.graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;

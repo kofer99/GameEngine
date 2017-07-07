@@ -12,6 +12,7 @@ import gameengine.components.ActionComponent;
 import gameengine.components.PhysicComponent;
 import gameengine.components.Renderable;
 import gameengine.components.Transform;
+import gameengine.components.actions.Player;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
 
