@@ -57,12 +57,13 @@ public class Physics extends EngineSystem {
 	public void update() {
 		for (PhysicComponent p : phy) {
 			// System.out.println("test " + p.getVelocity().toString());
-			p.getTransform().add(Vec3f.div(p.getVelocity(), 10));
 			for (PhysicComponent t : phy) {
 				if (p.isCollidable() == t.isCollidable() && !p.equals(t)) {
 					checkcollision(p, t);
 				}
 			}
+			p.getTransform().add(Vec3f.div(p.getVelocity(), 10));
+			p.getTransform().setRot(Vec3f.add(p.getTransform().getRot(), new Vec3f(0,0,p.getRotVel())));
 		}
 	}
 
@@ -76,10 +77,16 @@ public class Physics extends EngineSystem {
 		// 0 is the player
 		if (p.getEntityID() == 1)
 			return;
-
+		
+		PhysicComponent p1 = p;
+		PhysicComponent p2 = t;
+		
+		Vec3f v1 = p1.getVelocity();
+		Vec3f v2 = p2.getVelocity();
+		
 		Transform t1 = p.getTransform();
 		Transform t2 = t.getTransform();
-
+				
 		Vec3f pos1 = t1.getPosition();
 		Vec3f pos2 = t2.getPosition();
 
