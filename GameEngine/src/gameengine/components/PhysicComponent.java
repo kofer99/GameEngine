@@ -15,6 +15,7 @@ public class PhysicComponent extends Component {
 
 	private Transform transform;
 	private Vec3f velocity;
+	private float rotvel;
 
 	private int collidable;
 
@@ -26,6 +27,7 @@ public class PhysicComponent extends Component {
 		this.collidable = collidable;
 		this.transform = transform;
 		velocity = new Vec3f();
+		rotvel = 0;
 	}
 
 	/**
@@ -70,5 +72,13 @@ public class PhysicComponent extends Component {
 	public void setCollidable(int collidable) {
 		this.collidable = collidable;
 	}
-
+	
+	public float getRotVel(){
+		return rotvel;
+		
+	}
+	public void setRotVel(float rotvel){
+		this.rotvel = rotvel;
+		
+	}
 }
