@@ -59,18 +59,17 @@ public class Player2 extends ActionComponent {
 	 * 
 	 */
 	private void updateRotation() {
-		
-        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_R)) {
-        
-           playerPh.getTransform().getRot().z++ ;
-        
-        }
-        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_T)) {
-       
-            playerPh.getTransform().getRot().z--;
-        	
-         }
-		
+		float rotvel = 0f;
+		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_R)) {
+
+			rotvel = 1;
+
+		}
+		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_T)) {
+
+			rotvel = -1;
+		}
+		playerPh.setRotVel(rotvel);
 	}
 
 	/**

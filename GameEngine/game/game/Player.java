@@ -55,18 +55,17 @@ public class Player extends ActionComponent {
 	 * 
 	 */
 	private void updateRotation() {
-
+		float rotvel = 0f;
 		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_Q)) {
 
-			playerPh.getTransform().getRot().z++;
+			rotvel = 1;
 
 		}
 		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_E)) {
 
-			playerPh.getTransform().getRot().z--;
-
+			rotvel = -1;
 		}
-
+		playerPh.setRotVel(rotvel);
 	}
 
 	/**
