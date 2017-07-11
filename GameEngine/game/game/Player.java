@@ -98,7 +98,7 @@ public class Player extends ActionComponent {
 			playerPh.setVelocity(new Vec3f(0f, 0f, 0f));
 			return;
 		}
-		playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov, ymov, 0)));
+		playerPh.setVelocity(Vec3f.mul(1.0f, Vec3f.normalize(new Vec3f(xmov,ymov,0))));
 
 	}
 

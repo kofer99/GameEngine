@@ -57,33 +57,40 @@ public class Physics extends EngineSystem {
 
 	@Override
 	public void update() {
+		Vec3f vel1 = new Vec3f(0, 0, 0);
+		Vec3f vel2 = new Vec3f(0, 0, 0);
+		boolean [][] matrix = new boolean[phy.size()][phy.size()];
 		for (PhysicComponent p : phy) {
 			// System.out.println("test " + p.getVelocity().toString());
 			for (PhysicComponent t : phy) {
+				vel1 = p.getVelocity();
+				vel2 = t.getVelocity();
+				if(matrix[p.getEntityID()][t.getEntityID()]== false){
 				if (p.isCollidable() == t.isCollidable() && !p.equals(t)) {
+					matrix[p.getEntityID()][t.getEntityID()]= true;
 					if (checkcollision(p, t)) {
-						if (Math.abs(p.getVelocity().x) >= Math.abs(t.getVelocity().x)) {
-							p.getVelocity().x = t.getVelocity().x;
+						// Collision Response
+						// Check for Movement in the same direction
+						// check if Distance Increases or not
+						if (Math.abs(p.getTransform().getPosition().x - t.getTransform().getPosition().x)
+								- Math.abs(p.getTransform().getPosition().x + (p.getVelocity().x)
+										- t.getTransform().getPosition().x) < 0) {
+							vel1.x = p.getVelocity().x;
+							vel2.x = t.getVelocity().x;
+
 						} else {
-							t.getVelocity().x = p.getVelocity().x;
+							vel1.x = 0;
+							vel2.x = 0;
+							System.out.println("Haltsmaul2");
 						}
-						if (Math.abs(p.getVelocity().y) > Math.abs(t.getVelocity().y)) {
-							p.getVelocity().y = t.getVelocity().y;
-						} else {
-							t.getVelocity().y = p.getVelocity().y;
-						}
-						if(p.getVelocity().x == 0f || t.getVelocity().x==0f)
-						{
-							p.getVelocity().x = 0;
-							t.getVelocity().x = 0;
-						}
+
 					}
 				}
-			
-				p.getTransform().add(Vec3f.div(p.getVelocity(), 10));
-				p.getTransform().setRot(Vec3f.add(p.getTransform().getRot(), new Vec3f(0, 0, p.getRotVel())));
-				
+				}
 			}
+			p.getTransform().add(Vec3f.div(vel1, 10));
+			// t.getTransform().add(Vec3f.div(vel2, 10));
+			p.getTransform().setRot(Vec3f.add(p.getTransform().getRot(), new Vec3f(0, 0, p.getRotVel())));
 		}
 	}
 

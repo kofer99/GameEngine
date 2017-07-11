@@ -82,27 +82,27 @@ public class Player2 extends ActionComponent {
         float currentrot = playerPh.getTransform().getRot().z;
 
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_D)) {
-            xmov += 1.5f;
+            xmov += 1.0f;
 
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_A)) {
-            xmov += -1.5f;
+            xmov += -1.0f;
 
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_W)) {
         	System.out.println(currentrot);
-        	  ymov += +1.5f;
+        	  ymov += +1.0f;
 
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_S)) {
-            ymov += -1.5f;
+            ymov += -1.0f;
 
         }
         if(xmov==0 && ymov ==0 ){
         	playerPh.setVelocity(new Vec3f(0f,0f,0f));
         	return;
         	}
-        playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov,ymov,0)));
+        playerPh.setVelocity(Vec3f.mul(1.0f, Vec3f.normalize(new Vec3f(xmov,ymov,0))));
 
 	}
 
