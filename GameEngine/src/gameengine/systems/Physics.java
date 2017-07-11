@@ -13,6 +13,8 @@ import gameengine.components.PhysicComponent;
 import gameengine.components.Transform;
 import gameengine.objects.ComponentType;
 import gameengine.objects.EngineSystem;
+import gameengine.objects.Entity;
+import javafx.scene.input.GestureEvent;
 
 /**
  * @author Team
@@ -59,11 +61,29 @@ public class Physics extends EngineSystem {
 			// System.out.println("test " + p.getVelocity().toString());
 			for (PhysicComponent t : phy) {
 				if (p.isCollidable() == t.isCollidable() && !p.equals(t)) {
-					checkcollision(p, t);
+					if (checkcollision(p, t)) {
+						if (Math.abs(p.getVelocity().x) >= Math.abs(t.getVelocity().x)) {
+							p.getVelocity().x = t.getVelocity().x;
+						} else {
+							t.getVelocity().x = p.getVelocity().x;
+						}
+						if (Math.abs(p.getVelocity().y) > Math.abs(t.getVelocity().y)) {
+							p.getVelocity().y = t.getVelocity().y;
+						} else {
+							t.getVelocity().y = p.getVelocity().y;
+						}
+						if(p.getVelocity().x == 0f || t.getVelocity().x==0f)
+						{
+							p.getVelocity().x = 0;
+							t.getVelocity().x = 0;
+						}
+					}
 				}
+			
+				p.getTransform().add(Vec3f.div(p.getVelocity(), 10));
+				p.getTransform().setRot(Vec3f.add(p.getTransform().getRot(), new Vec3f(0, 0, p.getRotVel())));
+				
 			}
-			p.getTransform().add(Vec3f.div(p.getVelocity(), 10));
-			p.getTransform().setRot(Vec3f.add(p.getTransform().getRot(), new Vec3f(0,0,p.getRotVel())));
 		}
 	}
 
@@ -73,20 +93,20 @@ public class Physics extends EngineSystem {
 	 * @param p
 	 * @param t
 	 */
-	private void checkcollision(PhysicComponent p, PhysicComponent t) {
+	private boolean checkcollision(PhysicComponent p, PhysicComponent t) {
 		// 0 is the player
 		if (p.getEntityID() == 1)
-			return;
-		
+			return false;
+
 		PhysicComponent p1 = p;
 		PhysicComponent p2 = t;
-		
+
 		Vec3f v1 = p1.getVelocity();
 		Vec3f v2 = p2.getVelocity();
-		
+
 		Transform t1 = p.getTransform();
 		Transform t2 = t.getTransform();
-		
+
 		Vec3f pos1 = t1.getPosition();
 		Vec3f pos2 = t2.getPosition();
 
@@ -175,7 +195,9 @@ public class Physics extends EngineSystem {
 		// ob2
 		if (checkMinMax(axis, corner1)) {
 			System.out.println("Collision!!!");
+			return true;
 		}
+		return false;
 
 		/*
 		 * collision[0] = false; collision[1] = false; collision[2] = false;
