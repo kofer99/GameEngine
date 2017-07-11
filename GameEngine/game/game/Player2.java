@@ -77,31 +77,31 @@ public class Player2 extends ActionComponent {
 	 */
 	private void updateMovement() {
 		// TODO Auto-generated method stub
-        float xmov = 0.0f;
-        float ymov = 0.0f;
-        float currentrot = playerPh.getTransform().getRot().z;
+		float xmov = 0.0f;
+		float ymov = 0.0f;
+		float currentrot = playerPh.getTransform().getRot().z;
 
-        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_D)) {
-            xmov += 1.0f;
+		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_D)) {
+			xmov += 1.0f;
 
-        }
-        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_A)) {
-            xmov += -1.0f;
+		}
+		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_A)) {
+			xmov += -1.0f;
 
-        }
-        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_W)) {
-        	  ymov += +1.0f;
+		}
+		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_W)) {
+			  ymov += +1.0f;
 
-        }
-        if (Engine.keyboard.isDown(GLFW.GLFW_KEY_S)) {
-            ymov += -1.0f;
+		}
+		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_S)) {
+			ymov += -1.0f;
 
-        }
-        if(xmov==0 && ymov ==0 ){
-        	playerPh.setVelocity(new Vec3f(0f,0f,0f));
-        	return;
-        	}
-        playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov,ymov,0)));
+		}
+		if(xmov==0 && ymov ==0 ){
+			playerPh.setVelocity(new Vec3f(0f,0f,0f));
+			return;
+			}
+		playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov,ymov,0)));
 
 	}
 

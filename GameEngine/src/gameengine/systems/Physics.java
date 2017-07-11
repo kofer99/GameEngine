@@ -59,37 +59,67 @@ public class Physics extends EngineSystem {
 	public void update() {
 		Vec3f vel1 = new Vec3f(0, 0, 0);
 		Vec3f vel2 = new Vec3f(0, 0, 0);
-		boolean [][] matrix = new boolean[phy.size()][phy.size()];
+		boolean[][] matrix = new boolean[phy.size()][phy.size()];
 		for (PhysicComponent p : phy) {
 			// System.out.println("test " + p.getVelocity().toString());
 			for (PhysicComponent t : phy) {
 				vel1 = p.getVelocity();
 				vel2 = t.getVelocity();
-				if(matrix[p.getEntityID()][t.getEntityID()]== false){
-				if (p.isCollidable() == t.isCollidable() && !p.equals(t)) {
-					matrix[p.getEntityID()][t.getEntityID()]= true;
-					if (checkcollision(p, t)) {
-						// Collision Response
-						// Check for Movement in the same direction
-						// check if Distance Increases or not
-						if (Math.abs(p.getTransform().getPosition().x - t.getTransform().getPosition().x)
-								- Math.abs(p.getTransform().getPosition().x + (p.getVelocity().x)
-										- t.getTransform().getPosition().x) < 0) {
-							vel1.x = p.getVelocity().x;
-							vel2.x = t.getVelocity().x;
+				if (matrix[p.getEntityID()][t.getEntityID()] == false) {
+					matrix[p.getEntityID()][t.getEntityID()] = true;
+					if (p.isCollidable() == t.isCollidable() && !p.equals(t)) {
+						if (checkcollision(p, t)) {
+							// Collision Response
+							// Check for Movement in the same direction
+							// check if Distance Increases or not
+							if (Math.abs(p.getTransform().getPosition().x - t.getTransform().getPosition().x)
+									- Math.abs(p.getTransform().getPosition().x + (p.getVelocity().x)
+											- (t.getTransform().getPosition().x + (t.getVelocity().x))) < 0) {
+								vel1.x = p.getVelocity().x;
+								vel2.x = t.getVelocity().x;
 
-						} else {
-							vel1.x = 0;
-							vel2.x = 0;
-							System.out.println("Haltsmaul2");
+							} else {
+								if (p.getVelocity().x == 0 || t.getVelocity().x == 0) {
+									vel1.x = 0;
+									vel2.x = 0;
+
+									
+								} else if (Math.abs(p.getVelocity().x )>= Math.abs(t.getVelocity().x)) {
+									vel1.x = t.getVelocity().x;
+									vel2.x = p.getVelocity().x;
+								
+								} else if(Math.abs(p.getVelocity().x )<= Math.abs(t.getVelocity().x)) {
+									t.setVelocity(new Vec3f(p.getVelocity().x,t.getVelocity().y,t.getVelocity().z));
+								}
+
+							}
+							if (Math.abs(p.getTransform().getPosition().y - t.getTransform().getPosition().y)
+									- Math.abs(p.getTransform().getPosition().y + (p.getVelocity().y)
+											- (t.getTransform().getPosition().y + (t.getVelocity().y))) < 0) {
+								vel1.y = p.getVelocity().y;
+								vel2.y = t.getVelocity().y;
+
+							} else {
+								if (p.getVelocity().y == 0 || t.getVelocity().y == 0) {
+									vel1.y = 0;
+									vel2.y = 0;
+
+									
+								} else if (Math.abs(p.getVelocity().y )>= Math.abs(t.getVelocity().y)) {
+									vel1.y = t.getVelocity().y;
+									vel2.y = p.getVelocity().y;
+								
+								} else if(Math.abs(p.getVelocity().y )<= Math.abs(t.getVelocity().y)) {
+									t.setVelocity(new Vec3f(t.getVelocity().x,p.getVelocity().y,t.getVelocity().z));
+								}
+
+							}
 						}
-
 					}
-				}
 				}
 			}
 			p.getTransform().add(Vec3f.div(vel1, 10));
-			// t.getTransform().add(Vec3f.div(vel2, 10));
+		//	 t.getTransform().add(Vec3f.div(vel2, 10));
 			p.getTransform().setRot(Vec3f.add(p.getTransform().getRot(), new Vec3f(0, 0, p.getRotVel())));
 		}
 	}
