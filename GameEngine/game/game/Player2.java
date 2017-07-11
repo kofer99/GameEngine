@@ -82,20 +82,20 @@ public class Player2 extends ActionComponent {
         float currentrot = playerPh.getTransform().getRot().z;
 
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_D)) {
-            xmov += 1.0f;
+            xmov += 1.5f;
 
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_A)) {
-            xmov += -1.0f;
+            xmov += -1.5f;
 
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_W)) {
         	System.out.println(currentrot);
-        	  ymov += +1.0f;
+        	  ymov += +1.5f;
 
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_S)) {
-            ymov += -1.0f;
+            ymov += -1.5f;
 
         }
         if(xmov==0 && ymov ==0 ){
