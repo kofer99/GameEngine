@@ -4,17 +4,15 @@
 package gameengine.systems;
 
 import java.util.ArrayList;
-
 import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.collections.ComponentList;
 import gameengine.collections.EntityHandler;
+import gameengine.components.ActionComponent;
 import gameengine.components.PhysicComponent;
 import gameengine.components.Transform;
 import gameengine.objects.ComponentType;
 import gameengine.objects.EngineSystem;
-import gameengine.objects.Entity;
-import javafx.scene.input.GestureEvent;
 
 /**
  * @author Team
@@ -60,67 +58,78 @@ public class Physics extends EngineSystem {
 		Vec3f vel1 = new Vec3f(0, 0, 0);
 		Vec3f vel2 = new Vec3f(0, 0, 0);
 		boolean[][] matrix = new boolean[phy.size()][phy.size()];
+		boolean cancelRotation = false;
+
 		for (PhysicComponent p : phy) {
 			// System.out.println("test " + p.getVelocity().toString());
 			for (PhysicComponent t : phy) {
 				vel1 = p.getVelocity();
 				vel2 = t.getVelocity();
-				if (matrix[p.getEntityID()][t.getEntityID()] == false) {
+				if (!matrix[p.getEntityID()][t.getEntityID()]) {
 					matrix[p.getEntityID()][t.getEntityID()] = true;
 					if (p.isCollidable() == t.isCollidable() && !p.equals(t)) {
 						if (checkcollision(p, t)) {
+							// HACK: Cancel any rotation when we're already colliding
+							cancelRotation = true;
+
 							// Collision Response
 							// Check for Movement in the same direction
 							// check if Distance Increases or not
 							if (Math.abs(p.getTransform().getPosition().x - t.getTransform().getPosition().x)
 									- Math.abs(p.getTransform().getPosition().x + (p.getVelocity().x)
-											- (t.getTransform().getPosition().x + (t.getVelocity().x))) < 0) {
-								vel1.x = p.getVelocity().x;
-								vel2.x = t.getVelocity().x;
-
-							} else {
-								if (p.getVelocity().x == 0 || t.getVelocity().x == 0) {
-									vel1.x = 0;
-									vel2.x = 0;
-
-									
-								} else if (Math.abs(p.getVelocity().x )>= Math.abs(t.getVelocity().x)) {
-									vel1.x = t.getVelocity().x;
-									vel2.x = p.getVelocity().x;
+											- (t.getTransform().getPosition().x + (t.getVelocity().x))) >= 0) {
 								
-								} else if(Math.abs(p.getVelocity().x )<= Math.abs(t.getVelocity().x)) {
-									t.setVelocity(new Vec3f(p.getVelocity().x,t.getVelocity().y,t.getVelocity().z));
-								}
+								double absPX = Math.abs(p.getVelocity().x);
+								double absTX = Math.abs(t.getVelocity().x);
 
+								if (p.getVelocity().x == -t.getVelocity().x) {
+									vel1.x = 0;
+									vel2 = new Vec3f(0, t.getVelocity().y, t.getVelocity().z);
+									t.setVelocity(vel2);
+								} else if (absPX < absTX) {
+									vel1.x = t.getVelocity().x;
+								} else if(absPX > absTX) {
+									vel2 = new Vec3f(p.getVelocity().x, t.getVelocity().y, t.getVelocity().z);
+									t.setVelocity(vel2);
+								}
 							}
+
 							if (Math.abs(p.getTransform().getPosition().y - t.getTransform().getPosition().y)
 									- Math.abs(p.getTransform().getPosition().y + (p.getVelocity().y)
-											- (t.getTransform().getPosition().y + (t.getVelocity().y))) < 0) {
-								vel1.y = p.getVelocity().y;
-								vel2.y = t.getVelocity().y;
+											- (t.getTransform().getPosition().y + (t.getVelocity().y))) >= 0) {
 
-							} else {
-								if (p.getVelocity().y == 0 || t.getVelocity().y == 0) {
+								double absPY = Math.abs(p.getVelocity().y);
+								double absTY = Math.abs(t.getVelocity().y);
+
+								if (p.getVelocity().y == -t.getVelocity().y) {
 									vel1.y = 0;
-									vel2.y = 0;
-
-									
-								} else if (Math.abs(p.getVelocity().y )>= Math.abs(t.getVelocity().y)) {
+									vel2 = new Vec3f(t.getVelocity().x, 0, t.getVelocity().z);
+									t.setVelocity(vel2);
+								} else if (absPY < absTY) {
 									vel1.y = t.getVelocity().y;
-									vel2.y = p.getVelocity().y;
-								
-								} else if(Math.abs(p.getVelocity().y )<= Math.abs(t.getVelocity().y)) {
-									t.setVelocity(new Vec3f(t.getVelocity().x,p.getVelocity().y,t.getVelocity().z));
+								} else if(absPY > absTY) {
+									vel2 = new Vec3f(t.getVelocity().y, p.getVelocity().y, t.getVelocity().z);
+									t.setVelocity(vel2);
 								}
+							}
 
+							// Don't push another object out of the map
+							// TODO: This is crap and should be moved onto the object itself
+							boolean pBounds = checkBoundaries(p);
+							if (checkBoundaries(t) || pBounds) {
+								vel1 = new Vec3f(0, 0, 0);
+								vel2 = new Vec3f(0, 0, 0);
+								t.setVelocity(vel2);
 							}
 						}
 					}
 				}
 			}
+
 			p.getTransform().add(Vec3f.div(vel1, 10));
-		//	 t.getTransform().add(Vec3f.div(vel2, 10));
-			p.getTransform().setRot(Vec3f.add(p.getTransform().getRot(), new Vec3f(0, 0, p.getRotVel())));
+
+			if (!cancelRotation)
+				p.getTransform().setRot(Vec3f.add(p.getTransform().getRot(), new Vec3f(0, 0, p.getRotVel())));
 		}
 	}
 
@@ -131,32 +140,11 @@ public class Physics extends EngineSystem {
 	 * @param t
 	 */
 	private boolean checkcollision(PhysicComponent p, PhysicComponent t) {
-		// 0 is the player
-		if (p.getEntityID() == 1)
-			return false;
-
-		PhysicComponent p1 = p;
-		PhysicComponent p2 = t;
-
-		Vec3f v1 = p1.getVelocity();
-		Vec3f v2 = p2.getVelocity();
-
 		Transform t1 = p.getTransform();
 		Transform t2 = t.getTransform();
 
 		Vec3f pos1 = t1.getPosition();
 		Vec3f pos2 = t2.getPosition();
-
-		boolean oneAboveTwo = pos1.y - pos2.y > 0;
-		boolean oneLeftOfTwo = pos1.x - pos2.x < 0;
-
-		// We should only need 2 dimensions, as we look from the top
-		// cos(a) = v.u/(|v|*|u|)
-		// where u is (1|0)
-		Vec3f distance = Vec3f.sub(pos1, pos2);
-		double absV = Math.sqrt(Math.pow(distance.x, 2) + Math.pow(distance.y, 2));
-		double radians = Math.acos(distance.x / absV);
-		double angleBoth = 180 * radians / Math.PI;
 
 		// in degrees
 		float rot1 = t1.getRot().z % 360;
@@ -228,8 +216,7 @@ public class Physics extends EngineSystem {
 		// Take scalar values of each projected point... they are meaningles but
 		// indicate the position on the axis
 		// Naming: Corner Object Axis
-		// Values [axis][value] values 0: Min ob1 1:Min ob2 2. Max ob1, 3: max
-		// ob2
+		// Values [axis][value] values 0: Min ob1 1:Min ob2 2. Max ob1, 3: max ob2
 		if (checkMinMax(axis, corner1)) {
 			System.out.println("Collision!!!");
 			return true;
@@ -301,11 +288,10 @@ public class Physics extends EngineSystem {
 				continue;
 			} else {
 				return false;
-
 			}
 		}
-		return true;
 
+		return true;
 	}
 
 	/**
@@ -322,18 +308,45 @@ public class Physics extends EngineSystem {
 		return tl11s;
 	}
 
-	public float getDistance(Vec2f vec, Vec3f origin, Vec3f otherPoint) {
-		float dx = origin.x - vec.x - otherPoint.x;
-		float dy = origin.y - vec.y - otherPoint.y;
+	private boolean checkBoundaries(PhysicComponent ph) {
 
-		return (float) Math.sqrt(dx * dx + dy * dy);
-	}
+		// Should be changed as well when changed in the player class!
+		float mxr = 15.5f;
+		float myr = 8.5f;
+		Vec3f mov = new Vec3f();
 
-	public Vec2f sub2with3(Vec2f vec, Vec3f origin) {
-		return new Vec2f(-origin.x + vec.x, -origin.y + vec.y);
-	}
+		if (ph.getTransform().getPosition().x >= mxr && ph.getVelocity().x > 0) {
+			mov.y = ph.getVelocity().y;
+			mov.x = 0;
+			mov.z = 0;
+			ph.setVelocity(mov);
+			return true;
+		}
 
-	public Vec2f sub2with2(Vec2f vec, Vec2f other) {
-		return new Vec2f(other.x - vec.x, other.y - vec.y);
+		if (ph.getTransform().getPosition().x <= -mxr && ph.getVelocity().x < 0) {
+			mov.y = ph.getVelocity().y;
+			mov.x = 0;
+			mov.z = 0;
+			ph.setVelocity(mov);
+			return true;
+		}
+
+		if (ph.getTransform().getPosition().y >= myr && ph.getVelocity().y > 0) {
+			mov.x = ph.getVelocity().x;
+			mov.y = 0;
+			mov.z = 0;
+			ph.setVelocity(mov);
+			return true;
+		}
+
+		if (ph.getTransform().getPosition().y <= -myr && ph.getVelocity().y < 0) {
+			mov.x = ph.getVelocity().x;
+			mov.y = 0;
+			mov.z = 0;
+			ph.setVelocity(mov);
+			return true;
+		}
+
+		return false;
 	}
 }
