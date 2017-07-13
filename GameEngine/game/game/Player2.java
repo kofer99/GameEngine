@@ -4,16 +4,10 @@
 package game;
 
 import org.lwjgl.glfw.GLFW;
-
-import far.math.mat.Mat4;
-import far.math.vec.Vec;
 import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
-
 import gameengine.components.PhysicComponent;
-import math.Vector4f;
-import math.Vectorf;
 
 /**
  * @author Daniel
@@ -34,8 +28,10 @@ public class Player2 extends ActionComponent {
 	boolean hasX2Movement = false;
 	boolean hasY2Movement = false;
 
+	// Note: Those values are also hardcoded inside Physic.java's checkBoundaries method
 	float mxr = 15.5f;
 	float myr = 8.5f;
+
 	int i = 0;
 
 	public Player2(PhysicComponent ph) {
@@ -82,27 +78,27 @@ public class Player2 extends ActionComponent {
         float currentrot = playerPh.getTransform().getRot().z;
 
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_D)) {
-            xmov += 1.0f;
+            xmov += 2.0f;
 
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_A)) {
-            xmov += -1.0f;
+            xmov += -2.0f;
 
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_W)) {
         	System.out.println(currentrot);
-        	  ymov += +1.0f;
+        	  ymov += +2.0f;
 
         }
         if (Engine.keyboard.isDown(GLFW.GLFW_KEY_S)) {
-            ymov += -1.0f;
+            ymov += -2.0f;
 
         }
         if(xmov==0 && ymov ==0 ){
         	playerPh.setVelocity(new Vec3f(0f,0f,0f));
         	return;
         	}
-        playerPh.setVelocity(Vec3f.mul(1.4f, Vec3f.normalize(new Vec3f(xmov,ymov,0))));
+        playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov,ymov,0)));
 
 	}
 
