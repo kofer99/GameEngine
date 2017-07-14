@@ -80,7 +80,10 @@ public class Renderable extends Component {
 		GL20.glUseProgram(Shader.shaderProgram);
 		Shader.updateShader(transform);
 		glBindVertexArray(VAO);
-		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
+		
+		//glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
+		texture.bind();
+		
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}

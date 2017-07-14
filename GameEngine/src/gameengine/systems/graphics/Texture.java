@@ -1,14 +1,10 @@
 
 /**
- * @project RunEngine_C1
- * @package runEngine.graphics.texture
- * @filename Texture.java
  * 
  * @author Florian Albrecht
  * @date 26.06.2016
  * @time 17:25:57
  *
- * @version 0.0
  */
 
 package gameengine.systems.graphics;
@@ -20,6 +16,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 
 import gameengine.util.BufferUtils;
 
@@ -68,6 +65,19 @@ public class Texture {
 
 		return tex;
 
+	}
+
+	public void bind() {
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+	}
+
+	public void unbind() {
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+	}
+
+	public void destroy() {
+		GL11.glDeleteTextures(textureID);
 	}
 
 	/**
