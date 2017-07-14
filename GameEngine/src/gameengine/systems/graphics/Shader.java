@@ -17,6 +17,7 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GLXARBRobustnessApplicationIsolation;
 
 import far.math.mat.Mat4;
 import far.math.vec.Vec3f;
@@ -24,49 +25,52 @@ import gameengine.components.Transform;
 import gameengine.util.IOStream;
 
 /**
- * @author Daniel
+ * @author Daniel & Flo
  *
  */
 public class Shader {
-	static int vertexShader;
-	static int fragmentShader;
-	public static int shaderProgram;
-	static int projmatloc;
-	static int rotmatloc;
-	public static int movmatloc;
 
-	public static void createShader() {
-		String vpath = IOStream.read("res/shader/std.vert");
-		String fpath = IOStream.read("res/shader/std.frag");
+	protected int shaderProgram;
 
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	protected Shader(String source) {
+		this.shaderProgram = createShader(source);
+	}
+
+	private int createShader(String source) {
+		String vpath = IOStream.read("res/shader/" + source + ".vert");
+		String fpath = IOStream.read("res/shader/" + source + ".frag");
+
+		int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertexShader, vpath);
 		glCompileShader(vertexShader);
 
 		checkShaderErrors(vertexShader, GL_VERTEX_SHADER, "Vertexshader");
 
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragmentShader, fpath);
 		glCompileShader(fragmentShader);
 		checkShaderErrors(fragmentShader, GL_FRAGMENT_SHADER, "Fragmentshader");
 
-		shaderProgram = glCreateProgram();
+		int shaderProgram = glCreateProgram();
 		glAttachShader(shaderProgram, vertexShader);
 		glAttachShader(shaderProgram, fragmentShader);
 		glLinkProgram(shaderProgram);
 		checkProgramErrors(shaderProgram, GL20.GL_LINK_STATUS);
 
+		return shaderProgram;
 	}
 
-	public static void updateShader(Transform transform) {
-		projmatloc = glGetUniformLocation(shaderProgram, "projmat");
-		glUniformMatrix4fv(projmatloc, false, Mat4.createOrtho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f).getValue());
-		movmatloc = glGetUniformLocation(shaderProgram, "movmat");
-		glUniformMatrix4fv(movmatloc, false, Mat4
-				.createTransformScaleMatrix(transform.getPosition(), new Vec3f(transform.getScale(), 1)).getValue());
-		rotmatloc = glGetUniformLocation(shaderProgram, "rotmat");
-		glUniformMatrix4fv(rotmatloc, false, Mat4.createRotationXYZMatrix(transform.getRot()).getValue());
+	public void bind() {
+		GL20.glUseProgram(shaderProgram);
+	}
 
+	public void unbind() {
+		GL20.glUseProgram(0);
+	}
+
+	public void destroy() {
+		unbind();
+		GL20.glDeleteProgram(shaderProgram);
 	}
 
 	private static boolean checkShaderErrors(int shader, int type, String name) {
