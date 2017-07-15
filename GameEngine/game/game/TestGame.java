@@ -45,14 +45,12 @@ public class TestGame implements Game {
 		e3.add(p1);
 
 		Entity e = new Entity();
-
 		e.add(new Renderable("grass.png", Player2));
 		e.add(PlPh2);
-
 		e.add(p2);
-		// PlPh2.setVelocity(new Vec3f(0.5f,0.5f,0.0f));
 
-		// e3.add(new Transform(new Vec3f(0f, 0f, 0f)));
+		Transform tt = new Transform(new Vec3f(-2.0f, 0.8f, 0.0f), new Vec2f(1.0f, 1.0f), new Vec3f(0, 0, 0));
+		Text text = new Text("arial", "Test Text gg xD !", tt);
 	}
 
 	@Override
