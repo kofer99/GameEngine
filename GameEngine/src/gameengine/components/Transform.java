@@ -25,6 +25,15 @@ public class Transform extends Component {
 		this.rot = rot;
 	}
 
+	// some comfortable constructors
+
+	public Transform(Vec3f position) {
+		super(ComponentType.TRANSFORM);
+		this.position = position;
+		this.scale = new Vec2f(1, 1);
+		this.rot = new Vec3f(0, 0, 0);
+	}
+
 	public Vec3f getPosition() {
 		return position;
 	}

@@ -57,16 +57,11 @@ public class Engine {
 	private ArrayList<EngineSystem> systems = new ArrayList<EngineSystem>();
 
 	/**
-	 * All the systems, except the MasterRenderer
+	 * All the systems
 	 */
 	private EngineSystem physics;
 	private EngineSystem renderer;
 	private EngineSystem inputController;
-
-	/**
-	 * The Master renderer is handled specialty, because of its
-	 */
-	// private MasterRenderer renderer;
 
 	/**
 	 * The Game object
