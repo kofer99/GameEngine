@@ -14,8 +14,12 @@ import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
 
+import java.nio.FloatBuffer;
+
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
+
+import gameengine.util.BufferUtils;
 
 /**
  * @author Daniel & Florian Albrecht
@@ -27,7 +31,11 @@ public class Mesh {
 	private int VAO;
 	private int VBO;
 
+	private int count;
+
 	public Mesh(float[] vertices, int[] indices) {
+
+		count = vertices.length / 3;
 
 		EBO = GL15.glGenBuffers();
 		VAO = GL30.glGenVertexArrays();
@@ -47,6 +55,39 @@ public class Mesh {
 		// 5. Set Texture Pointers
 		glVertexAttribPointer(1, 2, GL_FLOAT, false, 20, 12);
 		glEnableVertexAttribArray(1);
+
+		// just to prevent some errors
+		glBindVertexArray(0);
+	}
+
+	public Mesh(float[] vertices, float[] texCoords) {
+
+		VAO = GL30.glGenVertexArrays();
+		VBO = GL15.glGenBuffers();
+
+		count = vertices.length / 4;
+
+		// 1. bind Vertex Array Object
+		glBindVertexArray(VAO);
+
+		// 2. copy our vertices array in a vertex buffer for OpenGL to use
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		FloatBuffer buffer1 = BufferUtils.createFloatBuffer(vertices);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer1, GL15.GL_STATIC_DRAW);
+
+		// 4. then set the vertex attributes pointers
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 4, GL_FLOAT, false, 0, 0);
+		// 5. Set Texture Pointers
+		int VBO2 = GL15.glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+		FloatBuffer buffer2 = BufferUtils.createFloatBuffer(texCoords);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer2, GL15.GL_STATIC_DRAW);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
+
+		// just to prevent some errors
+		glBindVertexArray(0);
 	}
 
 	public void bind() {
@@ -81,6 +122,13 @@ public class Mesh {
 		Mesh quad = new Mesh(vertices, indices);
 
 		return quad;
+	}
+
+	/**
+	 * @return
+	 */
+	public int getCount() {
+		return count;
 	}
 
 }
