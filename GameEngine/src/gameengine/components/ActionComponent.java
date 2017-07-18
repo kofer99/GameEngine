@@ -8,7 +8,7 @@ import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
 
 /**
- * @author Florian Albrecht
+ * @author Team
  *
  */
 public abstract class ActionComponent extends Component {

@@ -86,7 +86,6 @@ public class Player extends ActionComponent {
 
 		}
 		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_UP)) {
-			System.out.println(currentrot);
 			ymov += +1.0f;
 
 		}
