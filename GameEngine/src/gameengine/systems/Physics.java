@@ -86,7 +86,7 @@ public class Physics extends EngineSystem {
 		
 		Transform t1 = p.getTransform();
 		Transform t2 = t.getTransform();
-				
+		
 		Vec3f pos1 = t1.getPosition();
 		Vec3f pos2 = t2.getPosition();
 

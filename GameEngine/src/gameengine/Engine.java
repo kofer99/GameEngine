@@ -20,6 +20,7 @@ import gameengine.objects.EngineSystem;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
 import gameengine.systems.ActionController;
+import gameengine.systems.AudioController;
 import gameengine.systems.MasterRenderer;
 import gameengine.systems.Physics;
 import gameengine.util.EngineLogger;
@@ -62,6 +63,7 @@ public class Engine {
 	private EngineSystem physics;
 	private EngineSystem renderer;
 	private EngineSystem inputController;
+	private EngineSystem AudioSystem;
 
 	/**
 	 * The Game object
@@ -119,7 +121,11 @@ public class Engine {
 		physics = new Physics();
 		physics.initialize(entities);
 		systems.add(physics);
-
+		
+		//Audio
+		AudioSystem = new AudioController();
+		AudioSystem.initialize(entities);
+		
 		inputController = new ActionController();
 		inputController.initialize(entities);
 		systems.add(inputController);

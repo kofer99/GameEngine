@@ -9,6 +9,7 @@ import org.lwjgl.glfw.GLFW;
 import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
+import gameengine.components.AudioComponent;
 import gameengine.components.PhysicComponent;
 
 /**
@@ -24,6 +25,7 @@ public class Player extends ActionComponent {
 	 * @see gameengine.components.ActionComponent#action(int)
 	 */
 
+	AudioComponent audio;
 	PhysicComponent playerPh;
 	boolean hasYMovement = false;
 	boolean hasXMovement = false;
@@ -33,10 +35,10 @@ public class Player extends ActionComponent {
 	float mxr = 15.5f;
 	float myr = 8.5f;
 	int i = 0;
+	int z;
 
 	public Player(PhysicComponent ph) {
 		playerPh = ph;
-
 	}
 
 	@Override
@@ -51,6 +53,10 @@ public class Player extends ActionComponent {
 		i++;
 	}
 
+	public void addAudio(AudioComponent a) {
+		audio = a;
+	}
+	
 	/**
 	 * 
 	 */
@@ -76,6 +82,10 @@ public class Player extends ActionComponent {
 		float xmov = 0.0f;
 		float ymov = 0.0f;
 		float currentrot = playerPh.getTransform().getRot().z;
+		if (z > 60) {
+			z = 0;
+			audio.play(0.5f);
+		}
 
 		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_RIGHT)) {
 			xmov += 1.0f;
@@ -97,6 +107,8 @@ public class Player extends ActionComponent {
 			playerPh.setVelocity(new Vec3f(0f, 0f, 0f));
 			return;
 		}
+
+		z++;
 		playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov, ymov, 0)));
 
 	}

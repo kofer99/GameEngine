@@ -6,6 +6,7 @@ package game;
 import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.components.ActionComponent;
+import gameengine.components.AudioComponent;
 import gameengine.components.PhysicComponent;
 import gameengine.components.Renderable;
 import gameengine.components.Transform;
@@ -28,11 +29,14 @@ public class TestGame implements Game {
 		Transform playerTransform = new Transform(new Vec3f(13f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
 		PhysicComponent playerPhysic = new PhysicComponent(playerTransform, 1);
 		ActionComponent playerAction = new Player(playerPhysic);
+		AudioComponent audio = new AudioComponent("bounce.wav");
+		((Player) playerAction).addAudio(audio);
 
 		player.add(playerTransform);
 		player.add(new Renderable("Player.png", playerTransform));
 		player.add(playerPhysic);
 		player.add(playerAction);
+		player.add(audio);
 
 		Entity e = new Entity();
 
@@ -60,7 +64,5 @@ public class TestGame implements Game {
 			text.update("2. Text :)");
 			text.updateColor(new Vec3f(0.2f, 1.0f, 0.0f));
 		}
-
 	}
-
 }
