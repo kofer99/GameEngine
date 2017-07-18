@@ -10,18 +10,13 @@ import static org.lwjgl.opengl.GL20.glAttachShader;
 import static org.lwjgl.opengl.GL20.glCompileShader;
 import static org.lwjgl.opengl.GL20.glCreateProgram;
 import static org.lwjgl.opengl.GL20.glCreateShader;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
-import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GLXARBRobustnessApplicationIsolation;
 
-import far.math.mat.Mat4;
-import far.math.vec.Vec3f;
-import gameengine.components.Transform;
 import gameengine.util.IOStream;
 
 /**
@@ -34,6 +29,7 @@ public class Shader {
 
 	protected Shader(String source) {
 		this.shaderProgram = createShader(source);
+
 	}
 
 	private int createShader(String source) {
@@ -56,6 +52,8 @@ public class Shader {
 		glAttachShader(shaderProgram, fragmentShader);
 		glLinkProgram(shaderProgram);
 		checkProgramErrors(shaderProgram, GL20.GL_LINK_STATUS);
+
+		glUseProgram(shaderProgram);
 
 		return shaderProgram;
 	}

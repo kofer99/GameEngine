@@ -50,7 +50,7 @@ public class MasterRenderer extends EngineSystem {
 
 		guiShader.bind();
 		for (GUIRenderable r : gui) {
-			guiShader.updateShader(r.getTransform());
+			guiShader.updateShader(r.getTransform(), r.getColor());
 			r.render();
 		}
 	}

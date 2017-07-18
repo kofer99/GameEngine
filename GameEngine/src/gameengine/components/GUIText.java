@@ -1,5 +1,6 @@
 package gameengine.components;
 
+import far.math.vec.Vec3f;
 import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
 import gameengine.objects.Entity;
@@ -15,7 +16,7 @@ public class GUIText extends Component {
 	private Transform transform;
 	private GUIRenderable grenderable;
 
-	public GUIText(String text, String fontName, Transform transform, Entity entity) {
+	public GUIText(String text, String fontName, Transform transform, Entity entity, Vec3f color) {
 		super(ComponentType.GUITEXT);
 		this.text = text;
 		this.fontName = fontName;
@@ -24,7 +25,7 @@ public class GUIText extends Component {
 		Mesh m = fontManager.loadFont(this);
 		System.out.println("font: " + fontName + ".png, " + transform.getPosition());
 
-		grenderable = new GUIRenderable("fontBitMaps/" + fontName + ".png", transform, m);
+		grenderable = new GUIRenderable("fontBitMaps/" + fontName + ".png", transform, m, color);
 
 		entity.add(transform);
 		entity.add(grenderable);
@@ -34,6 +35,10 @@ public class GUIText extends Component {
 		this.text = text;
 		Mesh m = fontManager.loadFont(this);
 		grenderable.update(m);
+	}
+
+	public void updateColor(Vec3f ncolor) {
+		grenderable.setColor(ncolor);
 	}
 
 	public Transform getTransform() {
