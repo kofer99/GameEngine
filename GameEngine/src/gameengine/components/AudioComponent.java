@@ -16,21 +16,17 @@ public class AudioComponent extends Component{
 	  /** Buffers hold sound data. */
 	private int id;
 	private int sourcebuffer;
+	private String src;
 
 	public AudioComponent(String src) {
 		super(ComponentType.AUDIO);
-		int buffer = loadSound(src);
-		id = AL10.alGenSources();
-		AL10.alSourcef(id, AL10.AL_GAIN, 1);
-		AL10.alSourcef(id, AL10.AL_PITCH, 1);
-		AL10.alSource3f(id, AL10.AL_POSITION, 0, 0, 0);
-		this.sourcebuffer = buffer;
+		this.src = src;
 	}
 	
-	public  int loadSound(String filename) {
+	public  int loadSound() {
 		int buffer = AL10.alGenBuffers();
 		
-		WaveData waveFile = WaveData.create(filename);
+		WaveData waveFile = WaveData.create(src);
 
 		AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
 
@@ -39,7 +35,14 @@ public class AudioComponent extends Component{
 		return buffer;
 	}
 	
-
+	public void Source(int buffer){
+		
+		id = AL10.alGenSources();
+		AL10.alSourcef(id, AL10.AL_GAIN, 1);
+		AL10.alSourcef(id, AL10.AL_PITCH, 1);
+		AL10.alSource3f(id, AL10.AL_POSITION, 0, 0, 0);
+		this.sourcebuffer = buffer;
+	}
 	public void Source() {
 		id = AL10.alGenSources();
 		AL10.alSourcef(id, AL10.AL_GAIN, 1);

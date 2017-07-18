@@ -8,6 +8,7 @@ import org.lwjgl.glfw.GLFW;
 import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
+import gameengine.components.AudioComponent;
 import gameengine.components.PhysicComponent;
 
 /**
@@ -24,10 +25,12 @@ public class Player extends ActionComponent {
 	 */
 
 	PhysicComponent playerPh;
+	AudioComponent a;
 	boolean hasYMovement = false;
 	boolean hasXMovement = false;
 	boolean hasX2Movement = false;
 	boolean hasY2Movement = false;
+	int z= 0;
 
 	// Note: Those values are also hardcoded inside Physic.java's checkBoundaries method
 	public float mxr = 15.5f;
@@ -35,9 +38,9 @@ public class Player extends ActionComponent {
 
 	int i = 0;
 
-	public Player(PhysicComponent ph) {
+	public Player(PhysicComponent ph,AudioComponent a) {
 		playerPh = ph;
-
+		this.a =a;
 	}
 
 	@Override
@@ -75,11 +78,17 @@ public class Player extends ActionComponent {
 	private void updateMovement() {
 		float xmov = 0.0f;
 		float ymov = 0.0f;
+		if(z >= 60){
+			z = 0;
+			a.play(0.5f);
+		}
 		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_RIGHT)) {
 			xmov += 2.0f;
+			
 		}
 		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_LEFT)) {
 			xmov += -2.0f;
+		
 		}
 		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_UP)) {
 			ymov += +2.0f;
@@ -92,5 +101,7 @@ public class Player extends ActionComponent {
 			return;
 		}
 		playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov,ymov,0)));
+		if(playerPh.getVelocity().x !=0 || playerPh.getVelocity().y !=0)
+				z++;
 	}
 }

@@ -34,10 +34,11 @@ public class TestGame implements Game {
 	public void init() {
 		Player = new Transform(new Vec3f(13f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
 		PlPh = new PhysicComponent(Player, 1);
-		p1 = new Player(PlPh);
 		a = new AudioComponent("bounce.wav");
+		p1 = new Player(PlPh,a);
+		
 		Player2 = new Transform(new Vec3f(5f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
-
+		
 		PlPh2 = new PhysicComponent(Player2, 1);
 		p2 = new Player2(PlPh2);
 
@@ -52,7 +53,7 @@ public class TestGame implements Game {
 
 		e.add(new Renderable("grass.png", Player2));
 		e.add(PlPh2);
-
+		e.add(a);
 		e.add(p2);
 		// PlPh2.setVelocity(new Vec3f(0.5f,0.5f,0.0f));
 
@@ -61,7 +62,7 @@ public class TestGame implements Game {
 
 	@Override
 	public void update() {
-		a.play(0);
+	
 	}
 
 }

@@ -43,6 +43,7 @@ public class AudioController extends EngineSystem {
 	}
 
 	public void init() {
+		System.out.println("asdasdasd");
 		try {
 			device = ALC10.alcOpenDevice((CharSequence) null);
 			if (device == NULL)
@@ -56,6 +57,9 @@ public class AudioController extends EngineSystem {
 			e.printStackTrace();
 		}
 		System.out.println("Using OpenAL");
+		for(AudioComponent a:renderable){
+			a.Source(a.loadSound());
+		}
 	}
 
 	public void setListenerData() {
