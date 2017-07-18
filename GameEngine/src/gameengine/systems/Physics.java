@@ -143,8 +143,8 @@ public class Physics extends EngineSystem {
 		Transform t1 = p.getTransform();
 		Transform t2 = t.getTransform();
 
-		Vec3f pos1 = t1.getPosition();
-		Vec3f pos2 = t2.getPosition();
+		Vec3f pos1 = Vec3f.add(t1.getPosition(), Vec3f.div(p.getVelocity(),10));
+		Vec3f pos2 = Vec3f.add(t2.getPosition(), Vec3f.div(t.getVelocity(),10));
 
 		// in degrees
 		float rot1 = t1.getRot().z % 360;

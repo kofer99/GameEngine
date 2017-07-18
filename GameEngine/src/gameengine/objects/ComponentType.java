@@ -11,7 +11,7 @@ package gameengine.objects;
  */
 public enum ComponentType {
 
- QUAD,TRANSFORM, RENDERABLE, INPUT, ACTION, PHYSIC,Coll
+ QUAD,TRANSFORM, RENDERABLE, INPUT, ACTION, PHYSIC,Coll, AUDIO
 
 
 }

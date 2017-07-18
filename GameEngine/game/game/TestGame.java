@@ -5,6 +5,7 @@ package game;
 
 import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
+import gameengine.components.AudioComponent;
 import gameengine.components.PhysicComponent;
 import gameengine.components.Renderable;
 import gameengine.components.Transform;
@@ -19,6 +20,7 @@ public class TestGame implements Game {
 	Transform Player;
 	Player p1;
 	PhysicComponent PlPh;
+	AudioComponent a;
 
 	Transform Player2;
 	Player2 p2;
@@ -33,7 +35,7 @@ public class TestGame implements Game {
 		Player = new Transform(new Vec3f(13f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
 		PlPh = new PhysicComponent(Player, 1);
 		p1 = new Player(PlPh);
-
+		a = new AudioComponent("bounce.wav");
 		Player2 = new Transform(new Vec3f(5f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
 
 		PlPh2 = new PhysicComponent(Player2, 1);
@@ -43,6 +45,8 @@ public class TestGame implements Game {
 		e3.add(new Renderable("Player.png", Player));
 		e3.add(PlPh);
 		e3.add(p1);
+		e3.add(a);
+	
 
 		Entity e = new Entity();
 
@@ -57,7 +61,7 @@ public class TestGame implements Game {
 
 	@Override
 	public void update() {
-
+		a.play(0);
 	}
 
 }
