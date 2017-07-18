@@ -23,7 +23,6 @@ public class GUIText extends Component {
 		this.transform = transform;
 
 		Mesh m = fontManager.loadFont(this);
-		System.out.println("font: " + fontName + ".png, " + transform.getPosition());
 
 		grenderable = new GUIRenderable("fontBitMaps/" + fontName + ".png", transform, m, color);
 

@@ -51,7 +51,7 @@ public class Font {
 		while (loadNextLine()) {
 			processChar();
 		}
-		System.out.println("Loaded " + glyphs.size() + " glyphs \n");
+		// System.out.println("Loaded " + glyphs.size() + " glyphs \n");
 	}
 
 	private void processChar() {
@@ -110,7 +110,8 @@ public class Font {
 		// this.pXPadding = Short.parseShort(paddings[1]);
 		// this.nYPadding = Short.parseShort(paddings[2]);
 		// this.nXPadding = Short.parseShort(paddings[3]);
-		System.out.println("padding = " + pYPadding + " " + pXPadding + " " + nYPadding + " " + nXPadding);
+		// System.out.println("padding = " + pYPadding + " " + pXPadding + " " +
+		// nYPadding + " " + nXPadding);
 
 		this.lineHeight = Short.parseShort(metaData.get("lineHeight"));
 		this.base = Short.parseShort(metaData.get("base"));

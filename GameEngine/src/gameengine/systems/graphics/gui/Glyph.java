@@ -82,7 +82,8 @@ public class Glyph {
 	public void createData(ArrayList<Float> vertices, ArrayList<Float> texCoords, Vec3f cursor, float fontSize,
 			short dimensions, int base) {
 
-		System.out.println("char " + id + "/" + (char) id + ", x= " + x + ", w = " + xOffset);
+		// System.out.println("char " + id + "/" + (char) id + ", x= " + x + ",
+		// w = " + xOffset);
 
 		float sX = xOffset * fontSize;
 		float sY = yOffset * fontSize;
