@@ -150,7 +150,8 @@ public class Vec3f extends Vec {
 	public static Vec3f normalize(Vec3f vec) {
 		float temp;
 		temp = Math.abs(vec.x) + Math.abs(vec.y) + Math.abs(vec.z);
-		vec = div(vec, temp);
+		if (temp != 0)
+			vec = div(vec, temp);
 		return vec;
 	}
 
