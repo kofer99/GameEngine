@@ -13,6 +13,7 @@ public class GUIText extends Component {
 	public String text;
 	public String fontName;
 	private Transform transform;
+	private GUIRenderable grenderable;
 
 	public GUIText(String text, String fontName, Transform transform, Entity entity) {
 		super(ComponentType.GUITEXT);
@@ -23,9 +24,16 @@ public class GUIText extends Component {
 		Mesh m = fontManager.loadFont(this);
 		System.out.println("font: " + fontName + ".png, " + transform.getPosition());
 
-		entity.add(transform);
-		entity.add(new GUIRenderable(fontName + ".png", transform, m));
+		grenderable = new GUIRenderable("fontBitMaps/" + fontName + ".png", transform, m);
 
+		entity.add(transform);
+		entity.add(grenderable);
+	}
+
+	public void update(String text) {
+		this.text = text;
+		Mesh m = fontManager.loadFont(this);
+		grenderable.update(m);
 	}
 
 	public Transform getTransform() {

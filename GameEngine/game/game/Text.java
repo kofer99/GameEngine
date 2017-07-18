@@ -13,10 +13,18 @@ import gameengine.objects.Entity;
  */
 public class Text extends Entity {
 
+	private GUIText gtext;
+
 	public Text(String fontname, String text, Transform transform) {
 		super();
 
-		this.add(new GUIText(text, fontname, transform, this));
+		gtext = new GUIText(text, fontname, transform, this);
+
+		this.add(gtext);
+	}
+
+	public void update(String text) {
+		gtext.update(text);
 	}
 
 }

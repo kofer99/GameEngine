@@ -46,11 +46,19 @@ public class TestGame implements Game {
 		e.add(player2Action);
 
 		Transform tt = new Transform(new Vec3f(-2.0f, 0.8f, 0.0f), new Vec2f(1.0f, 1.0f), new Vec3f(0, 0, 0));
-		Text text = new Text("arial", "Test Text gg xD !", tt);
+		text = new Text("calibri", "Test Text gg xD !", tt);
 	}
+
+	Text text;
+	int i = 0;
 
 	@Override
 	public void update() {
+		i++;
+
+		if (i == 180) {
+			text.update("2. Text :)");
+		}
 
 	}
 

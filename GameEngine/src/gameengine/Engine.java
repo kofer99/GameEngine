@@ -208,6 +208,8 @@ public class Engine {
 			e.printStackTrace();
 		}
 
+		game.update();
+
 		for (EngineSystem sys : systems) {
 			sys.updateLists(entities);
 		}
