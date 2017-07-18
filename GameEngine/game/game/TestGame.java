@@ -47,7 +47,7 @@ public class TestGame implements Game {
 		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
 		ActionComponent player2Action = new Player2(player2Physics);
 
-		playerPhysic.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
+		player2Physics.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 
 		e.add(player2Transform);
 		e.add(new Renderable("Enemy.png", player2Transform));
