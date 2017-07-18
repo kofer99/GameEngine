@@ -3,9 +3,11 @@
  */
 package gameengine.components;
 
+import java.util.HashSet;
 import far.math.vec.Vec3f;
 import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
+import gameengine.util.CollisionUtils;
 
 /**
  * @author Florian Albrecht
@@ -17,17 +19,22 @@ public class PhysicComponent extends Component {
 	private Vec3f velocity;
 	private float rotvel;
 
-	private int collidable;
+	public HashSet<Integer> CollisionTypes = new HashSet<Integer>();
+	public ActionComponent ControllingPlayer;
 
-	/**
-	 * @param type
-	 */
-	public PhysicComponent(Transform transform, int collidable) {
+	public PhysicComponent(Transform transform) {
 		super(ComponentType.PHYSIC);
-		this.collidable = collidable;
 		this.transform = transform;
 		velocity = new Vec3f();
 		rotvel = 0;
+	}
+
+	// TODO: This is crap
+	public PhysicComponent(Transform transform, boolean canCollide) {
+		this(transform);
+
+		if (!canCollide)
+			CollisionTypes.add(CollisionUtils.NO_COLLISION);
 	}
 
 	/**
@@ -59,26 +66,11 @@ public class PhysicComponent extends Component {
 		this.velocity = nvelocity;
 	}
 
-	/**
-	 * @return the collidable
-	 */
-	public int isCollidable() {
-		return collidable;
+	public float getRotVel() {
+		return rotvel;
 	}
 
-	/**
-	 * @param collidable the collidable to set
-	 */
-	public void setCollidable(int collidable) {
-		this.collidable = collidable;
-	}
-	
-	public float getRotVel(){
-		return rotvel;
-		
-	}
-	public void setRotVel(float rotvel){
+	public void setRotVel(float rotvel) {
 		this.rotvel = rotvel;
-		
 	}
 }

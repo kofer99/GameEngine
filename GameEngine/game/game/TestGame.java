@@ -12,6 +12,7 @@ import gameengine.components.Renderable;
 import gameengine.components.Transform;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
+import gameengine.util.CollisionUtils;
 
 /**
  *
@@ -27,10 +28,12 @@ public class TestGame implements Game {
 		Entity player = new Entity();
 
 		Transform playerTransform = new Transform(new Vec3f(13f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
-		PhysicComponent playerPhysic = new PhysicComponent(playerTransform, 1);
+		PhysicComponent playerPhysic = new PhysicComponent(playerTransform);
 		ActionComponent playerAction = new Player(playerPhysic);
 		AudioComponent audio = new AudioComponent("bounce.wav");
 		((Player) playerAction).addAudio(audio);
+
+		playerPhysic.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 
 		player.add(playerTransform);
 		player.add(new Renderable("Player.png", playerTransform));
@@ -41,8 +44,10 @@ public class TestGame implements Game {
 		Entity e = new Entity();
 
 		Transform player2Transform = new Transform(new Vec3f(5f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
-		PhysicComponent player2Physics = new PhysicComponent(player2Transform, 1);
+		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
 		ActionComponent player2Action = new Player2(player2Physics);
+
+		playerPhysic.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 
 		e.add(player2Transform);
 		e.add(new Renderable("Enemy.png", player2Transform));
