@@ -59,6 +59,13 @@ public abstract class EngineSystem {
 	public abstract void update() throws ClassCastException;
 
 	/**
+	 * 
+	 * This method is for any cleanup necessary after the Game has ended. Here
+	 * all the occupied resources should be freed and deleted.
+	 */
+	public abstract void cleanUp();
+
+	/**
 	 * To register a List to the update process.
 	 * 
 	 * @param list

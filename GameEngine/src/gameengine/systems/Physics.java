@@ -3,11 +3,9 @@
  */
 package gameengine.systems;
 
-import java.util.ArrayList;
 import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.collections.ComponentList;
-import gameengine.collections.EntityHandler;
 import gameengine.components.PhysicComponent;
 import gameengine.components.Transform;
 import gameengine.objects.ComponentType;
@@ -31,15 +29,9 @@ public class Physics extends EngineSystem {
 		super.addList(transforms);
 	}
 
-	public void inititialize(EntityHandler entities) {
-		entities.addComponents(transforms);
-
-		System.out.println("transforms " + transforms.size());
-		System.out.println("phy " + phy.size());
-	}
-
 	@Override
-	protected void init() { }
+	protected void init() {
+	}
 
 	@Override
 	public void update() {
@@ -70,6 +62,11 @@ public class Physics extends EngineSystem {
 			tf.add(Vec3f.div(c.getVelocity(), 10));
 			tf.setRot(Vec3f.add(tf.getRot(), new Vec3f(0, 0, c.getRotVel())));
 		}
+	}
+
+	@Override
+	public void cleanUp() {
+
 	}
 
 	float lastDist = 0f;
@@ -155,7 +152,8 @@ public class Physics extends EngineSystem {
 		// Take scalar values of each projected point... they are meaningles but
 		// indicate the position on the axis
 		// Naming: Corner Object Axis
-		// Values [axis][value] values 0: Min ob1 1:Min ob2 2. Max ob1, 3: max ob2
+		// Values [axis][value] values 0: Min ob1 1:Min ob2 2. Max ob1, 3: max
+		// ob2
 		return checkMinMax(axis, corner1);
 	}
 

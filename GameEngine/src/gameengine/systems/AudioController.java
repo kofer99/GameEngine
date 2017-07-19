@@ -29,13 +29,11 @@ import gameengine.objects.EngineSystem;
 
 public class AudioController extends EngineSystem {
 
-	//private  List<Integer> buffers = new ArrayList<Integer>();
-
 	private long context;
 	private long device;
-	
+
 	private ComponentList<AudioComponent> renderable;
-	
+
 	public AudioController() {
 		renderable = new ComponentList<AudioComponent>(ComponentType.AUDIO);
 		super.addList(renderable);
@@ -43,7 +41,6 @@ public class AudioController extends EngineSystem {
 	}
 
 	public void init() {
-		System.out.println("asdasdasd");
 		try {
 			device = ALC10.alcOpenDevice((CharSequence) null);
 			if (device == NULL)
@@ -57,7 +54,7 @@ public class AudioController extends EngineSystem {
 			e.printStackTrace();
 		}
 		System.out.println("Using OpenAL");
-		for(AudioComponent a:renderable){
+		for (AudioComponent a : renderable) {
 			a.Source(a.loadSound());
 		}
 	}
@@ -67,17 +64,14 @@ public class AudioController extends EngineSystem {
 		AL10.alListener3f(AL10.AL_VELOCITY, 0, 0, 0);
 	}
 
-
-
-
-
-	/* (non-Javadoc)
-	 * @see gameengine.objects.EngineSystem#update()
-	 */
 	@Override
 	public void update() throws ClassCastException {
-		// TODO Auto-generated method stub
-		
+
+	}
+
+	public void cleanUp() {
+		ALC10.alcDestroyContext(context);
+		ALC10.alcCloseDevice(device);
 	}
 
 }

@@ -46,6 +46,12 @@ public class GUIRenderable extends Component {
 		mesh = m;
 	}
 
+	public void destroy() {
+		mesh.unbind();
+		mesh.destroy();
+		texture.destroy();
+	}
+
 	public Transform getTransform() {
 		return transform;
 	}

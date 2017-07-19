@@ -24,7 +24,6 @@ public class ActionController extends EngineSystem {
 
 	@Override
 	protected void init() {
-		System.out.println("actions " + actions.size());
 	}
 
 	@Override
@@ -32,5 +31,10 @@ public class ActionController extends EngineSystem {
 		for (ActionComponent i : actions) {
 			i.action();
 		}
+	}
+
+	@Override
+	public void cleanUp() {
+
 	}
 }

@@ -55,4 +55,15 @@ public class MasterRenderer extends EngineSystem {
 		}
 	}
 
+	@Override
+	public void cleanUp() {
+		for (Renderable r : renderable) {
+			r.destroy();
+		}
+
+		for (GUIRenderable r : gui) {
+			r.destroy();
+		}
+	}
+
 }

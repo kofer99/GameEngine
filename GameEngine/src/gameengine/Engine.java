@@ -121,11 +121,12 @@ public class Engine {
 		physics = new Physics();
 		physics.initialize(entities);
 		systems.add(physics);
-		
-		//Audio
+
+		// Audio
 		AudioSystem = new AudioController();
 		AudioSystem.initialize(entities);
-		
+		systems.add(AudioSystem);
+
 		inputController = new ActionController();
 		inputController.initialize(entities);
 		systems.add(inputController);
@@ -227,6 +228,10 @@ public class Engine {
 	 * Cleans up all the loose ends.
 	 */
 	private void cleanup() {
+		for (EngineSystem sys : systems) {
+			sys.cleanUp();
+		}
+
 		window.destroy();
 	}
 
