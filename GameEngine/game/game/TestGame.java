@@ -13,6 +13,7 @@ import gameengine.components.Transform;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
 import gameengine.util.CollisionUtils;
+import gameengine.util.StandardCollisionResponse;
 
 /**
  *
@@ -34,6 +35,7 @@ public class TestGame implements Game {
 		((Player) playerAction).addAudio(audio);
 
 		playerPhysic.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
+		playerPhysic.addCollisionListener(new StandardCollisionResponse(playerAction));
 
 		player.add(playerTransform);
 		player.add(new Renderable("Player.png", playerTransform));
@@ -48,6 +50,7 @@ public class TestGame implements Game {
 		ActionComponent player2Action = new Player2(player2Physics);
 
 		player2Physics.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
+		player2Physics.addCollisionListener(new StandardCollisionResponse(player2Action));
 
 		e.add(player2Transform);
 		e.add(new Renderable("Enemy.png", player2Transform));

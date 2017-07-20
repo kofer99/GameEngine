@@ -8,6 +8,7 @@ import far.math.vec.Vec3f;
 import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
 import gameengine.util.CollisionUtils;
+import gameengine.util.ICollisionListener;
 
 /**
  * @author Florian Albrecht
@@ -19,8 +20,11 @@ public class PhysicComponent extends Component {
 	private Vec3f velocity;
 	private float rotvel;
 
+	public float mxr = 15.5f;
+	public float myr = 8.5f;
+
 	public HashSet<Integer> CollisionTypes = new HashSet<Integer>();
-	public ActionComponent ControllingPlayer;
+	public HashSet<ICollisionListener> listeners = new HashSet<ICollisionListener>();
 
 	public PhysicComponent(Transform transform) {
 		super(ComponentType.PHYSIC);
@@ -72,5 +76,13 @@ public class PhysicComponent extends Component {
 
 	public void setRotVel(float rotvel) {
 		this.rotvel = rotvel;
+	}
+
+	public void addCollisionListener(ICollisionListener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeCollisionListener(ICollisionListener listener) {
+		listeners.remove(listener);
 	}
 }

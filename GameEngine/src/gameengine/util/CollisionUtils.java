@@ -3,6 +3,7 @@
  */
 package gameengine.util;
 
+import far.math.vec.Vec3f;
 import gameengine.components.PhysicComponent;
 
 public class CollisionUtils {
@@ -26,5 +27,72 @@ public class CollisionUtils {
 				return true;
 
 		return false;
+	}
+
+	public static int getCollidingEdge(PhysicComponent ph) {
+		float mxr = ph.mxr;
+		float myr = ph.myr;
+		int type = CollisionUtils.NO_COLLISION;
+
+		if (ph.getTransform().getPosition().x >= mxr && ph.getVelocity().x >= 0) {
+			type = CollisionUtils.EDGE_RIGHT;
+		} else if (ph.getTransform().getPosition().x <= -mxr && ph.getVelocity().x <= 0) {
+			type = CollisionUtils.EDGE_LEFT;
+		}
+
+		if (ph.getTransform().getPosition().y >= myr && ph.getVelocity().y >= 0) {
+			if (type == CollisionUtils.NO_COLLISION)
+				return CollisionUtils.EDGE_TOP;
+
+			return type == CollisionUtils.EDGE_RIGHT ? CollisionUtils.EDGE_TOP_RIGHT : CollisionUtils.EDGE_TOP_LEFT;
+		} else if (ph.getTransform().getPosition().y <= -myr && ph.getVelocity().y <= 0) {
+			if (type == CollisionUtils.NO_COLLISION)
+				return CollisionUtils.EDGE_BOTTOM;
+
+			return type == CollisionUtils.EDGE_RIGHT ? CollisionUtils.EDGE_BOTTOM_RIGHT : CollisionUtils.EDGE_BOTTOM_LEFT;
+		}
+
+		return type;
+	}
+
+	// Returns the velocity you should be using we hitting the map edge
+	public static Vec3f getVelocityFor(int collisionType, PhysicComponent ph) {
+		Vec3f mov = new Vec3f(ph.getVelocity());
+
+		switch (collisionType) {
+			case CollisionUtils.EDGE_RIGHT:
+				mov.x = 0;
+				break;
+			case CollisionUtils.EDGE_LEFT:
+				mov.x = 0;
+				break;
+			case CollisionUtils.EDGE_TOP:
+				mov.y = 0;
+				break;
+			case CollisionUtils.EDGE_BOTTOM:
+				mov.y = 0;
+				break;
+			case CollisionUtils.EDGE_TOP_LEFT:
+				mov.x = 0;
+				mov.y = 0;
+				break;
+			case CollisionUtils.EDGE_TOP_RIGHT:
+				mov.x = 0;
+				mov.y = 0;
+				break;
+			case CollisionUtils.EDGE_BOTTOM_LEFT:
+				mov.x = 0;
+				mov.y = 0;
+				break;
+			case CollisionUtils.EDGE_BOTTOM_RIGHT:
+				mov.x = 0;
+				mov.y = 0;
+				break;
+			case CollisionUtils.NO_COLLISION:
+			default:
+				// Nothing happens for now
+		}
+
+		return mov;
 	}
 }

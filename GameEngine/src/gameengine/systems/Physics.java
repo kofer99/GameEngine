@@ -11,6 +11,7 @@ import gameengine.components.Transform;
 import gameengine.objects.ComponentType;
 import gameengine.objects.EngineSystem;
 import gameengine.util.CollisionUtils;
+import gameengine.util.ICollisionListener;
 
 /**
  * @author Team
@@ -48,8 +49,11 @@ public class Physics extends EngineSystem {
 					continue;
 
 				if (checkcollision(p, t)) {
-					p.ControllingPlayer.onCollision(t.ControllingPlayer);
-					t.ControllingPlayer.onCollision(p.ControllingPlayer);
+					for (ICollisionListener i : p.listeners)
+						i.onCollision(t);
+
+					for (ICollisionListener j : t.listeners)
+						j.onCollision(p);
 				}
 			}
 
