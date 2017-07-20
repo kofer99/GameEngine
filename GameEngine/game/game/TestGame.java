@@ -36,6 +36,7 @@ public class TestGame implements Game {
 
 		playerPhysic.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 		playerPhysic.addCollisionListener(new StandardCollisionResponse(playerAction));
+		playerPhysic.addCollisionListener(playerAction);
 
 		player.add(playerTransform);
 		player.add(new Renderable("Player.png", playerTransform));
@@ -51,6 +52,7 @@ public class TestGame implements Game {
 
 		player2Physics.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 		player2Physics.addCollisionListener(new StandardCollisionResponse(player2Action));
+		player2Physics.addCollisionListener(player2Action);
 
 		e.add(player2Transform);
 		e.add(new Renderable("Enemy.png", player2Transform));

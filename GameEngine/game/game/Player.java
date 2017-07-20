@@ -91,4 +91,9 @@ public class Player extends ActionComponent {
 		z++;
 		playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov, ymov, 0)));
 	}
+
+	@Override
+	public void onCollision(PhysicComponent other) {
+
+	}
 }
