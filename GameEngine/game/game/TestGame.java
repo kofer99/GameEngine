@@ -54,7 +54,7 @@ public class TestGame implements Game {
 		e.add(player2Physics);
 		e.add(player2Action);
 
-		Transform tt = new Transform(new Vec3f(-2.0f, 0.8f, 0.0f), new Vec2f(1.0f, 1.0f), new Vec3f(0, 0, 0));
+		Transform tt = new Transform(new Vec3f(-3.0f, 1.5f, 0.0f), new Vec2f(2.0f, 2.0f), new Vec3f(0, 0, 0));
 		text = new Text("calibri", "Test Text gg xD !", tt, new Vec3f(0.5f, 1.0f, 0.5f));
 	}
 

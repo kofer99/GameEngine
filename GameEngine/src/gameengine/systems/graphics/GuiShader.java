@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL20;
 import far.math.mat.Mat4;
 import far.math.vec.Vec3f;
 import gameengine.components.Transform;
+import gameengine.objects.Game;
 
 /**
  * @author Daniel & Florian Albrecht
@@ -22,6 +23,7 @@ public class GuiShader extends Shader {
 	private int rotmatloc;
 	private int movmatloc;
 	private int colorloc;
+	private int cameraloc;
 
 	public GuiShader() {
 		super("gui");
@@ -30,9 +32,10 @@ public class GuiShader extends Shader {
 		movmatloc = glGetUniformLocation(shaderProgram, "movmat");
 		rotmatloc = glGetUniformLocation(shaderProgram, "rotmat");
 		colorloc = glGetUniformLocation(shaderProgram, "color");
+		cameraloc = glGetUniformLocation(shaderProgram, "camera");
 
-		glUniformMatrix4fv(projmatloc, false,
-				Mat4.createOrtho(-16.0f / 8f, 16.0f / 8f, -9.0f / 8f, 9.0f / 8f, -0.1f, 1.0f).getValue());
+		glUniformMatrix4fv(projmatloc, false, Mat4.createOrtho(-Game.camera.vRes / 4f, Game.camera.vRes / 4f,
+				-Game.camera.hRes / 4f, Game.camera.hRes / 4f, -0.1f, 1.0f).getValue());
 	}
 
 	public void updateShader(Transform transform, Vec3f color) {
@@ -41,5 +44,6 @@ public class GuiShader extends Shader {
 		glUniformMatrix4fv(rotmatloc, false, Mat4.createRotationXYZMatrix(transform.getRot()).getValue());
 
 		GL20.glUniform3f(colorloc, color.x, color.y, color.z);
+		GL20.glUniform3f(cameraloc, -Game.camera.guix, -Game.camera.guiy, 0);
 	}
 }
