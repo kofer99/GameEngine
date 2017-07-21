@@ -83,8 +83,8 @@ public class Physics extends EngineSystem {
 		Transform t1 = p.getTransform();
 		Transform t2 = t.getTransform();
 
-		Vec3f pos1 = t1.getPosition();
-		Vec3f pos2 = t2.getPosition();
+		Vec3f pos1 = Vec3f.add(t1.getPosition(), Vec3f.div(p.getVelocity(), 10));
+		Vec3f pos2 = Vec3f.add(t2.getPosition(), Vec3f.div(t.getVelocity(), 10));
 
 		// in degrees
 		float rot1 = t1.getRot().z % 360;
@@ -117,9 +117,9 @@ public class Physics extends EngineSystem {
 
 		Vec2f topLeft2 = new Vec2f(
 				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* (float) Math.cos(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2 + 90)),
+						* ((float) Math.sin(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2 + 90))),
 				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* ((float) Math.sin(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2 + 90))));
+						* (float) Math.cos(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2 + 90)));
 		Vec2f topRight2 = new Vec2f(
 				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
 						* (float) Math.cos(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2)),
@@ -133,12 +133,10 @@ public class Physics extends EngineSystem {
 		Vec3f rBL2 = Vec3f.add(pos2, new Vec3f(bottomLeft2, 0));
 		Vec3f rBR2 = Vec3f.add(pos2, new Vec3f(bottomRight2, 0));
 
-		/*
-		 * System.out.println(rTL1.toString() +"tl" );
-		 * System.out.println(rTR1.toString() +"tr");
-		 * System.out.println(rBL1.toString() +"bl");
-		 * System.out.println(rBR1.toString() +"br");
-		 */
+		// System.out.println(rTL2.toString() + "tl");
+		// System.out.println(rTR2.toString() + "tr");
+		// System.out.println(rBL2.toString() + "bl");
+		// System.out.println(rBR2.toString() + "br");
 
 		Vec3f axis1 = Vec3f.sub(rTL1, rTR1);
 		Vec3f axis2 = Vec3f.sub(rTL1, rBL1);
