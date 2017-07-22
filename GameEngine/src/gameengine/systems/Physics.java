@@ -116,8 +116,10 @@ public class Physics extends EngineSystem {
 		Vec2f bottomLeft1 = new Vec2f(-topRight1.x, -topRight1.y);
 		Vec2f bottomRight1 = new Vec2f(-topLeft1.x, -topLeft1.y);
 	//	System.out.println(p.getTransform().getPosition().toString());
-	//	System.out.println(topLeft1.toString());
-	//	System.out.println(topRight1.toString());
+		System.out.println(topLeft1.toString()+"OL");
+		System.out.println(topRight1.toString()+"OR");
+		System.out.println(bottomLeft1.toString()+"UL");
+		System.out.println(bottomRight1.toString()+"UR");
 		
 		Vec3f rTL1 = Vec3f.add(pos1, new Vec3f(topLeft1.convertToVec3f()));
 		Vec3f rTR1 = Vec3f.add(pos1, new Vec3f(topRight1.convertToVec3f()));
@@ -127,21 +129,32 @@ public class Physics extends EngineSystem {
 		float x2Radius = t2.getScale().x / 2;
 		float y2Radius = t2.getScale().y / 2;
 
-		Vec2f topLeft2 = new Vec2f(
-				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* ((float) Math.sin(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2 + 90))),
-				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* (float) Math.cos(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2 + 90)));
-		Vec2f topRight2 = new Vec2f(
-				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* (float) Math.cos(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2)),
-				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* ((float) Math.sin(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2))));
+		Vec3f testleft2 = new Vec3f(-x2Radius,y2Radius,0);
+		Vec topLeft2 = new Vec(testleft2.toArray());
+		Mat4 testrot2 = Mat4.createRotationXYZMatrix(new Vec3f(0,0,rot2));
+		topLeft2=Matrixf.mulC(testrot2, (Vec)testleft2);
+		
+		//System.out.println(topLeft1.toString()+ " LEft");
+		
+		Vec3f testright2 = new Vec3f(x2Radius,y2Radius,0);
+		Vec topRight2 = new Vec(testright2.toArray());
+		Mat4 testrotr2 = Mat4.createRotationXYZMatrix(new Vec3f(0,0,rot2));
+		topRight2=Matrixf.mulC(testrotr2, (Vec)testright2);
+		
+	//	System.out.println(topRight1.toString()+ " Right");
+
+		
 		Vec2f bottomLeft2 = new Vec2f(-topRight2.x, -topRight2.y);
 		Vec2f bottomRight2 = new Vec2f(-topLeft2.x, -topLeft2.y);
-
-		Vec3f rTL2 = Vec3f.add(pos2, new Vec3f(topLeft2, 0));
-		Vec3f rTR2 = Vec3f.add(pos2, new Vec3f(topRight2, 0));
+		
+		System.out.println(topLeft2.toString()+"O2L");
+		System.out.println(topRight2.toString()+"OR2");
+		System.out.println(bottomLeft2.toString()+"UL2");
+		System.out.println(bottomRight2.toString()+"UR2");
+		
+		
+		Vec3f rTL2 = Vec3f.add(pos2, topLeft2.convertToVec3f());
+		Vec3f rTR2 = Vec3f.add(pos2, topRight2.convertToVec3f());
 		Vec3f rBL2 = Vec3f.add(pos2, new Vec3f(bottomLeft2, 0));
 		Vec3f rBR2 = Vec3f.add(pos2, new Vec3f(bottomRight2, 0));
 
