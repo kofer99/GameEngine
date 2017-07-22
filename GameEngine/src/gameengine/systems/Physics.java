@@ -150,13 +150,18 @@ public class Physics extends EngineSystem {
 		// System.out.println(rBL2.toString() + "bl");
 		// System.out.println(rBR2.toString() + "br");
 
-		Vec3f axis1 = Vec3f.sub(rTL1, rTR1);
-		Vec3f axis2 = Vec3f.sub(rTL1, rBL1);
-		Vec3f axis3 = Vec3f.sub(rTL2, rTR2);
-		Vec3f axis4 = Vec3f.sub(rTR2, rBR2);
+		Mat4 mr1 = Mat4.createRotationXYZMatrix(t1.getRot());
+		Mat4 mr2 = Mat4.createRotationXYZMatrix(t2.getRot());
 
-		Vec2f[] axis = { Vec3f.convertToVec2f(axis1), Vec3f.convertToVec2f(axis2), Vec3f.convertToVec2f(axis3),
-				Vec3f.convertToVec2f(axis4) };
+		Vec3f axis1 = Matrixf.mulC(mr1, new Vec3f(0, 1, 0)).convertToVec3f();
+		Vec3f axis2 = Matrixf.mulC(mr1, new Vec3f(1, 0, 0)).convertToVec3f();
+		Vec3f axis3 = Matrixf.mulC(mr2, new Vec3f(0, 1, 0)).convertToVec3f();
+		Vec3f axis4 = Matrixf.mulC(mr2, new Vec3f(1, 0, 0)).convertToVec3f();
+
+		// Vec2f[] axis = { Vec3f.convertToVec2f(axis1),
+		// Vec3f.convertToVec2f(axis2), Vec3f.convertToVec2f(axis3),
+		// Vec3f.convertToVec2f(axis4) };
+		Vec3f[] axis = { axis1, axis2, axis3, axis4 };
 		Vec2f[] corner1 = { Vec3f.convertToVec2f(rTL1), Vec3f.convertToVec2f(rTL2), Vec3f.convertToVec2f(rTR1),
 				Vec3f.convertToVec2f(rTR2), Vec3f.convertToVec2f(rBL1), Vec3f.convertToVec2f(rBL2),
 				Vec3f.convertToVec2f(rBR1), Vec3f.convertToVec2f(rBR2) };
@@ -168,7 +173,58 @@ public class Physics extends EngineSystem {
 		// Naming: Corner Object Axis
 		// Values [axis][value] values 0: Min ob1 1:Min ob2 2. Max ob1, 3: max
 		// ob2
-		return checkMinMax(axis, corner1);
+		if (check(axis, corner1)) {
+			System.out.println("Collision");
+		}
+
+		return false;
+	}
+
+	private boolean check(Vec3f[] axis, Vec2f[] corner1) {
+
+		System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+		for (int i = 0; i < 4; i++) {
+			Vec3f an = Vec3f.normalize(axis[i]);
+			axis[i].print();
+			Vec2f p1 = pro(new Vec2f[] { corner1[0], corner1[2], corner1[4], corner1[6] }, an);
+			Vec2f p2 = pro(new Vec2f[] { corner1[1], corner1[3], corner1[5], corner1[7] }, an);
+			System.out.println("Vecs: " + p1 + " / " + p2);
+
+			float o = overlap(p1, p2);
+			if (o != 1) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private boolean inRange(float a, float min, float max) {
+		if (a <= max && a >= min)
+			return true;
+		else
+			return false;
+	}
+
+	private float overlap(Vec2f a, Vec2f b) {
+		if (inRange(a.x, b.x, b.y) || inRange(a.y, b.x, b.y) || inRange(b.x, a.x, a.y) || inRange(b.y, a.x, a.y))
+			return 1;
+
+		return 0;
+	}
+
+	private Vec2f pro(Vec2f[] vecs, Vec3f axis) {
+		float min = 1000000;
+		float max = -1000000;
+		for (Vec2f v : vecs) {
+			float p = Vec.sca(axis, new Vec3f(v, 0));
+
+			if (p < min)
+				min = p;
+			else if (p > max)
+				max = p;
+		}
+		return new Vec2f(min, max);
 	}
 
 	/**
