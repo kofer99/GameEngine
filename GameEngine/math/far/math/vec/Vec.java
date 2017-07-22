@@ -35,13 +35,6 @@ public class Vec {
 		this.w = vec.w;
 	}
 
-	public Vec(float[] vec) {
-		this.x = vec[0];
-		this.y = vec[1];
-		this.z = vec[2];
-		this.w = vec[3];
-	}
-
 	public Vec(float f) {
 		this.x = f;
 		this.y = f;

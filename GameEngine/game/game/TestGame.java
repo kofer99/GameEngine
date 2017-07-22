@@ -46,14 +46,14 @@ public class TestGame implements Game {
 		playerPhysic.addCollisionListener(playerAction);
 
 		player.add(playerTransform);
-		player.add(new Renderable("Player.png", playerTransform));
+		player.add(new Renderable("Grass.png", playerTransform));
 		player.add(playerPhysic);
 		player.add(playerAction);
 		player.add(audio);
 
 		Entity e = new Entity();
 
-		Transform player2Transform = new Transform(new Vec3f(5f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
+		Transform player2Transform = new Transform(new Vec3f(5f, 5f, 0f), new Vec2f(2f, 4f), new Vec3f(0, 0, 0));
 		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
 		ActionComponent player2Action = new Player2(player2Physics);
 
@@ -62,7 +62,7 @@ public class TestGame implements Game {
 		player2Physics.addCollisionListener(player2Action);
 
 		e.add(player2Transform);
-		e.add(new Renderable("Enemy.png", player2Transform));
+		e.add(new Renderable("Grass.png", player2Transform));
 		e.add(player2Physics);
 		e.add(player2Action);
 

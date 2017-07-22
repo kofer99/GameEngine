@@ -94,6 +94,6 @@ public class Player extends ActionComponent {
 
 	@Override
 	public void onCollision(PhysicComponent other) {
-
+		System.out.println("CC");
 	}
 }
