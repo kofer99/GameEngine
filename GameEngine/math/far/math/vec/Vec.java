@@ -29,6 +29,13 @@ public class Vec {
 		this.w = vec.w;
 	}
 
+	public Vec(float[] vec) {
+		this.x = vec[0];
+		this.y = vec[1];
+		this.z = vec[2];
+		this.w = vec[3];
+	}
+
 	public Vec(float f) {
 		this.x = f;
 		this.y = f;
@@ -200,4 +207,21 @@ public class Vec {
 		System.out.println("Value: " + x + ", " + y + ", " + z + ", " + w);
 	}
 
+	/**
+	 * @param j
+	 * @return
+	 */
+	public float get(int i) {
+		switch (i) {
+		case 0:
+			return x;
+		case 1:
+			return y;
+		case 2:
+			return z;
+		case 3:
+			return w;
+		}
+		return 0;
+	}
 }

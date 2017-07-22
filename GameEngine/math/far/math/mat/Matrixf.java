@@ -12,6 +12,7 @@
 
 package far.math.mat;
 
+import far.math.vec.Vec;
 import math.Vectorf;
 
 public class Matrixf {
@@ -20,7 +21,6 @@ public class Matrixf {
 	private int rows, columns;
 	private boolean isColumnMajor;
 
-	
 	/**
 	 * 
 	 * @param value
@@ -145,11 +145,7 @@ public class Matrixf {
 		return new Matrixf(res, mat.getRows(), mat.getColumns(), false);
 	}
 
-	public static Vectorf mulC(Matrixf mat, Vectorf vec) {
-		if (mat.getRows() != vec.getSize()) {
-			System.err.println("Multiplication of unequal Matrix and vector (columns to size).");
-			return null;
-		}
+	public static Vec mulC(Matrixf mat, Vec vec) {
 
 		float[] res = new float[mat.getColumns()];
 
@@ -159,7 +155,7 @@ public class Matrixf {
 			}
 		}
 
-		return new Vectorf(res);
+		return new Vec(res);
 	}
 
 	public static Matrixf mulR(Matrixf matA, Matrixf matB) {
@@ -199,7 +195,8 @@ public class Matrixf {
 		int rB = matB.getRows();
 		int cB = matB.getColumns();
 
-		//System.out.println("matA: (" + rA + ", " + +cA + "), matB: (" + rB + ", " + cB + ")\n");
+		// System.out.println("matA: (" + rA + ", " + +cA + "), matB: (" + rB +
+		// ", " + cB + ")\n");
 		if (rA != cB) {
 			System.err.println("Multiplication of incompatiple matricies");
 			return null;
