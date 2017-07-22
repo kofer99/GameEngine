@@ -98,31 +98,29 @@ public class Physics extends EngineSystem {
 		float yRadius = t1.getScale().y / 2;
 		double iRot1 =  Math.atan(yRadius/xRadius);
 		
-		Vec2f testleft = new Vec2f(xRadius,yRadius);
-		Mat4 testrot = Mat4.createRotationXYZMatrix(new Vec3f(0,0,90+rot1));
-	//	Matrixf.mulC(testrot, (Vec)new Vec3f(testleft,0));
-		//Funktioniert nicht
-		Vec2f topLeft1 = new Vec2f(
-				(float) Math.sqrt(yRadius * yRadius + xRadius * xRadius)
-						* -(float) Math.cos(iRot1 + Math.toRadians(rot1 )),
-				(float) Math.sqrt(yRadius * yRadius + xRadius * xRadius)
-						* ((float) Math.sin(iRot1 + Math.toRadians(rot1 ))));
-	
-		//Funktioniert
-		Vec2f topRight1 = new Vec2f(
-				(float) Math.sqrt(yRadius * yRadius + xRadius * xRadius)
-						* (float) Math.cos(iRot1 + Math.toRadians(rot1)),
-				(float) Math.sqrt(yRadius * yRadius + xRadius * xRadius)
-						* ((float) Math.sin(iRot1 + Math.toRadians(rot1))));
+		Vec3f testleft = new Vec3f(-xRadius,yRadius,0);
+		Vec topLeft1 = new Vec(testleft.toArray());
+		Mat4 testrot = Mat4.createRotationXYZMatrix(new Vec3f(0,0,rot1));
+		topLeft1=Matrixf.mulC(testrot, (Vec)testleft);
+		
+		//System.out.println(topLeft1.toString()+ " LEft");
+		
+		Vec3f testright = new Vec3f(xRadius,yRadius,0);
+		Vec topRight1 = new Vec(testright.toArray());
+		Mat4 testrotr = Mat4.createRotationXYZMatrix(new Vec3f(0,0,rot1));
+		topRight1=Matrixf.mulC(testrotr, (Vec)testright);
+		
+	//	System.out.println(topRight1.toString()+ " Right");
+
 		
 		Vec2f bottomLeft1 = new Vec2f(-topRight1.x, -topRight1.y);
 		Vec2f bottomRight1 = new Vec2f(-topLeft1.x, -topLeft1.y);
 	//	System.out.println(p.getTransform().getPosition().toString());
-		System.out.println(topLeft1.toString());
-		System.out.println(topRight1.toString());
+	//	System.out.println(topLeft1.toString());
+	//	System.out.println(topRight1.toString());
 		
-		Vec3f rTL1 = Vec3f.add(pos1, new Vec3f(topLeft1, 0));
-		Vec3f rTR1 = Vec3f.add(pos1, new Vec3f(topRight1, 0));
+		Vec3f rTL1 = Vec3f.add(pos1, new Vec3f(topLeft1.convertToVec3f()));
+		Vec3f rTR1 = Vec3f.add(pos1, new Vec3f(topRight1.convertToVec3f()));
 		Vec3f rBL1 = Vec3f.add(pos1, new Vec3f(bottomLeft1, 0));
 		Vec3f rBR1 = Vec3f.add(pos1, new Vec3f(bottomRight1, 0));
 		// Object 2
