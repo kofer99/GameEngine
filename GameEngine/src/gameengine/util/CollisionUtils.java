@@ -5,6 +5,7 @@ package gameengine.util;
 
 import far.math.vec.Vec3f;
 import gameengine.components.PhysicComponent;
+import gameengine.objects.Game;
 
 public class CollisionUtils {
 	public static final int NO_COLLISION = 0;
@@ -34,18 +35,18 @@ public class CollisionUtils {
 		float myr = ph.myr;
 		int type = CollisionUtils.NO_COLLISION;
 
-		if (ph.getTransform().getPosition().x >= mxr && ph.getVelocity().x >= 0) {
+		if (ph.getTransform().getPosition().x >=Game.camera.x*2+ mxr && ph.getVelocity().x >= 0) {
 			type = CollisionUtils.EDGE_RIGHT;
-		} else if (ph.getTransform().getPosition().x <= -mxr && ph.getVelocity().x <= 0) {
+		} else if (ph.getTransform().getPosition().x <=Game.camera.x*2 -mxr && ph.getVelocity().x <= 0) {
 			type = CollisionUtils.EDGE_LEFT;
 		}
 
-		if (ph.getTransform().getPosition().y >= myr && ph.getVelocity().y >= 0) {
+		if (ph.getTransform().getPosition().y >=Game.camera.y*2+ myr && ph.getVelocity().y >= 0) {
 			if (type == CollisionUtils.NO_COLLISION)
 				return CollisionUtils.EDGE_TOP;
 
 			return type == CollisionUtils.EDGE_RIGHT ? CollisionUtils.EDGE_TOP_RIGHT : CollisionUtils.EDGE_TOP_LEFT;
-		} else if (ph.getTransform().getPosition().y <= -myr && ph.getVelocity().y <= 0) {
+		} else if (ph.getTransform().getPosition().y <= Game.camera.y*2 -myr && ph.getVelocity().y <= 0) {
 			if (type == CollisionUtils.NO_COLLISION)
 				return CollisionUtils.EDGE_BOTTOM;
 

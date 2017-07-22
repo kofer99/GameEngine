@@ -3,8 +3,11 @@
  */
 package game;
 
+import org.lwjgl.glfw.GLFW;
+
 import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
+import gameengine.Engine;
 import gameengine.components.ActionComponent;
 import gameengine.components.AudioComponent;
 import gameengine.components.PhysicComponent;
@@ -20,6 +23,8 @@ import gameengine.util.StandardCollisionResponse;
  */
 public class TestGame implements Game {
 
+	private Transform playerTransform;
+
 	public TestGame() {
 
 	}
@@ -28,7 +33,7 @@ public class TestGame implements Game {
 	public void init() {
 		Entity player = new Entity();
 
-		Transform playerTransform = new Transform(new Vec3f(13f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
+	playerTransform = new Transform(new Vec3f(13f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
 		PhysicComponent playerPhysic = new PhysicComponent(playerTransform);
 		ActionComponent playerAction = new Player(playerPhysic);
 		AudioComponent audio = new AudioComponent("bounce.wav");
@@ -69,10 +74,15 @@ public class TestGame implements Game {
 	@Override
 	public void update() {
 		i++;
-
+		if(Engine.keyboard.isDown(GLFW.GLFW_KEY_K)){
+			camera.add(new Vec3f(0.0f,0.1f,0));
+		}
 		if (i == 180) {
 			text.update("2. Text :)");
 			text.updateColor(new Vec3f(0.2f, 1.0f, 0.0f));
+			System.out.println(camera.toString());
+			System.out.println(playerTransform.getPosition().toString());
+			i=0;
 		}
 	}
 }
