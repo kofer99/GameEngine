@@ -13,6 +13,10 @@ uniform vec3 camera;
 
 void main()
 {		
+<<<<<<< Upstream, based on master
     gl_Position = projmat * (movmat *( rotmat * (scalemat * (vec4(aPos,1)))) + vec4(camera, 0));
+=======
+    gl_Position = projmat*(movmat*(rotmat*(vec4(aPos,1)+ vec4(camera, 0))));
+>>>>>>> d4e6c3a Camera Movement and collision adjustment
     TexCoord = aTexCoord;
 }
