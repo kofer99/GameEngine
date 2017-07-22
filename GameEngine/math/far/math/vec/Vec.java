@@ -21,6 +21,12 @@ public class Vec {
 	public Vec() {
 
 	}
+	public Vec(float[] vec) {
+        this.x = vec[0];
+        this.y = vec[1];
+        this.z = vec[2];
+        this.w = vec[3];
+    }
 
 	public Vec(Vec vec) {
 		this.x = vec.x;
