@@ -116,10 +116,11 @@ public class Physics extends EngineSystem {
 		Vec2f bottomLeft1 = new Vec2f(-topRight1.x, -topRight1.y);
 		Vec2f bottomRight1 = new Vec2f(-topLeft1.x, -topLeft1.y);
 	//	System.out.println(p.getTransform().getPosition().toString());
-		System.out.println(topLeft1.toString()+"OL");
-		System.out.println(topRight1.toString()+"OR");
-		System.out.println(bottomLeft1.toString()+"UL");
-		System.out.println(bottomRight1.toString()+"UR");
+
+		// System.out.println(topLeft1.toString()+"OL");
+		// System.out.println(topRight1.toString()+"OR");
+		// System.out.println(bottomLeft1.toString()+"UL");
+		// System.out.println(bottomRight1.toString()+"UR");
 		
 		Vec3f rTL1 = Vec3f.add(pos1, new Vec3f(topLeft1.convertToVec3f()));
 		Vec3f rTR1 = Vec3f.add(pos1, new Vec3f(topRight1.convertToVec3f()));
