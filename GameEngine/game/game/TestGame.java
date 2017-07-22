@@ -33,7 +33,11 @@ public class TestGame implements Game {
 	public void init() {
 		Entity player = new Entity();
 
+<<<<<<< Upstream, based on master
 	playerTransform = new Transform(new Vec3f(13f, 5f, 0f), new Vec2f(2f, 4f), new Vec3f(0, 0, 0));
+=======
+	playerTransform = new Transform(new Vec3f(13f, 5f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 0));
+>>>>>>> d4e6c3a Camera Movement and collision adjustment
 		PhysicComponent playerPhysic = new PhysicComponent(playerTransform);
 		ActionComponent playerAction = new Player(playerPhysic);
 		AudioComponent audio = new AudioComponent("bounce.wav");
