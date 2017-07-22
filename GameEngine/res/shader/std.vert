@@ -8,10 +8,11 @@ out vec2 TexCoord;
 uniform mat4 projmat;
 uniform mat4 movmat;
 uniform mat4 rotmat;
+uniform mat4 scalemat;
 uniform vec3 camera;
 
 void main()
 {		
-    gl_Position = projmat*(movmat*(rotmat*(vec4(aPos,1)+ vec4(camera, 0))));
+    gl_Position = projmat * (movmat *( rotmat * (scalemat * (vec4(aPos,1)))) + vec4(camera, 0));
     TexCoord = aTexCoord;
 }

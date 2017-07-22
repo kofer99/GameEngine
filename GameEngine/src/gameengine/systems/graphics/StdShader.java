@@ -23,6 +23,7 @@ public class StdShader extends Shader {
 	private int rotmatloc;
 	private int movmatloc;
 	private int cameraloc;
+	private int scaleloc;
 
 	public StdShader() {
 		super("std");
@@ -35,10 +36,11 @@ public class StdShader extends Shader {
 				Mat4.createOrtho(-Game.camera.vRes, Game.camera.vRes, -Game.camera.hRes, Game.camera.hRes, -1.0f, 1.0f)
 						.getValue());
 		movmatloc = glGetUniformLocation(shaderProgram, "movmat");
-		glUniformMatrix4fv(movmatloc, false, Mat4
-				.createTransformScaleMatrix(transform.getPosition(), new Vec3f(transform.getScale(), 1)).getValue());
+		glUniformMatrix4fv(movmatloc, false, Mat4.createTransformMatrix(transform.getPosition()).getValue());
 		rotmatloc = glGetUniformLocation(shaderProgram, "rotmat");
 		glUniformMatrix4fv(rotmatloc, false, Mat4.createRotationXYZMatrix(transform.getRot()).getValue());
+		int scaleloc = glGetUniformLocation(shaderProgram, "scalemat");
+		GL20.glUniformMatrix4fv(scaleloc, false, Mat4.createScaleMatrix(new Vec3f(transform.getScale(), 1)).getValue());
 
 		cameraloc = glGetUniformLocation(shaderProgram, "camera");
 		GL20.glUniform3f(cameraloc, -Game.camera.x, -Game.camera.y, Game.camera.z);
