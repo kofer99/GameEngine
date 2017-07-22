@@ -82,8 +82,9 @@ public class TestGame implements Game {
 		if (i == 180) {
 			text.update("2. Text :)");
 			text.updateColor(new Vec3f(0.2f, 1.0f, 0.0f));
-			System.out.println(camera.toString());
-			System.out.println(playerTransform.getPosition().toString());
+
+		//	System.out.println(camera.toString());
+			//System.out.println(playerTransform.getPosition().toString());
 			i=0;
 		}
 	}
