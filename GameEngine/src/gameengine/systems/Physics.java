@@ -39,30 +39,37 @@ public class Physics extends EngineSystem {
 	 */
 	@Override
 	public void update() {
+		count = 0;
 		int size = phy.size();
-		boolean[][] matrix = new boolean[size][size];
+		// boolean[][] matrix = new boolean[size][size];
 
-		for (PhysicComponent p : phy) {
-			for (PhysicComponent t : phy) {
-				if (matrix[p.getEntityID()][t.getEntityID()])
+		for (int p = 0; p < size; p++) {
+			if (phy.get(p).CollisionTypes.contains(CollisionUtils.STATIC))
+				continue;
+
+			for (int t = 0; t < size; t++) {
+				if (t == p)
 					continue;
+				
+				// if (matrix[phy.get(p).getEntityID()][t.getEntityID()])
+				// continue;
+				//
+				// matrix[p.getEntityID()][t.getEntityID()] = true;
+				// if (p.equals(t) || !CollisionUtils.CanCollide(p, t))
+				// continue;
 
-				matrix[p.getEntityID()][t.getEntityID()] = true;
-				if (p.equals(t) || !CollisionUtils.CanCollide(p, t))
-					continue;
-
-				Vec2f mvt = checkcollision(p, t);
+				Vec2f mvt = checkcollision(phy.get(p), phy.get(t));
 				if (mvt != null) {
-					for (ICollisionListener i : p.listeners)
-						i.onCollision(t, mvt);
+					for (ICollisionListener i : phy.get(p).listeners)
+						i.onCollision(phy.get(t), mvt);
 
-					for (ICollisionListener j : t.listeners)
-						j.onCollision(p, mvt);
+					for (ICollisionListener j : phy.get(t).listeners)
+						j.onCollision(phy.get(p), mvt);
 				}
 			}
 
 		}
-
+//		System.out.println("COUNT = " + count);
 		// Move and rotate objects after all collision is done
 		for (PhysicComponent c : phy) {
 			Transform tf = c.getTransform();
@@ -77,7 +84,7 @@ public class Physics extends EngineSystem {
 
 	}
 
-	float lastDist = 0f;
+	int count;
 
 	/**
 	 * This method checks if the object p is going to collide with the object t
@@ -87,6 +94,8 @@ public class Physics extends EngineSystem {
 	 * @param t
 	 */
 	private Vec2f checkcollision(PhysicComponent p, PhysicComponent t) {
+		count++;
+
 		Transform t1 = p.getTransform();
 		Transform t2 = t.getTransform();
 
@@ -209,14 +218,14 @@ public class Physics extends EngineSystem {
 
 		// TODO: if there is a rotation, these vectors must be changed
 		if (mvtx != null) {
-			System.out.println("Collision X: " + mvtx);
+			// System.out.println("Collision X: " + mvtx);
 			if (right)
 				return new Vec2f(mvtx.x * 5, 0);
 			else
 				return new Vec2f(mvtx.x * -5, 0);
 		}
 		if (mvty != null) {
-			System.out.println("Collision Y: " + mvty);
+			// System.out.println("Collision Y: " + mvty);
 			if (top)
 				return new Vec2f(0, mvty.y * 5);
 			else

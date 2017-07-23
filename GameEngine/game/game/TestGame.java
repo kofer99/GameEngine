@@ -56,7 +56,6 @@ public class TestGame implements Game {
 		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
 		ActionComponent player2Action = new Player2(player2Physics);
 
-		player2Physics.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 		player2Physics.CollisionTypes.add(CollisionUtils.STATIC);
 		// player2Physics.addCollisionListener(new
 		// StaticCollisionResponse(player2Action));
