@@ -18,6 +18,7 @@ public class CollisionUtils {
 	public static final int EDGE_BOTTOM_LEFT = 7;
 	public static final int EDGE_BOTTOM_RIGHT = 8;
 	public static final int OTHER_PLAYER = 9;
+	public static final Integer STATIC = 10;
 
 	public static boolean CanCollide(PhysicComponent a, PhysicComponent b) {
 		if (a.CollisionTypes.contains(NO_COLLISION) || b.CollisionTypes.contains(NO_COLLISION))
@@ -35,22 +36,23 @@ public class CollisionUtils {
 		float myr = ph.myr;
 		int type = CollisionUtils.NO_COLLISION;
 
-		if (ph.getTransform().getPosition().x >=Game.camera.x*2+ mxr && ph.getVelocity().x >= 0) {
+		if (ph.getTransform().getPosition().x >= Game.camera.x * 2 + mxr && ph.getVelocity().x >= 0) {
 			type = CollisionUtils.EDGE_RIGHT;
-		} else if (ph.getTransform().getPosition().x <=Game.camera.x*2 -mxr && ph.getVelocity().x <= 0) {
+		} else if (ph.getTransform().getPosition().x <= Game.camera.x * 2 - mxr && ph.getVelocity().x <= 0) {
 			type = CollisionUtils.EDGE_LEFT;
 		}
 
-		if (ph.getTransform().getPosition().y >=Game.camera.y*2+ myr && ph.getVelocity().y >= 0) {
+		if (ph.getTransform().getPosition().y >= Game.camera.y * 2 + myr && ph.getVelocity().y >= 0) {
 			if (type == CollisionUtils.NO_COLLISION)
 				return CollisionUtils.EDGE_TOP;
 
 			return type == CollisionUtils.EDGE_RIGHT ? CollisionUtils.EDGE_TOP_RIGHT : CollisionUtils.EDGE_TOP_LEFT;
-		} else if (ph.getTransform().getPosition().y <= Game.camera.y*2 -myr && ph.getVelocity().y <= 0) {
+		} else if (ph.getTransform().getPosition().y <= Game.camera.y * 2 - myr && ph.getVelocity().y <= 0) {
 			if (type == CollisionUtils.NO_COLLISION)
 				return CollisionUtils.EDGE_BOTTOM;
 
-			return type == CollisionUtils.EDGE_RIGHT ? CollisionUtils.EDGE_BOTTOM_RIGHT : CollisionUtils.EDGE_BOTTOM_LEFT;
+			return type == CollisionUtils.EDGE_RIGHT ? CollisionUtils.EDGE_BOTTOM_RIGHT
+					: CollisionUtils.EDGE_BOTTOM_LEFT;
 		}
 
 		return type;
@@ -61,37 +63,37 @@ public class CollisionUtils {
 		Vec3f mov = new Vec3f(ph.getVelocity());
 
 		switch (collisionType) {
-			case CollisionUtils.EDGE_RIGHT:
-				mov.x = 0;
-				break;
-			case CollisionUtils.EDGE_LEFT:
-				mov.x = 0;
-				break;
-			case CollisionUtils.EDGE_TOP:
-				mov.y = 0;
-				break;
-			case CollisionUtils.EDGE_BOTTOM:
-				mov.y = 0;
-				break;
-			case CollisionUtils.EDGE_TOP_LEFT:
-				mov.x = 0;
-				mov.y = 0;
-				break;
-			case CollisionUtils.EDGE_TOP_RIGHT:
-				mov.x = 0;
-				mov.y = 0;
-				break;
-			case CollisionUtils.EDGE_BOTTOM_LEFT:
-				mov.x = 0;
-				mov.y = 0;
-				break;
-			case CollisionUtils.EDGE_BOTTOM_RIGHT:
-				mov.x = 0;
-				mov.y = 0;
-				break;
-			case CollisionUtils.NO_COLLISION:
-			default:
-				// Nothing happens for now
+		case CollisionUtils.EDGE_RIGHT:
+			mov.x = 0;
+			break;
+		case CollisionUtils.EDGE_LEFT:
+			mov.x = 0;
+			break;
+		case CollisionUtils.EDGE_TOP:
+			mov.y = 0;
+			break;
+		case CollisionUtils.EDGE_BOTTOM:
+			mov.y = 0;
+			break;
+		case CollisionUtils.EDGE_TOP_LEFT:
+			mov.x = 0;
+			mov.y = 0;
+			break;
+		case CollisionUtils.EDGE_TOP_RIGHT:
+			mov.x = 0;
+			mov.y = 0;
+			break;
+		case CollisionUtils.EDGE_BOTTOM_LEFT:
+			mov.x = 0;
+			mov.y = 0;
+			break;
+		case CollisionUtils.EDGE_BOTTOM_RIGHT:
+			mov.x = 0;
+			mov.y = 0;
+			break;
+		case CollisionUtils.NO_COLLISION:
+		default:
+			// Nothing happens for now
 		}
 
 		return mov;

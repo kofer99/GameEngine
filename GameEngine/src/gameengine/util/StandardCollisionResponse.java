@@ -1,5 +1,6 @@
 package gameengine.util;
 
+import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.components.ActionComponent;
 import gameengine.components.PhysicComponent;
@@ -16,7 +17,7 @@ public class StandardCollisionResponse implements ICollisionListener {
 	}
 
 	@Override
-	public void onCollision(PhysicComponent otherPh) {
+	public void onCollision(PhysicComponent otherPh, Vec2f mvt) {
 		PhysicComponent ownPh = self.getPhysicComponent();
 
 		// HACK: Cancel any rotation when we're already colliding
@@ -31,9 +32,8 @@ public class StandardCollisionResponse implements ICollisionListener {
 		// Collision Response
 		// Check for Movement in the same direction
 		// check if Distance Increases or not
-		if (Math.abs(ownTransform.getPosition().x - otherTransform.getPosition().x)
-			- Math.abs(ownTransform.getPosition().x + vel1.x
-			- (otherTransform.getPosition().x + otherVel.x)) >= 0) {
+		if (Math.abs(ownTransform.getPosition().x - otherTransform.getPosition().x) - Math
+				.abs(ownTransform.getPosition().x + vel1.x - (otherTransform.getPosition().x + otherVel.x)) >= 0) {
 
 			double absPX = Math.abs(vel1.x);
 			double absTX = Math.abs(otherVel.x);
@@ -42,14 +42,13 @@ public class StandardCollisionResponse implements ICollisionListener {
 				vel1.x = 0;
 			} else if (absPX < absTX) {
 				vel1.x = otherVel.x;
-			} else if(absPX > absTX) {
+			} else if (absPX > absTX) {
 				// Other takes care
 			}
 		}
 
-		if (Math.abs(ownTransform.getPosition().y - otherTransform.getPosition().y)
-			- Math.abs(ownTransform.getPosition().y + vel1.y
-			- (otherTransform.getPosition().y + otherVel.y)) >= 0) {
+		if (Math.abs(ownTransform.getPosition().y - otherTransform.getPosition().y) - Math
+				.abs(ownTransform.getPosition().y + vel1.y - (otherTransform.getPosition().y + otherVel.y)) >= 0) {
 
 			double absPY = Math.abs(vel1.y);
 			double absTY = Math.abs(otherVel.y);
@@ -58,7 +57,7 @@ public class StandardCollisionResponse implements ICollisionListener {
 				vel1.y = 0;
 			} else if (absPY < absTY) {
 				vel1.y = otherVel.y;
-			} else if(absPY > absTY) {
+			} else if (absPY > absTY) {
 				// Other takes care
 			}
 		}

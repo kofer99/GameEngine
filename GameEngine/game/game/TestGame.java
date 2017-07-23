@@ -17,6 +17,7 @@ import gameengine.objects.Entity;
 import gameengine.objects.Game;
 import gameengine.util.CollisionUtils;
 import gameengine.util.StandardCollisionResponse;
+import gameengine.util.StaticCollisionResponse;
 
 /**
  *
@@ -40,7 +41,7 @@ public class TestGame implements Game {
 		((Player) playerAction).addAudio(audio);
 
 		playerPhysic.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
-		playerPhysic.addCollisionListener(new StandardCollisionResponse(playerAction));
+		playerPhysic.addCollisionListener(new StaticCollisionResponse(playerAction));
 		playerPhysic.addCollisionListener(playerAction);
 
 		player.add(playerTransform);
@@ -56,13 +57,29 @@ public class TestGame implements Game {
 		ActionComponent player2Action = new Player2(player2Physics);
 
 		player2Physics.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
-		player2Physics.addCollisionListener(new StandardCollisionResponse(player2Action));
+		player2Physics.CollisionTypes.add(CollisionUtils.STATIC);
+		// player2Physics.addCollisionListener(new
+		// StaticCollisionResponse(player2Action));
 		player2Physics.addCollisionListener(player2Action);
 
 		e.add(player2Transform);
 		e.add(new Renderable("Grass.png", player2Transform));
 		e.add(player2Physics);
 		e.add(player2Action);
+
+		for (int i = 0; i < 100; i++) {
+			Entity g = new Entity();
+
+			Transform gTransform = new Transform(new Vec3f(-15f + (i * 0.5f), -5f, 0f), new Vec2f(0.5f, 0.5f),
+					new Vec3f(0, 0, 0));
+			PhysicComponent gPhysics = new PhysicComponent(gTransform);
+
+			gPhysics.CollisionTypes.add(CollisionUtils.STATIC);
+
+			g.add(gTransform);
+			g.add(new Renderable("Grass.png", gTransform));
+			g.add(gPhysics);
+		}
 
 		Transform tt = new Transform(new Vec3f(-3.0f, 1.5f, 0.0f), new Vec2f(2.0f, 2.0f), new Vec3f(0, 0, 0));
 		text = new Text("calibri", "Test Text gg xD !", tt, new Vec3f(0.5f, 1.0f, 0.5f));
