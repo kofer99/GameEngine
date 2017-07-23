@@ -33,10 +33,6 @@ public class Physics extends EngineSystem {
 	protected void init() {
 	}
 
-	/*
-	 * TODO: only player and dynamic objects are checked against all others
-	 * maybe some area check
-	 */
 	@Override
 	public void update() {
 		count = 0;
@@ -50,7 +46,7 @@ public class Physics extends EngineSystem {
 			for (int t = 0; t < size; t++) {
 				if (t == p)
 					continue;
-				
+
 				// if (matrix[phy.get(p).getEntityID()][t.getEntityID()])
 				// continue;
 				//
@@ -69,7 +65,7 @@ public class Physics extends EngineSystem {
 			}
 
 		}
-//		System.out.println("COUNT = " + count);
+		// System.out.println("COUNT = " + count);
 		// Move and rotate objects after all collision is done
 		for (PhysicComponent c : phy) {
 			Transform tf = c.getTransform();
@@ -105,74 +101,58 @@ public class Physics extends EngineSystem {
 		float rot1 = t1.getRot().z % 360;
 		float rot2 = t2.getRot().z % 360;
 
-		// Object 1
+		// Object 1: calculate the corners
 		float xRadius = t1.getScale().x / 2;
 		float yRadius = t1.getScale().y / 2;
-		double iRot1 = Math.atan(yRadius / xRadius);
 
 		Vec3f testleft = new Vec3f(-xRadius, yRadius, 0);
-		Vec topLeft1 = new Vec(testleft.toArray());
 		Mat4 testrot = Mat4.createRotationXYZMatrix(new Vec3f(0, 0, rot1));
-		topLeft1 = Matrixf.mulC(testrot, (Vec) testleft);
-
-		// System.out.println(topLeft1.toString()+ " LEft");
+		Vec topLeft1 = Matrixf.mulC(testrot, (Vec) testleft);
 
 		Vec3f testright = new Vec3f(xRadius, yRadius, 0);
-		Vec topRight1 = new Vec(testright.toArray());
 		Mat4 testrotr = Mat4.createRotationXYZMatrix(new Vec3f(0, 0, rot1));
-		topRight1 = Matrixf.mulC(testrotr, (Vec) testright);
-
-		// System.out.println(topRight1.toString()+ " Right");
+		Vec topRight1 = Matrixf.mulC(testrotr, (Vec) testright);
 
 		Vec2f bottomLeft1 = new Vec2f(-topRight1.x, -topRight1.y);
 		Vec2f bottomRight1 = new Vec2f(-topLeft1.x, -topLeft1.y);
-		// System.out.println(p.getTransform().getPosition().toString());
-		// System.out.println(topLeft1.toString());
-		// System.out.println(topRight1.toString());
-		// Object 2
+
+		// NOTE: the absolute positions are calculated per velocity component
+
+		// Object 2: calculate the corners
 		float x2Radius = t2.getScale().x / 2;
 		float y2Radius = t2.getScale().y / 2;
 
-		Vec2f topLeft2 = new Vec2f(
-				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* ((float) Math.sin(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2 + 90))),
-				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* (float) Math.cos(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2 + 90)));
-		Vec2f topRight2 = new Vec2f(
-				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* (float) Math.cos(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2)),
-				(float) Math.sqrt(y2Radius * y2Radius + x2Radius * x2Radius)
-						* ((float) Math.sin(Math.atan(y2Radius / x2Radius) + Math.toRadians(rot2))));
+		Vec3f testleft2 = new Vec3f(-x2Radius, y2Radius, 0);
+		Mat4 testrot2 = Mat4.createRotationXYZMatrix(new Vec3f(0, 0, rot2));
+		Vec topLeft2 = Matrixf.mulC(testrot2, (Vec) testleft2);
+
+		Vec3f testright2 = new Vec3f(x2Radius, y2Radius, 0);
+		Vec topRight2 = new Vec(testright2.toArray());
+		Mat4 testrotr2 = Mat4.createRotationXYZMatrix(new Vec3f(0, 0, rot2));
+		topRight2 = Matrixf.mulC(testrotr2, (Vec) testright2);
+
 		Vec2f bottomLeft2 = new Vec2f(-topRight2.x, -topRight2.y);
 		Vec2f bottomRight2 = new Vec2f(-topLeft2.x, -topLeft2.y);
 
-		Vec3f rTL2 = Vec3f.add(pos2, new Vec3f(topLeft2, 0));
-		Vec3f rTR2 = Vec3f.add(pos2, new Vec3f(topRight2, 0));
+		Vec3f rTL2 = Vec3f.add(pos2, topLeft2.convertToVec3f());
+		Vec3f rTR2 = Vec3f.add(pos2, topRight2.convertToVec3f());
 		Vec3f rBL2 = Vec3f.add(pos2, new Vec3f(bottomLeft2, 0));
 		Vec3f rBR2 = Vec3f.add(pos2, new Vec3f(bottomRight2, 0));
 
-		// System.out.println(rTL2.toString() + "tl");
-		// System.out.println(rTR2.toString() + "tr");
-		// System.out.println(rBL2.toString() + "bl");
-		// System.out.println(rBR2.toString() + "br");
-
-		Mat4 mr1 = Mat4.createRotationXYZMatrix(t1.getRot());
-		Mat4 mr2 = Mat4.createRotationXYZMatrix(t2.getRot());
-
-		Vec3f axis1 = Matrixf.mulC(mr1, new Vec3f(0, 1, 0)).convertToVec3f();
-		Vec3f axis2 = Matrixf.mulC(mr1, new Vec3f(1, 0, 0)).convertToVec3f();
-		Vec3f axis3 = Matrixf.mulC(mr2, new Vec3f(0, 1, 0)).convertToVec3f();
-		Vec3f axis4 = Matrixf.mulC(mr2, new Vec3f(1, 0, 0)).convertToVec3f();
-
+		// Calculate the axis
+		// the absolute positions are not known at this point, but these are the
+		// same, just not so pretty
+		Vec3f axis1 = Vec3f.abs(Vec3f.sub(topLeft1.convertToVec3f(), topRight1.convertToVec3f()));
+		Vec3f axis2 = Vec3f.abs(Vec3f.sub(topRight1.convertToVec3f(), new Vec3f(bottomRight1, 0)));
+		Vec3f axis3 = Vec3f.abs(Vec3f.sub(rTL2, rTR2));
+		Vec3f axis4 = Vec3f.abs(Vec3f.sub(rTR2, rBR2));
 		Vec3f[] axis = { axis1, axis2, axis3, axis4 };
 
-		// TODO: rotation and this vectors currently only work for AABBs
 		Vec3f mvtx = null;
 		Vec3f mvty = null;
+		// We need to know where our object is relative to the other one
 		boolean right = false;
 		boolean top = false;
-
-		// TODO: this calculation should include rotation!
 		if (t1.getPosition().x > t2.getPosition().x)
 			right = true;
 		if (t1.getPosition().y > t2.getPosition().y)
@@ -180,12 +160,14 @@ public class Physics extends EngineSystem {
 
 		/**
 		 * We do separate checks for x and y to determine the direction in with
-		 * the objects do collide
+		 * the objects do collide. A collision in two directions at the same
+		 * tick should be impossible
 		 */
 		for (int i = 0; i < 2; i++) {
 			if (mvtx != null)
 				break; // we already have a collision
 
+			// Calculate the position for the different Vector components
 			Vec3f pos1;
 			if (i == 0)
 				pos1 = Vec3f.add(t1.getPosition(), Vec3f.div(new Vec3f(p.getVelocity().x, 0, 0), 10));
@@ -200,53 +182,49 @@ public class Physics extends EngineSystem {
 			Vec2f[] corner1 = { Vec3f.convertToVec2f(rTL1), Vec3f.convertToVec2f(rTL2), Vec3f.convertToVec2f(rTR1),
 					Vec3f.convertToVec2f(rTR2), Vec3f.convertToVec2f(rBL1), Vec3f.convertToVec2f(rBL2),
 					Vec3f.convertToVec2f(rBR1), Vec3f.convertToVec2f(rBR2) };
-			// Vec3f[] corner2 = {rTL2,rTR2,rBL2,rBR2};
 
-			// Project eachpoint on all axis
-			// Take scalar values of each projected point... they are meaningles
-			// but
-			// indicate the position on the axis
-			// Naming: Corner Object Axis
-			// Values [axis][value] values 0: Min ob1 1:Min ob2 2. Max ob1, 3:
-			// max
-			// ob2
 			if (i == 0)
 				mvtx = check(axis, corner1);
 			else
 				mvty = check(axis, corner1);
 		}
 
-		// TODO: if there is a rotation, these vectors must be changed
+		// Now determine witch diretion we are colliding in and return the
+		// minimum magnitude vector
 		if (mvtx != null) {
-			// System.out.println("Collision X: " + mvtx);
 			if (right)
-				return new Vec2f(mvtx.x * 5, 0);
+				return new Vec2f(mvtx.x * 5f, 0);
 			else
-				return new Vec2f(mvtx.x * -5, 0);
+				return new Vec2f(mvtx.x * -5f, 0);
 		}
 		if (mvty != null) {
-			// System.out.println("Collision Y: " + mvty);
+			// to avoid a glitch where a falling object is going to glitch to
+			// the left or right this vector gets some threshold
+			// TODO: really fix this bug, its crazy
 			if (top)
-				return new Vec2f(0, mvty.y * 5);
+				return new Vec2f(0, mvty.y * 5 + 0.15f);
 			else
-				return new Vec2f(0, mvty.y * -5);
+				return new Vec2f(0, mvty.y * -5 - 0.15f);
 		}
 
 		return null;
 	}
 
+	/**
+	 * This method loops through the axis and projects every given corner on
+	 * those axis.
+	 * 
+	 * @param axis
+	 * @param corner1
+	 * @return
+	 */
 	private Vec3f check(Vec3f[] axis, Vec2f[] corner1) {
 		Vec3f mvt = new Vec3f();
 
-		/**
-		 * IDEA: dividing the axis => probably fuck up rotation even more
-		 */
-		for (int i = 0; i < axis.length / 1; i++) {
+		for (int i = 0; i < axis.length; i++) {
 			Vec3f an = Vec3f.normalize(axis[i]);
-			// axis[i].print();
 			Vec2f p1 = pro(new Vec2f[] { corner1[0], corner1[2], corner1[4], corner1[6] }, an);
 			Vec2f p2 = pro(new Vec2f[] { corner1[1], corner1[3], corner1[5], corner1[7] }, an);
-			// System.out.println("Vecs: " + p1 + " / " + p2);
 
 			float o = overlap(p1, p2);
 			if (o == -100000000) {
@@ -254,7 +232,6 @@ public class Physics extends EngineSystem {
 			}
 			mvt = Vec3f.add(mvt, Vec3f.mul(o, an));
 		}
-
 		return mvt;
 	}
 
@@ -297,11 +274,11 @@ public class Physics extends EngineSystem {
 	private Vec2f pro(Vec2f[] vecs, Vec3f axis) {
 		float min = 1000000;
 		float max = -1000000;
-		for (Vec2f v : vecs) {
-			float p = Vec.sca(axis, new Vec3f(v, 0));
+		for (int i = 0; i < 4; i++) {
+			float p = Vec.sca(axis, new Vec3f(vecs[i], 0));
 			if (p < min)
 				min = p;
-			else if (p > max)
+			if (max < p)
 				max = p;
 		}
 		return new Vec2f(min, max);

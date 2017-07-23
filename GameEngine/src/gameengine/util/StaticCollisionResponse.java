@@ -14,7 +14,7 @@ import gameengine.components.PhysicComponent;
  */
 public class StaticCollisionResponse implements ICollisionListener {
 
-	ActionComponent action;
+	private ActionComponent action;
 
 	public StaticCollisionResponse(ActionComponent action) {
 		this.action = action;
@@ -24,6 +24,9 @@ public class StaticCollisionResponse implements ICollisionListener {
 	public void onCollision(PhysicComponent other, Vec2f mvt) {
 		PhysicComponent p = action.getPhysicComponent();
 		// System.out.println("mvt = " + mvt);
+		if (p.getRotVel() != 0)
+			p.setRotVel(0);
+
 		p.setVelocity(Vec3f.add(p.getVelocity(), new Vec3f(mvt, 0)));
 
 	}

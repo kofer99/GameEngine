@@ -190,4 +190,14 @@ public class Vec3f extends Vec {
 		y /= f;
 		z /= f;
 	}
+
+	/**
+	 * @return
+	 */
+	public static Vec3f abs(Vec3f vec) {
+		float x = Math.abs(vec.x);
+		float y = Math.abs(vec.y);
+		float z = Math.abs(vec.z);
+		return new Vec3f(x, y, z);
+	}
 }
