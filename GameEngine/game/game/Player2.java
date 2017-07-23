@@ -1,6 +1,8 @@
 package game;
 
 import org.lwjgl.glfw.GLFW;
+
+import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
@@ -69,11 +71,10 @@ public class Player2 extends ActionComponent {
 			ymov += -2.0f;
 		}
 
-		playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov,ymov,0)));
+		playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov, ymov, 0)));
 	}
 
 	@Override
-	public void onCollision(PhysicComponent other) {
-		System.out.println("CC");
+	public void onCollision(PhysicComponent other, Vec2f mvt) {
 	}
 }

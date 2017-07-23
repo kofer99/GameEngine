@@ -146,7 +146,6 @@ public class Matrixf {
 	}
 
 	public static Vec mulC(Matrixf mat, Vec vec) {
-
 		float[] res = new float[mat.getColumns()];
 
 		for (int i = 0; i < mat.getColumns(); i++) {

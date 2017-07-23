@@ -1,6 +1,8 @@
 package game;
 
 import org.lwjgl.glfw.GLFW;
+
+import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
@@ -93,7 +95,6 @@ public class Player extends ActionComponent {
 	}
 
 	@Override
-	public void onCollision(PhysicComponent other) {
-		System.out.println("CC");
+	public void onCollision(PhysicComponent other, Vec2f mvt) {
 	}
 }
