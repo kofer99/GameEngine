@@ -90,35 +90,34 @@ public class Physics extends EngineSystem {
 		Vec3f pos2 = Vec3f.add(t2.getPosition(), Vec3f.div(t.getVelocity(), 10));
 
 		// in degrees
-		float rot1 = t1.getRot().z %360;
+		float rot1 = t1.getRot().z % 360;
 		float rot2 = t2.getRot().z % 360;
 
 		// Object 1
 		float xRadius = t1.getScale().x / 2;
 		float yRadius = t1.getScale().y / 2;
-		double iRot1 =  Math.atan(yRadius/xRadius);
-		
-		Vec3f testleft = new Vec3f(-xRadius,yRadius,0);
-		Vec topLeft1 = new Vec(testleft.toArray());
-		Mat4 testrot = Mat4.createRotationXYZMatrix(new Vec3f(0,0,rot1));
-		topLeft1=Matrixf.mulC(testrot, (Vec)testleft);
-		
-		//System.out.println(topLeft1.toString()+ " LEft");
-		
-		Vec3f testright = new Vec3f(xRadius,yRadius,0);
-		Vec topRight1 = new Vec(testright.toArray());
-		Mat4 testrotr = Mat4.createRotationXYZMatrix(new Vec3f(0,0,rot1));
-		topRight1=Matrixf.mulC(testrotr, (Vec)testright);
-		
-	//	System.out.println(topRight1.toString()+ " Right");
+		double iRot1 = Math.atan(yRadius / xRadius);
 
-		
+		Vec3f testleft = new Vec3f(-xRadius, yRadius, 0);
+		Vec topLeft1 = new Vec(testleft.toArray());
+		Mat4 testrot = Mat4.createRotationXYZMatrix(new Vec3f(0, 0, rot1));
+		topLeft1 = Matrixf.mulC(testrot, (Vec) testleft);
+
+		// System.out.println(topLeft1.toString()+ " LEft");
+
+		Vec3f testright = new Vec3f(xRadius, yRadius, 0);
+		Vec topRight1 = new Vec(testright.toArray());
+		Mat4 testrotr = Mat4.createRotationXYZMatrix(new Vec3f(0, 0, rot1));
+		topRight1 = Matrixf.mulC(testrotr, (Vec) testright);
+
+		// System.out.println(topRight1.toString()+ " Right");
+
 		Vec2f bottomLeft1 = new Vec2f(-topRight1.x, -topRight1.y);
 		Vec2f bottomRight1 = new Vec2f(-topLeft1.x, -topLeft1.y);
-	//	System.out.println(p.getTransform().getPosition().toString());
-	//	System.out.println(topLeft1.toString());
-	//	System.out.println(topRight1.toString());
-		
+		// System.out.println(p.getTransform().getPosition().toString());
+		// System.out.println(topLeft1.toString());
+		// System.out.println(topRight1.toString());
+
 		Vec3f rTL1 = Vec3f.add(pos1, new Vec3f(topLeft1.convertToVec3f()));
 		Vec3f rTR1 = Vec3f.add(pos1, new Vec3f(topRight1.convertToVec3f()));
 		Vec3f rBL1 = Vec3f.add(pos1, new Vec3f(bottomLeft1, 0));
@@ -182,16 +181,18 @@ public class Physics extends EngineSystem {
 
 	private boolean check(Vec3f[] axis, Vec2f[] corner1) {
 
-		System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+		// System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+
+		System.out.println("lap " + overlap(new Vec2f(0.0f, 2.0f), new Vec2f(1.0f, 1.5f)));
 		for (int i = 0; i < 4; i++) {
 			Vec3f an = Vec3f.normalize(axis[i]);
-			axis[i].print();
+			// axis[i].print();
 			Vec2f p1 = pro(new Vec2f[] { corner1[0], corner1[2], corner1[4], corner1[6] }, an);
 			Vec2f p2 = pro(new Vec2f[] { corner1[1], corner1[3], corner1[5], corner1[7] }, an);
-			System.out.println("Vecs: " + p1 + " / " + p2);
+			// System.out.println("Vecs: " + p1 + " / " + p2);
 
 			float o = overlap(p1, p2);
-			if (o != 1) {
+			if (o == -100000000) {
 				return false;
 			}
 		}
@@ -199,18 +200,40 @@ public class Physics extends EngineSystem {
 		return true;
 	}
 
-	private boolean inRange(float a, float min, float max) {
+	private float inRange(float a, float min, float max) {
 		if (a <= max && a >= min)
-			return true;
+			return (max - a <= a - min) ? max - a : a - min;
 		else
-			return false;
+			return 0;
 	}
 
 	private float overlap(Vec2f a, Vec2f b) {
-		if (inRange(a.x, b.x, b.y) || inRange(a.y, b.x, b.y) || inRange(b.x, a.x, a.y) || inRange(b.y, a.x, a.y))
-			return 1;
+		float ax = inRange(a.x, b.x, b.y);
+		float ay = inRange(a.y, b.x, b.y);
+		float bx = inRange(b.x, a.x, a.y);
+		float by = inRange(b.y, a.x, a.y);
 
-		return 0;
+		if (ax != 0 || ay != 0 || bx != 0 || by != 0) {
+			float res = ay;
+			if (ax != 0)
+				res = ax;
+
+			float tmp = by;
+			if (bx != 0)
+				tmp = bx;
+
+			if (res >= ay && ay != 0)
+				res = ay;
+			if (tmp >= by && by != 0)
+				tmp = by;
+
+			if (tmp <= res || res == 0)
+				res = tmp;
+
+			return res;
+		}
+
+		return -100000000;
 	}
 
 	private Vec2f pro(Vec2f[] vecs, Vec3f axis) {
@@ -218,7 +241,6 @@ public class Physics extends EngineSystem {
 		float max = -1000000;
 		for (Vec2f v : vecs) {
 			float p = Vec.sca(axis, new Vec3f(v, 0));
-
 			if (p < min)
 				min = p;
 			else if (p > max)

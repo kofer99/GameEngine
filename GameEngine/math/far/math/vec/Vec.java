@@ -79,7 +79,7 @@ public class Vec {
 	}
 
 	public static float sca(Vec vecA, Vec vecB) {
-		return vecA.x * vecB.x + vecA.y * vecB.y * vecA.z * vecB.z + vecA.w * vecB.w;
+		return vecA.x * vecB.x + vecA.y * vecB.y + vecA.z * vecB.z + vecA.w * vecB.w;
 	}
 
 	public static Vec3f cro(Vec3f vecA, Vec3f vecB) {
