@@ -35,37 +35,38 @@ public class Physics extends EngineSystem {
 
 	@Override
 	public void update() {
-		count = 0;
 		int size = phy.size();
-		// boolean[][] matrix = new boolean[size][size];
+		boolean[][] matrix = new boolean[size][size];
 
-		for (int p = 0; p < size; p++) {
-			if (phy.get(p).CollisionTypes.contains(CollisionUtils.STATIC))
+		for (int pp = 0; pp < size; pp++) {
+			PhysicComponent p = phy.get(pp);
+			if (p.CollisionTypes.contains(CollisionUtils.STATIC))
 				continue;
 
-			for (int t = 0; t < size; t++) {
-				if (t == p)
+			for (int tt = 0; tt < size; tt++) {
+				if (tt == pp)
+					continue;
+				PhysicComponent t = phy.get(tt);
+				if (matrix[p.getEntityID()][t.getEntityID()])
 					continue;
 
-				// if (matrix[phy.get(p).getEntityID()][t.getEntityID()])
-				// continue;
-				//
-				// matrix[p.getEntityID()][t.getEntityID()] = true;
-				// if (p.equals(t) || !CollisionUtils.CanCollide(p, t))
-				// continue;
+				matrix[p.getEntityID()][t.getEntityID()] = true;
+				if (p.equals(t) || !CollisionUtils.CanCollide(p, t))
+					continue;
 
-				Vec2f mvt = checkcollision(phy.get(p), phy.get(t));
+				Vec2f mvt = checkcollision(p, t);
 				if (mvt != null) {
-					for (ICollisionListener i : phy.get(p).listeners)
-						i.onCollision(phy.get(t), mvt);
+					for (ICollisionListener i : p.listeners) {
+						i.onCollision(t, mvt);
+					}
 
-					for (ICollisionListener j : phy.get(t).listeners)
-						j.onCollision(phy.get(p), mvt);
+					for (ICollisionListener j : t.listeners)
+						j.onCollision(p, mvt);
 				}
 			}
 
 		}
-		// System.out.println("COUNT = " + count);
+
 		// Move and rotate objects after all collision is done
 		for (PhysicComponent c : phy) {
 			Transform tf = c.getTransform();
@@ -80,17 +81,16 @@ public class Physics extends EngineSystem {
 
 	}
 
-	int count;
-
 	/**
 	 * This method checks if the object p is going to collide with the object t
-	 * in the x or the y direction
+	 * in the x or the y direction. <br>
+	 * It does not return a proper mvt vector if there is a point to edge
+	 * collision
 	 * 
 	 * @param p
 	 * @param t
 	 */
 	private Vec2f checkcollision(PhysicComponent p, PhysicComponent t) {
-		count++;
 
 		Transform t1 = p.getTransform();
 		Transform t2 = t.getTransform();
@@ -140,17 +140,18 @@ public class Physics extends EngineSystem {
 		Vec3f rBR2 = Vec3f.add(pos2, new Vec3f(bottomRight2, 0));
 
 		// Calculate the axis
-		// the absolute positions are not known at this point, but these are the
-		// same, just not so pretty
-		Vec3f axis1 = Vec3f.abs(Vec3f.sub(topLeft1.convertToVec3f(), topRight1.convertToVec3f()));
-		Vec3f axis2 = Vec3f.abs(Vec3f.sub(topRight1.convertToVec3f(), new Vec3f(bottomRight1, 0)));
-		Vec3f axis3 = Vec3f.abs(Vec3f.sub(rTL2, rTR2));
-		Vec3f axis4 = Vec3f.abs(Vec3f.sub(rTR2, rBR2));
+		// the absolute positions for object 1 are not known at this point, but
+		// these axis are the same, just not so pretty
+		Vec3f axis1 = Vec3f.sub(topLeft1.convertToVec3f(), topRight1.convertToVec3f());
+		Vec3f axis2 = Vec3f.sub(topRight1.convertToVec3f(), new Vec3f(bottomRight1, 0));
+		// pretty ones for object 2
+		Vec3f axis3 = Vec3f.sub(rTL2, rTR2);
+		Vec3f axis4 = Vec3f.sub(rTR2, rBR2);
 		Vec3f[] axis = { axis1, axis2, axis3, axis4 };
 
 		Vec3f mvtx = null;
 		Vec3f mvty = null;
-		// We need to know where our object is relative to the other one
+		// We need to know where our object 1 is relative to object 2
 		boolean right = false;
 		boolean top = false;
 		if (t1.getPosition().x > t2.getPosition().x)
@@ -161,7 +162,7 @@ public class Physics extends EngineSystem {
 		/**
 		 * We do separate checks for x and y to determine the direction in with
 		 * the objects do collide. A collision in two directions at the same
-		 * tick should be impossible
+		 * tick should be impossible if the objects have valid positions.
 		 */
 		for (int i = 0; i < 2; i++) {
 			if (mvtx != null)
@@ -189,17 +190,18 @@ public class Physics extends EngineSystem {
 				mvty = check(axis, corner1);
 		}
 
-		// Now determine witch diretion we are colliding in and return the
+		// Now determine witch direction we are colliding in and return the
 		// minimum magnitude vector
 		if (mvtx != null) {
 			if (right)
-				return new Vec2f(mvtx.x * 5f, 0);
+				return new Vec2f(mvtx.x * +5f, 0);
 			else
 				return new Vec2f(mvtx.x * -5f, 0);
 		}
 		if (mvty != null) {
-			// to avoid a glitch where a falling object is going to glitch to
-			// the left or right this vector gets some threshold
+			// to avoid a glitch where a falling/rising object is going to
+			// glitch to the left or right of the other one this vector gets
+			// some threshold
 			// TODO: really fix this bug, its crazy
 			if (top)
 				return new Vec2f(0, mvty.y * 5 + 0.15f);
@@ -220,18 +222,21 @@ public class Physics extends EngineSystem {
 	 */
 	private Vec3f check(Vec3f[] axis, Vec2f[] corner1) {
 		Vec3f mvt = new Vec3f();
-
+		// String s =
+		// "_____________________________________________________________\n";
 		for (int i = 0; i < axis.length; i++) {
 			Vec3f an = Vec3f.normalize(axis[i]);
 			Vec2f p1 = pro(new Vec2f[] { corner1[0], corner1[2], corner1[4], corner1[6] }, an);
 			Vec2f p2 = pro(new Vec2f[] { corner1[1], corner1[3], corner1[5], corner1[7] }, an);
-
 			float o = overlap(p1, p2);
+			// s += an + "\n P: " + p1 + " & " + p2 + " o = " + o + "\n";
 			if (o == -100000000) {
 				return null;
 			}
-			mvt = Vec3f.add(mvt, Vec3f.mul(o, an));
+			// for the mvt we need nonzero axis => maybe sth with point edge bug
+			mvt = Vec3f.add(mvt, Vec3f.mul(o, Vec3f.abs(an)));
 		}
+		// System.out.println(s);
 		return mvt;
 	}
 
@@ -284,76 +289,4 @@ public class Physics extends EngineSystem {
 		return new Vec2f(min, max);
 	}
 
-	/**
-	 * @param axis
-	 * @param corner1
-	 * @return
-	 */
-	private boolean checkMinMax(Vec2f[] axis, Vec2f[] corner1) {
-		// 0:Minimum from object 1 1: Minimum object2 2: Max object1 3:
-		// MaxObject 2
-		float[][] minmax = new float[4][4];
-
-		for (int j = 0; j < 4; j++) {
-			for (int i = 0; i < 8; i++) {
-				float temp;
-				temp = project(axis[j], corner1[i]);
-				if (i % 2 == 0) {
-					if (minmax[j][0] == 0f)
-						minmax[j][0] = temp;
-					if (minmax[j][2] == 0f)
-						minmax[j][2] = temp;
-
-					if (minmax[j][0] > temp) {
-						minmax[j][0] = temp;
-						// System.out.println("Axis: "+ j + " Min object1 =
-						// "+minmax[j][2]);
-					} else if (minmax[j][2] < temp) {
-						minmax[j][2] = temp;
-						// System.out.println("Axis: "+ j + " Max object1 =
-						// "+minmax[j][2]);
-					}
-
-				} else {
-					if (minmax[j][1] == 0f)
-						minmax[j][1] = temp;
-					if (minmax[j][3] == 0f)
-						minmax[j][3] = temp;
-
-					if (minmax[j][1] > temp) {
-						minmax[j][1] = temp;
-						// System.out.println("Axis: "+ j + " Min object2 =
-						// "+minmax[j][1]);
-					} else if (minmax[j][3] < temp) {
-						minmax[j][3] = temp;
-						// System.out.println("Axis: "+ j + " Max object2 =
-						// "+minmax[j][3]);
-					}
-				}
-
-			}
-
-			if (minmax[j][1] <= minmax[j][2] && minmax[j][3] >= minmax[j][0]) {
-				continue;
-			} else {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * @param axis1
-	 * @param topLeft1
-	 * @return
-	 */
-	private float project(Vec2f axis, Vec2f corner) {
-		Vec2f temp = new Vec2f();
-		temp.x = (((corner.x * axis.x) + (corner.y * axis.y)) / ((axis.x * axis.x) + (axis.y * axis.y))) * axis.x;
-		temp.y = (((corner.x * axis.x) + (corner.y * axis.y)) / ((axis.x * axis.x) + (axis.y * axis.y))) * axis.y;
-		// System.out.println(temp.toString());
-		float tl11s = (temp.x * axis.x) + (temp.y * axis.y);
-		return tl11s;
-	}
 }

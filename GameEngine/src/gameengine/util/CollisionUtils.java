@@ -24,6 +24,9 @@ public class CollisionUtils {
 		if (a.CollisionTypes.contains(NO_COLLISION) || b.CollisionTypes.contains(NO_COLLISION))
 			return false;
 
+		if (a.CollisionTypes.contains(OTHER_PLAYER) && b.CollisionTypes.contains(STATIC))
+			return true;
+
 		for (int type : a.CollisionTypes)
 			if (b.CollisionTypes.contains(type))
 				return true;

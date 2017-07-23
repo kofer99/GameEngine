@@ -18,6 +18,9 @@ public class StandardCollisionResponse implements ICollisionListener {
 
 	@Override
 	public void onCollision(PhysicComponent otherPh, Vec2f mvt) {
+		if (!otherPh.CollisionTypes.contains(CollisionUtils.OTHER_PLAYER))
+			return;
+
 		PhysicComponent ownPh = self.getPhysicComponent();
 
 		// HACK: Cancel any rotation when we're already colliding

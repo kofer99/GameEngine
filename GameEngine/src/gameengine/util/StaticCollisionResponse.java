@@ -22,8 +22,12 @@ public class StaticCollisionResponse implements ICollisionListener {
 
 	@Override
 	public void onCollision(PhysicComponent other, Vec2f mvt) {
+		if (!other.CollisionTypes.contains(CollisionUtils.STATIC))
+			return;
+
 		PhysicComponent p = action.getPhysicComponent();
 		// System.out.println("mvt = " + mvt);
+
 		if (p.getRotVel() != 0)
 			p.setRotVel(0);
 
