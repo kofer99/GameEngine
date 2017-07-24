@@ -244,7 +244,7 @@ public class Physics extends EngineSystem {
 		if (a <= max && a >= min)
 			return (max - a <= a - min) ? max - a : a - min;
 		else
-			return 0;
+			return -10000000;
 	}
 
 	private float overlap(Vec2f a, Vec2f b) {
@@ -253,7 +253,7 @@ public class Physics extends EngineSystem {
 		float bx = inRange(b.x, a.x, a.y);
 		float by = inRange(b.y, a.x, a.y);
 
-		if (ax != 0 || ay != 0 || bx != 0 || by != 0) {
+		if (ax != -10000000 || ay != -10000000 || bx != -10000000 || by != -10000000) {
 			float res = ay;
 			if (ax != 0)
 				res = ax;
