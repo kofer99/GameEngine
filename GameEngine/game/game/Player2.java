@@ -16,13 +16,6 @@ import gameengine.objects.Entity;
  */
 public class Player2 extends ActionComponent {
 
-	boolean hasYMovement = false;
-	boolean hasXMovement = false;
-	boolean hasX2Movement = false;
-	boolean hasY2Movement = false;
-
-	int i = 0;
-
 	private Entity player2;
 
 	public Player2(Entity player2) {
@@ -33,9 +26,6 @@ public class Player2 extends ActionComponent {
 	public void action() {
 		updateMovement();
 		updateRotation();
-		checkBoundaries(player2.pysics);
-
-		i++;
 	}
 
 	@Override
@@ -77,6 +67,5 @@ public class Player2 extends ActionComponent {
 	}
 
 	@Override
-	public void onCollision(PhysicComponent other, Vec2f mvt) {
-	}
+	public void onCollision(PhysicComponent self, PhysicComponent other, Vec2f mvt) { }
 }

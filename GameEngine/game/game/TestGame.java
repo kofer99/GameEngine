@@ -40,12 +40,12 @@ public class TestGame implements Game {
 		PhysicComponent playerPhysic = new PhysicComponent(playerTransform);
 		ActionComponent playerAction = new Player(player);
 		AudioComponent audio = new AudioComponent("bounce.wav");
-		
+
 		playerRender = new Renderable("Player.png", playerTransform);
-		
-		playerPhysic.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
-		playerPhysic.addCollisionListener(new StaticCollisionResponse(playerAction));
-		playerPhysic.addCollisionListener(new StandardCollisionResponse(playerAction));
+
+		playerPhysic.OwnCollisionTypes.add(CollisionUtils.OTHER_PLAYER);
+		playerPhysic.addCollisionListener(new StaticCollisionResponse());
+		playerPhysic.addCollisionListener(new StandardCollisionResponse());
 		playerPhysic.addCollisionListener(playerAction);
 
 		player.add(playerTransform);
@@ -61,9 +61,9 @@ public class TestGame implements Game {
 		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
 		ActionComponent player2Action = new Player2(e);
 
-		player2Physics.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
-		player2Physics.addCollisionListener(new StaticCollisionResponse(player2Action));
-		player2Physics.addCollisionListener(new StandardCollisionResponse(player2Action));
+		player2Physics.OwnCollisionTypes.add(CollisionUtils.OTHER_PLAYER);
+		player2Physics.addCollisionListener(new StaticCollisionResponse());
+		player2Physics.addCollisionListener(new StandardCollisionResponse());
 		player2Physics.addCollisionListener(player2Action);
 
 		e.add(player2Transform);
@@ -78,7 +78,7 @@ public class TestGame implements Game {
 					new Vec3f(0, 0, 0));
 			PhysicComponent gPhysics = new PhysicComponent(gTransform);
 
-			gPhysics.CollisionTypes.add(CollisionUtils.STATIC);
+			gPhysics.OwnCollisionTypes.add(CollisionUtils.STATIC);
 
 			g.add(gTransform);
 			g.add(new Renderable("Grass.png", gTransform));

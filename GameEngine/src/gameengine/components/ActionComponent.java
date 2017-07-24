@@ -21,8 +21,4 @@ public abstract class ActionComponent extends Component implements ICollisionLis
 	public abstract void action();
 
 	public abstract PhysicComponent getPhysicComponent();
-
-	protected void checkBoundaries(PhysicComponent ph) {
-		ph.setVelocity(CollisionUtils.getVelocityFor(CollisionUtils.getCollidingEdge(ph), ph));
-	}
 }

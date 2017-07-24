@@ -4,6 +4,7 @@
 package gameengine.components;
 
 import java.util.HashSet;
+import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
@@ -24,7 +25,7 @@ public class PhysicComponent extends Component {
 	public float mxr = 15.5f;
 	public float myr = 8.5f;
 
-	public HashSet<Integer> CollisionTypes = new HashSet<Integer>();
+	public HashSet<Integer> OwnCollisionTypes = new HashSet<Integer>();
 	public HashSet<ICollisionListener> CollisionListeners = new HashSet<ICollisionListener>();
 	HashSet<IUpdateListener> UpdateListeners = new HashSet<IUpdateListener>();
 
@@ -35,12 +36,10 @@ public class PhysicComponent extends Component {
 		rotvel = 0;
 	}
 
-	// TODO: This is crap
-	public PhysicComponent(Transform transform, boolean canCollide) {
-		this(transform);
-
-		if (!canCollide)
-			CollisionTypes.add(CollisionUtils.NO_COLLISION);
+	public void onCollision(PhysicComponent other, Vec2f mvt) {
+		for (ICollisionListener i : CollisionListeners) {
+			i.onCollision(this, other, mvt);
+		}
 	}
 
 	public void update() {

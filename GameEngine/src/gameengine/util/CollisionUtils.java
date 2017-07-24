@@ -18,39 +18,63 @@ public class CollisionUtils {
 	public static final int EDGE_BOTTOM_LEFT = 7;
 	public static final int EDGE_BOTTOM_RIGHT = 8;
 	public static final int OTHER_PLAYER = 9;
-	public static final Integer STATIC = 10;
+	public static final int STATIC = 10;
 
 	public static boolean CanCollide(PhysicComponent a, PhysicComponent b) {
-		if (a.CollisionTypes.contains(NO_COLLISION) || b.CollisionTypes.contains(NO_COLLISION))
+		if (a.OwnCollisionTypes.contains(NO_COLLISION) || b.OwnCollisionTypes.contains(NO_COLLISION))
 			return false;
 
-		if (a.CollisionTypes.contains(OTHER_PLAYER) && b.CollisionTypes.contains(STATIC))
+		// TODO
+		if (a.OwnCollisionTypes.contains(OTHER_PLAYER) && b.OwnCollisionTypes.contains(STATIC))
 			return true;
 
-		for (int type : a.CollisionTypes)
-			if (b.CollisionTypes.contains(type))
+		for (int type : a.OwnCollisionTypes)
+			if (b.OwnCollisionTypes.contains(type))
 				return true;
 
 		return false;
 	}
 
+	public static boolean CanCollide(PhysicComponent a, int collisionType) {
+		if (a.OwnCollisionTypes.contains(NO_COLLISION) || collisionType == NO_COLLISION)
+			return false;
+
+		return a.OwnCollisionTypes.contains(collisionType);
+	}
+
 	public static int getCollidingEdge(PhysicComponent ph) {
+		return getCollidingEdgeWithVelocity(ph, new Vec3f(0, 0, 0));
+	}
+
+	public static int willCollideWithEdge(PhysicComponent ph) {
+		Vec3f velocity = Vec3f.div(ph.getVelocity(), 10);
+		if (velocity.x == 0 && velocity.y == 0)
+			return CollisionUtils.NO_COLLISION;
+
+		return getCollidingEdgeWithVelocity(ph, velocity);
+	}
+
+	public static int getCollidingEdgeWithVelocity(PhysicComponent ph, Vec3f vel) {
 		float mxr = ph.mxr;
 		float myr = ph.myr;
+		float velX = vel.x;
+		float velY = vel.y;
+		float posX = ph.getTransform().getPosition().x + velX;
+		float posY = ph.getTransform().getPosition().y + velY;
 		int type = CollisionUtils.NO_COLLISION;
 
-		if (ph.getTransform().getPosition().x >= Game.camera.x * 2 + mxr && ph.getVelocity().x >= 0) {
+		if (posX >= Game.camera.x * 2 + mxr && velX >= 0) {
 			type = CollisionUtils.EDGE_RIGHT;
-		} else if (ph.getTransform().getPosition().x <= Game.camera.x * 2 - mxr && ph.getVelocity().x <= 0) {
+		} else if (posX <= Game.camera.x * 2 - mxr && velX <= 0) {
 			type = CollisionUtils.EDGE_LEFT;
 		}
 
-		if (ph.getTransform().getPosition().y >= Game.camera.y * 2 + myr && ph.getVelocity().y >= 0) {
+		if (posY >= Game.camera.y * 2 + myr && velY >= 0) {
 			if (type == CollisionUtils.NO_COLLISION)
 				return CollisionUtils.EDGE_TOP;
 
 			return type == CollisionUtils.EDGE_RIGHT ? CollisionUtils.EDGE_TOP_RIGHT : CollisionUtils.EDGE_TOP_LEFT;
-		} else if (ph.getTransform().getPosition().y <= Game.camera.y * 2 - myr && ph.getVelocity().y <= 0) {
+		} else if (posY <= Game.camera.y * 2 - myr && velY <= 0) {
 			if (type == CollisionUtils.NO_COLLISION)
 				return CollisionUtils.EDGE_BOTTOM;
 
@@ -100,5 +124,48 @@ public class CollisionUtils {
 		}
 
 		return mov;
+	}
+
+	// Returns the position of the edge
+	public static Vec3f getEdgePosition(int collisionType, PhysicComponent ph) {
+		float mxr = ph.mxr + 0.2f;
+		float myr = ph.myr + 0.2f;
+		Vec3f pos = new Vec3f(ph.getTransform().getPosition().x, ph.getTransform().getPosition().y, 0);
+
+		switch (collisionType) {
+		case CollisionUtils.EDGE_RIGHT:
+			pos.x = Game.camera.x * 2 + mxr;
+			break;
+		case CollisionUtils.EDGE_LEFT:
+			pos.x = Game.camera.x * 2 - mxr;
+			break;
+		case CollisionUtils.EDGE_TOP:
+			pos.y = Game.camera.y * 2 + myr;
+			break;
+		case CollisionUtils.EDGE_BOTTOM:
+			pos.y = Game.camera.y * 2 - myr;
+			break;
+		case CollisionUtils.EDGE_TOP_LEFT:
+			pos.x = Game.camera.x * 2 - mxr;
+			pos.y = Game.camera.y * 2 + myr;
+			break;
+		case CollisionUtils.EDGE_TOP_RIGHT:
+			pos.x = Game.camera.x * 2 + mxr;
+			pos.y = Game.camera.y * 2 + myr;
+			break;
+		case CollisionUtils.EDGE_BOTTOM_LEFT:
+			pos.x = Game.camera.x * 2 - mxr;
+			pos.y = Game.camera.y * 2 - myr;
+			break;
+		case CollisionUtils.EDGE_BOTTOM_RIGHT:
+			pos.x = Game.camera.x * 2 + mxr;
+			pos.y = Game.camera.y * 2 - myr;
+			break;
+		case CollisionUtils.NO_COLLISION:
+		default:
+			// Nothing happens for now
+		}
+
+		return pos;
 	}
 }

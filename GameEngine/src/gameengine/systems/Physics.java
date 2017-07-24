@@ -14,7 +14,6 @@ import gameengine.components.Transform;
 import gameengine.objects.ComponentType;
 import gameengine.objects.EngineSystem;
 import gameengine.util.CollisionUtils;
-import gameengine.util.ICollisionListener;
 
 /**
  * @author Team
@@ -47,31 +46,34 @@ public class Physics extends EngineSystem {
 
 		for (int pp = 0; pp < size; pp++) {
 			PhysicComponent p = phy.get(pp);
-			if (p.CollisionTypes.contains(CollisionUtils.STATIC))
+			if (p.OwnCollisionTypes.contains(CollisionUtils.STATIC))
 				continue;
+
+			// Check if we're colliding with an edge
+			int edge = CollisionUtils.getCollidingEdge(p);
+			if (edge != CollisionUtils.NO_COLLISION && edge == CollisionUtils.willCollideWithEdge(p)) {
+				p.setVelocity(CollisionUtils.getVelocityFor(edge, p));
+				p.onCollision(null, null);
+			}
 
 			for (int tt = 0; tt < size; tt++) {
 				if (tt == pp)
 					continue;
+
 				PhysicComponent t = phy.get(tt);
-				if (matrix[p.getEntityID()][t.getEntityID()])
+				if (matrix[pp][tt])
 					continue;
 
-				matrix[p.getEntityID()][t.getEntityID()] = true;
+				matrix[pp][tt] = true;
 				if (p.equals(t) || !CollisionUtils.CanCollide(p, t))
 					continue;
 
 				Vec2f mvt = checkcollision(p, t);
 				if (mvt != null) {
-					for (ICollisionListener i : p.CollisionListeners) {
-						i.onCollision(t, mvt);
-					}
-
-					for (ICollisionListener j : t.CollisionListeners)
-						j.onCollision(p, mvt);
+					p.onCollision(t, mvt);
+					t.onCollision(p, mvt);
 				}
 			}
-
 		}
 
 		// Move and rotate objects after all collision is done
@@ -173,8 +175,6 @@ public class Physics extends EngineSystem {
 		 * tick should be impossible if the objects have valid positions.
 		 */
 		for (int i = 0; i < 2; i++) {
-			if (mvtx != null)
-				break; // we already have a collision
 
 			// Calculate the position for the different Vector components
 			Vec3f pos1;
@@ -188,14 +188,13 @@ public class Physics extends EngineSystem {
 			Vec3f rBL1 = Vec3f.add(pos1, new Vec3f(bottomLeft1, 0));
 			Vec3f rBR1 = Vec3f.add(pos1, new Vec3f(bottomRight1, 0));
 
-			Vec2f[] corner1 = { Vec3f.convertToVec2f(rTL1), Vec3f.convertToVec2f(rTL2), Vec3f.convertToVec2f(rTR1),
-					Vec3f.convertToVec2f(rTR2), Vec3f.convertToVec2f(rBL1), Vec3f.convertToVec2f(rBL2),
-					Vec3f.convertToVec2f(rBR1), Vec3f.convertToVec2f(rBR2) };
+			Vec2f[] corner1 = { Vec3f.convertToVec2f(rTL1), Vec3f.convertToVec2f(rTR1), Vec3f.convertToVec2f(rBL1), Vec3f.convertToVec2f(rBR1) };
+			Vec2f[] corner2 = { Vec3f.convertToVec2f(rTL2), Vec3f.convertToVec2f(rTR2), Vec3f.convertToVec2f(rBL2), Vec3f.convertToVec2f(rBR2) };
 
 			if (i == 0)
-				mvtx = check(axis, corner1);
+				mvtx = check(axis, corner1, corner2);
 			else
-				mvty = check(axis, corner1);
+				mvty = check(axis, corner1, corner2);
 		}
 
 		// Now determine witch direction we are colliding in and return the
@@ -228,14 +227,14 @@ public class Physics extends EngineSystem {
 	 * @param corner1
 	 * @return
 	 */
-	private Vec3f check(Vec3f[] axis, Vec2f[] corner1) {
+	private Vec3f check(Vec3f[] axis, Vec2f[] corner1, Vec2f[] corner2) {
 		Vec3f mvt = new Vec3f();
 		// String s =
 		// "_____________________________________________________________\n";
 		for (int i = 0; i < axis.length; i++) {
 			Vec3f an = Vec3f.normalize(axis[i]);
-			Vec2f p1 = pro(new Vec2f[] { corner1[0], corner1[2], corner1[4], corner1[6] }, an);
-			Vec2f p2 = pro(new Vec2f[] { corner1[1], corner1[3], corner1[5], corner1[7] }, an);
+			Vec2f p1 = pro(corner1, an);
+			Vec2f p2 = pro(corner2, an);
 			float o = overlap(p1, p2);
 			// s += an + "\n P: " + p1 + " & " + p2 + " o = " + o + "\n";
 			if (o == -100000000) {
@@ -296,5 +295,4 @@ public class Physics extends EngineSystem {
 		}
 		return new Vec2f(min, max);
 	}
-
 }

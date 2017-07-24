@@ -10,18 +10,10 @@ public class StandardCollisionResponse implements ICollisionListener {
 
 	public boolean cancelRotation = true;
 
-	ActionComponent self;
-
-	public StandardCollisionResponse(ActionComponent self) {
-		this.self = self;
-	}
-
 	@Override
-	public void onCollision(PhysicComponent otherPh, Vec2f mvt) {
-		if (!otherPh.CollisionTypes.contains(CollisionUtils.OTHER_PLAYER))
+	public void onCollision(PhysicComponent ownPh, PhysicComponent otherPh, Vec2f mvt) {
+		if (otherPh == null)
 			return;
-
-		PhysicComponent ownPh = self.getPhysicComponent();
 
 		// HACK: Cancel any rotation when we're already colliding
 		if (cancelRotation)
