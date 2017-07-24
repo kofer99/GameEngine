@@ -111,7 +111,6 @@ public class PhysicComponent extends Component {
 		UpdateListeners.remove(listener);
 	}
 
-	// Dumb helper methods
 	public void standardInitialise(ActionComponent action) {
 		OwnCollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 		addCollisionListener(new StaticCollisionResponse());
@@ -129,5 +128,14 @@ public class PhysicComponent extends Component {
 		h.JumpKey = jumpKey;
 		addUpdateListener(h);
 		addCollisionListener(h);
+	}
+
+	public void makeStatic() {
+		OwnCollisionTypes.add(CollisionUtils.STATIC);
+	}
+
+	public void makeStatic(ActionComponent action) {
+		OwnCollisionTypes.add(CollisionUtils.STATIC);
+		addCollisionListener(action);
 	}
 }
