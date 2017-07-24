@@ -8,6 +8,7 @@ import gameengine.Engine;
 import gameengine.components.ActionComponent;
 import gameengine.components.AudioComponent;
 import gameengine.components.PhysicComponent;
+import gameengine.objects.Entity;
 
 /**
  * @author Daniel
@@ -16,8 +17,7 @@ import gameengine.components.PhysicComponent;
  */
 public class Player extends ActionComponent {
 
-	AudioComponent audio;
-	PhysicComponent playerPh;
+	private Entity player;
 	boolean hasYMovement = false;
 	boolean hasXMovement = false;
 	boolean hasX2Movement = false;
@@ -29,26 +29,22 @@ public class Player extends ActionComponent {
 	int i = 0;
 	int z;
 
-	public Player(PhysicComponent ph) {
-		playerPh = ph;
+	public Player(Entity player) {
+		this.player = player;
 	}
 
 	@Override
 	public void action() {
 		updateMovement();
 		updateRotation();
-		checkBoundaries(playerPh);
+		checkBoundaries(player.pysics);
 
 		i++;
 	}
 
-	public void addAudio(AudioComponent a) {
-		audio = a;
-	}
-
 	@Override
 	public PhysicComponent getPhysicComponent() {
-		return playerPh;
+		return player.pysics;
 	}
 
 	private void updateRotation() {
@@ -61,7 +57,7 @@ public class Player extends ActionComponent {
 			rotvel = -1;
 		}
 
-		playerPh.setRotVel(rotvel);
+		player.pysics.setRotVel(rotvel);
 	}
 
 	private void updateMovement() {
@@ -70,7 +66,7 @@ public class Player extends ActionComponent {
 
 		if (z > 60) {
 			z = 0;
-			audio.play(0.5f);
+			player.audio.play(0.5f);
 		}
 
 		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_RIGHT)) {
@@ -86,12 +82,12 @@ public class Player extends ActionComponent {
 			ymov += -2.0f;
 		}
 		if (xmov == 0 && ymov == 0) {
-			playerPh.setVelocity(new Vec3f(0f, 0f, 0f));
+			player.pysics.setVelocity(new Vec3f(0f, 0f, 0f));
 			return;
 		}
 
 		z++;
-		playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov, ymov, 0)));
+		player.pysics.setVelocity(Vec3f.normalize(new Vec3f(xmov, ymov, 0)));
 	}
 
 	@Override

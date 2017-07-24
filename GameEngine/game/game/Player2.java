@@ -7,6 +7,7 @@ import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
 import gameengine.components.PhysicComponent;
+import gameengine.objects.Entity;
 
 /**
  * @author Daniel
@@ -15,7 +16,6 @@ import gameengine.components.PhysicComponent;
  */
 public class Player2 extends ActionComponent {
 
-	PhysicComponent playerPh;
 	boolean hasYMovement = false;
 	boolean hasXMovement = false;
 	boolean hasX2Movement = false;
@@ -23,22 +23,24 @@ public class Player2 extends ActionComponent {
 
 	int i = 0;
 
-	public Player2(PhysicComponent ph) {
-		playerPh = ph;
+	private Entity player2;
+
+	public Player2(Entity player2) {
+		this.player2 = player2;
 	}
 
 	@Override
 	public void action() {
 		updateMovement();
 		updateRotation();
-		checkBoundaries(playerPh);
+		checkBoundaries(player2.pysics);
 
 		i++;
 	}
 
 	@Override
 	public PhysicComponent getPhysicComponent() {
-		return playerPh;
+		return player2.pysics;
 	}
 
 	private void updateRotation() {
@@ -51,7 +53,7 @@ public class Player2 extends ActionComponent {
 			rotvel = -1;
 		}
 
-		playerPh.setRotVel(rotvel);
+		player2.pysics.setRotVel(rotvel);
 	}
 
 	private void updateMovement() {
@@ -71,7 +73,7 @@ public class Player2 extends ActionComponent {
 			ymov += -2.0f;
 		}
 
-		playerPh.setVelocity(Vec3f.normalize(new Vec3f(xmov, ymov, 0)));
+		player2.pysics.setVelocity(Vec3f.normalize(new Vec3f(xmov, ymov, 0)));
 	}
 
 	@Override
