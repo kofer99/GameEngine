@@ -24,7 +24,7 @@ import gameengine.systems.MasterRenderer;
 import gameengine.systems.Physics;
 import gameengine.util.EngineLogger;
 import gameengine.util.OpenGLErrorCatcher;
-import mariodemo.MarioGame;
+import game.TestGame;
 
 /**
  * @author Florian Albrecht, Daniel
@@ -107,7 +107,7 @@ public class Engine {
 
 		// Game init
 		try {
-			game = new MarioGame();
+			game = new TestGame();
 			game.init();
 		} catch (Exception e) {
 			e.printStackTrace();
