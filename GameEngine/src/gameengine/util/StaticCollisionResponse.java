@@ -14,8 +14,8 @@ import gameengine.components.PhysicComponent;
 public class StaticCollisionResponse implements ICollisionListener {
 
 	@Override
-	public void onCollision(PhysicComponent physics, PhysicComponent other, Vec2f mvt) {
-		if (mvt == null)
+	public void onCollision(PhysicComponent physics, PhysicComponent otherPh, Vec2f mvt) {
+		if (mvt == null || !otherPh.OwnCollisionTypes.contains(CollisionUtils.STATIC))
 			return;
 
 		Vec3f currentVelocity = physics.getVelocity();

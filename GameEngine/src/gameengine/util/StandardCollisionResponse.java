@@ -12,7 +12,7 @@ public class StandardCollisionResponse implements ICollisionListener {
 
 	@Override
 	public void onCollision(PhysicComponent ownPh, PhysicComponent otherPh, Vec2f mvt) {
-		if (otherPh == null)
+		if (otherPh == null || !otherPh.OwnCollisionTypes.contains(CollisionUtils.OTHER_PLAYER))
 			return;
 
 		// HACK: Cancel any rotation when we're already colliding
