@@ -175,7 +175,7 @@ public class Engine {
 			frames++;
 			thisTime = System.currentTimeMillis();
 			if (thisTime - lastTimeF >= 1000) {
-				System.out.println("FPS: " + frames + ", f/ms: " + (1000.0 / frames) + ", UPS: " + updates);
+				window.setTitle("FPS: " + frames + ", f/ms: " + (1000.0 / frames) + ", UPS: " + updates);
 				lastTimeF = thisTime;
 				updates = 0;
 				frames = 0;

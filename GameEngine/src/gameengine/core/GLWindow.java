@@ -44,7 +44,7 @@ public class GLWindow {
 
 	public static int width = 960;
 	public static int height = 540;
-	private String title = "GameEngine";
+	private String title = "GameEngine: ";
 
 	InputHandler inputHandler;
 	MouseHandlerMove mouseHandlerMove;
@@ -130,6 +130,10 @@ public class GLWindow {
 		// Poll for window events. The key callback above will only be
 		// invoked during this call.
 		glfwPollEvents();
+	}
+
+	public void setTitle(String ntitle) {
+		GLFW.glfwSetWindowTitle(windowID, title + ntitle);
 	}
 
 	public void destroy() {
