@@ -197,26 +197,17 @@ public class Physics extends EngineSystem {
 				mvty = check(axis, corner1, corner2);
 		}
 
+		if (mvtx == null && mvty == null)
+			return null;
+
 		// Now determine witch direction we are colliding in and return the
 		// minimum magnitude vector
-		if (mvtx != null) {
-			if (right)
-				return new Vec2f(mvtx.x * +5f, 0);
-			else
-				return new Vec2f(mvtx.x * -5f, 0);
-		}
-		if (mvty != null) {
-			// to avoid a glitch where a falling/rising object is going to
-			// glitch to the left or right of the other one this vector gets
-			// some threshold
-			// TODO: really fix this bug, its crazy
-			if (top)
-				return new Vec2f(0, mvty.y * 5 + 0.15f);
-			else
-				return new Vec2f(0, mvty.y * -5 - 0.15f);
-		}
+		mvtx = mvtx == null ? new Vec3f(0, 0, 0) : mvtx;
+		mvty = mvty == null ? new Vec3f(0, 0, 0) : mvty;
 
-		return null;
+		float x = mvtx.x * 5f * (right ? 1 : -1);
+		float y = mvty.y * 5f * (top ? 1 : -1);
+		return new Vec2f(x, y);
 	}
 
 	/**
@@ -229,21 +220,19 @@ public class Physics extends EngineSystem {
 	 */
 	private Vec3f check(Vec3f[] axis, Vec2f[] corner1, Vec2f[] corner2) {
 		Vec3f mvt = new Vec3f();
-		// String s =
-		// "_____________________________________________________________\n";
 		for (int i = 0; i < axis.length; i++) {
 			Vec3f an = Vec3f.normalize(axis[i]);
 			Vec2f p1 = pro(corner1, an);
 			Vec2f p2 = pro(corner2, an);
 			float o = overlap(p1, p2);
-			// s += an + "\n P: " + p1 + " & " + p2 + " o = " + o + "\n";
 			if (o == -100000000) {
 				return null;
 			}
+
 			// for the mvt we need nonzero axis => maybe sth with point edge bug
 			mvt = Vec3f.add(mvt, Vec3f.mul(o, Vec3f.abs(an)));
 		}
-		// System.out.println(s);
+
 		return mvt;
 	}
 
