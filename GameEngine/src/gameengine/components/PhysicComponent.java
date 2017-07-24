@@ -11,6 +11,10 @@ import gameengine.objects.ComponentType;
 import gameengine.util.CollisionUtils;
 import gameengine.util.ICollisionListener;
 import gameengine.util.IUpdateListener;
+import gameengine.util.JumpHelper;
+import gameengine.util.StandardCollisionResponse;
+import gameengine.util.StandardGravity;
+import gameengine.util.StaticCollisionResponse;
 
 /**
  * @author Florian Albrecht
@@ -105,5 +109,24 @@ public class PhysicComponent extends Component {
 
 	public void removeUpdateListener(IUpdateListener listener) {
 		UpdateListeners.remove(listener);
+	}
+
+	// Dumb helper methods
+	public void standardInitialise(ActionComponent action) {
+		OwnCollisionTypes.add(CollisionUtils.OTHER_PLAYER);
+		addCollisionListener(new StaticCollisionResponse());
+		addCollisionListener(new StandardCollisionResponse());
+		addCollisionListener(action);
+	}
+
+	public void addGravity(StandardGravity g) {
+		addUpdateListener(g);
+		addCollisionListener(g);
+	}
+
+	public void allowJumping(float jumpForce, int duration) {
+		JumpHelper h = new JumpHelper(jumpForce, duration);
+		addUpdateListener(h);
+		addCollisionListener(h);
 	}
 }

@@ -4,7 +4,6 @@
 package game;
 
 import org.lwjgl.glfw.GLFW;
-
 import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.Engine;
@@ -17,9 +16,7 @@ import gameengine.objects.Component;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
 import gameengine.util.CollisionUtils;
-import gameengine.util.StandardCollisionResponse;
 import gameengine.util.StandardGravity;
-import gameengine.util.StaticCollisionResponse;
 
 /**
  *
@@ -28,31 +25,28 @@ public class TestGame implements Game {
 
 	private Transform playerTransform;
 	private Renderable playerRender;
+	private StandardGravity gravity = new StandardGravity(4f / 90);
 
-	public TestGame() {
-
-	}
+	public TestGame() { }
 
 	@Override
 	public void init() {
 		Entity player = new Entity();
 	
 		playerTransform = new Transform(new Vec3f(7f, 0f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 270));
-		PhysicComponent playerPhysic = new PhysicComponent(playerTransform);
+		PhysicComponent playerPhysics = new PhysicComponent(playerTransform);
 		ActionComponent playerAction = new Player(player);
 		AudioComponent audio = new AudioComponent("bounce.wav");
 
 		playerRender = new Renderable("Player.png", playerTransform);
 
-		playerPhysic.OwnCollisionTypes.add(CollisionUtils.OTHER_PLAYER);
-		playerPhysic.addCollisionListener(new StaticCollisionResponse());
-		playerPhysic.addCollisionListener(new StandardCollisionResponse());
-		playerPhysic.addCollisionListener(playerAction);
-		playerPhysic.addUpdateListener(new StandardGravity(2f));
+		playerPhysics.standardInitialise(playerAction);
+		playerPhysics.addGravity(gravity);
+		playerPhysics.allowJumping(2.25f, 90);
 
 		player.add(playerTransform);
 		player.add(playerRender);
-		player.add(playerPhysic);
+		player.add(playerPhysics);
 		player.add(playerAction);
 		player.add(audio);
 
@@ -62,11 +56,7 @@ public class TestGame implements Game {
 				new Vec3f(0, 0, 0));
 		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
 		ActionComponent player2Action = new Player2(e);
-
-		player2Physics.OwnCollisionTypes.add(CollisionUtils.OTHER_PLAYER);
-		player2Physics.addCollisionListener(new StaticCollisionResponse());
-		player2Physics.addCollisionListener(new StandardCollisionResponse());
-		player2Physics.addCollisionListener(player2Action);
+		player2Physics.standardInitialise(player2Action);
 
 		e.add(player2Transform);
 		e.add(new Renderable("Grass.png", player2Transform));
@@ -100,18 +90,11 @@ public class TestGame implements Game {
 		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_K)) {
 			camera.add(new Vec3f(0.0f, 0.1f, 0));
 		}
+
 		if (i == 180) {
 			text.update("2. Text :)");
 			text.updateColor(new Vec3f(0.2f, 1.0f, 0.0f));
 
-			// System.out.println(camera.toString());
-			// System.out.println(playerTransform.getPosition().toString());
-			if(k%2==0){
-				playerRender.updateTexture("Grass.png");
-			}else{
-				playerRender.updateTexture("Player.png");
-			}
-			k++;
 			i = 0;
 		}
 	}
