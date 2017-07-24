@@ -29,6 +29,8 @@ public class PhysicComponent extends Component {
 	public float mxr = 15.5f;
 	public float myr = 8.5f;
 
+	public boolean screenCollision = false;
+
 	public HashSet<Integer> OwnCollisionTypes = new HashSet<Integer>();
 	public HashSet<ICollisionListener> CollisionListeners = new HashSet<ICollisionListener>();
 	HashSet<IUpdateListener> UpdateListeners = new HashSet<IUpdateListener>();
@@ -137,5 +139,9 @@ public class PhysicComponent extends Component {
 	public void makeStatic(ActionComponent action) {
 		OwnCollisionTypes.add(CollisionUtils.STATIC);
 		addCollisionListener(action);
+	}
+
+	public void setScreenCollision(boolean bol) {
+		this.screenCollision = bol;
 	}
 }

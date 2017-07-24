@@ -44,6 +44,7 @@ public class TestGame implements Game {
 		playerPhysics.standardInitialise(playerAction);
 		playerPhysics.addGravity(gravity);
 		playerPhysics.allowJumping(2.25f, 90, GLFW.GLFW_KEY_UP);
+		playerPhysics.setScreenCollision(true);
 
 		player.add(playerTransform);
 		player.add(playerRender);

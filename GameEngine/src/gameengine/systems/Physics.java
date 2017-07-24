@@ -50,12 +50,14 @@ public class Physics extends EngineSystem {
 				continue;
 
 			// Check if we're colliding with an edge
-			int edge = CollisionUtils.getCollidingEdge(p);
-			if (edge != CollisionUtils.NO_COLLISION && edge == CollisionUtils.willCollideWithEdge(p)) {
-				p.setVelocity(CollisionUtils.getVelocityFor(edge, p));
-				p.onCollision(null, null);
+			if (p.screenCollision) {
+				int edge = CollisionUtils.getCollidingEdge(p);
+				if (edge != CollisionUtils.NO_COLLISION && edge == CollisionUtils.willCollideWithEdge(p)) {
+					p.setVelocity(CollisionUtils.getVelocityFor(edge, p));
+					p.onCollision(null, null);
+				}
 			}
-
+			
 			for (int tt = 0; tt < size; tt++) {
 				if (tt == pp)
 					continue;
@@ -188,8 +190,10 @@ public class Physics extends EngineSystem {
 			Vec3f rBL1 = Vec3f.add(pos1, new Vec3f(bottomLeft1, 0));
 			Vec3f rBR1 = Vec3f.add(pos1, new Vec3f(bottomRight1, 0));
 
-			Vec2f[] corner1 = { Vec3f.convertToVec2f(rTL1), Vec3f.convertToVec2f(rTR1), Vec3f.convertToVec2f(rBL1), Vec3f.convertToVec2f(rBR1) };
-			Vec2f[] corner2 = { Vec3f.convertToVec2f(rTL2), Vec3f.convertToVec2f(rTR2), Vec3f.convertToVec2f(rBL2), Vec3f.convertToVec2f(rBR2) };
+			Vec2f[] corner1 = { Vec3f.convertToVec2f(rTL1), Vec3f.convertToVec2f(rTR1), Vec3f.convertToVec2f(rBL1),
+					Vec3f.convertToVec2f(rBR1) };
+			Vec2f[] corner2 = { Vec3f.convertToVec2f(rTL2), Vec3f.convertToVec2f(rTR2), Vec3f.convertToVec2f(rBL2),
+					Vec3f.convertToVec2f(rBR2) };
 
 			if (i == 0)
 				mvtx = check(axis, corner1, corner2);
