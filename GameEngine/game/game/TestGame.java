@@ -18,6 +18,7 @@ import gameengine.objects.Entity;
 import gameengine.objects.Game;
 import gameengine.util.CollisionUtils;
 import gameengine.util.StandardCollisionResponse;
+import gameengine.util.StandardGravity;
 import gameengine.util.StaticCollisionResponse;
 
 /**
@@ -47,6 +48,7 @@ public class TestGame implements Game {
 		playerPhysic.addCollisionListener(new StaticCollisionResponse());
 		playerPhysic.addCollisionListener(new StandardCollisionResponse());
 		playerPhysic.addCollisionListener(playerAction);
+		playerPhysic.addUpdateListener(new StandardGravity(2f));
 
 		player.add(playerTransform);
 		player.add(playerRender);
