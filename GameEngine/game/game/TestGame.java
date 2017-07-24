@@ -13,6 +13,7 @@ import gameengine.components.AudioComponent;
 import gameengine.components.PhysicComponent;
 import gameengine.components.Renderable;
 import gameengine.components.Transform;
+import gameengine.objects.Component;
 import gameengine.objects.Entity;
 import gameengine.objects.Game;
 import gameengine.util.CollisionUtils;
@@ -25,6 +26,7 @@ import gameengine.util.StaticCollisionResponse;
 public class TestGame implements Game {
 
 	private Transform playerTransform;
+	private Renderable playerRender;
 
 	public TestGame() {
 
@@ -33,19 +35,21 @@ public class TestGame implements Game {
 	@Override
 	public void init() {
 		Entity player = new Entity();
-
+	
 		playerTransform = new Transform(new Vec3f(7f, 0f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 270));
 		PhysicComponent playerPhysic = new PhysicComponent(playerTransform);
-		Player playerAction = new Player(player);
+		ActionComponent playerAction = new Player(playerPhysic);
 		AudioComponent audio = new AudioComponent("bounce.wav");
-
+		
+		playerRender = new Renderable("Player.png", playerTransform);
+		
 		playerPhysic.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 		playerPhysic.addCollisionListener(new StaticCollisionResponse(playerAction));
 		playerPhysic.addCollisionListener(new StandardCollisionResponse(playerAction));
 		playerPhysic.addCollisionListener(playerAction);
 
 		player.add(playerTransform);
-		player.add(new Renderable("Player.png", playerTransform));
+		player.add(playerRender);
 		player.add(playerPhysic);
 		player.add(playerAction);
 		player.add(audio);
@@ -55,7 +59,7 @@ public class TestGame implements Game {
 		Transform player2Transform = new Transform(new Vec3f(0f, 0.5f * i, 0f), new Vec2f(1.0f, 1.0f),
 				new Vec3f(0, 0, 0));
 		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
-		Player2 player2Action = new Player2(e);
+		ActionComponent player2Action = new Player2(player2Physics);
 
 		player2Physics.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 		player2Physics.addCollisionListener(new StaticCollisionResponse(player2Action));
@@ -87,7 +91,7 @@ public class TestGame implements Game {
 
 	Text text;
 	int i = 0;
-
+	int k = 0;
 	@Override
 	public void update() {
 		i++;
@@ -100,6 +104,12 @@ public class TestGame implements Game {
 
 			// System.out.println(camera.toString());
 			// System.out.println(playerTransform.getPosition().toString());
+			if(k%2==0){
+				playerRender.updateTexture("Grass.png");
+			}else{
+				playerRender.updateTexture("Player.png");
+			}
+			k++;
 			i = 0;
 		}
 	}
