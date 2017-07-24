@@ -38,7 +38,7 @@ public class TestGame implements Game {
 	
 		playerTransform = new Transform(new Vec3f(7f, 0f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 270));
 		PhysicComponent playerPhysic = new PhysicComponent(playerTransform);
-		ActionComponent playerAction = new Player(playerPhysic);
+		ActionComponent playerAction = new Player(player);
 		AudioComponent audio = new AudioComponent("bounce.wav");
 		
 		playerRender = new Renderable("Player.png", playerTransform);
@@ -59,7 +59,7 @@ public class TestGame implements Game {
 		Transform player2Transform = new Transform(new Vec3f(0f, 0.5f * i, 0f), new Vec2f(1.0f, 1.0f),
 				new Vec3f(0, 0, 0));
 		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
-		ActionComponent player2Action = new Player2(player2Physics);
+		ActionComponent player2Action = new Player2(e);
 
 		player2Physics.CollisionTypes.add(CollisionUtils.OTHER_PLAYER);
 		player2Physics.addCollisionListener(new StaticCollisionResponse(player2Action));
