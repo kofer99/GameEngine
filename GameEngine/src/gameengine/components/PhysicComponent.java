@@ -9,6 +9,7 @@ import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
 import gameengine.util.CollisionUtils;
 import gameengine.util.ICollisionListener;
+import gameengine.util.IUpdateListener;
 
 /**
  * @author Florian Albrecht
@@ -24,7 +25,8 @@ public class PhysicComponent extends Component {
 	public float myr = 8.5f;
 
 	public HashSet<Integer> CollisionTypes = new HashSet<Integer>();
-	public HashSet<ICollisionListener> listeners = new HashSet<ICollisionListener>();
+	public HashSet<ICollisionListener> CollisionListeners = new HashSet<ICollisionListener>();
+	HashSet<IUpdateListener> UpdateListeners = new HashSet<IUpdateListener>();
 
 	public PhysicComponent(Transform transform) {
 		super(ComponentType.PHYSIC);
@@ -39,6 +41,18 @@ public class PhysicComponent extends Component {
 
 		if (!canCollide)
 			CollisionTypes.add(CollisionUtils.NO_COLLISION);
+	}
+
+	public void update() {
+		for (IUpdateListener u : UpdateListeners) {
+			u.update(this);
+		}
+	}
+
+	public void afterUpdate() {
+		for (IUpdateListener u : UpdateListeners) {
+			u.afterUpdate(this);
+		}
 	}
 
 	/**
@@ -79,10 +93,18 @@ public class PhysicComponent extends Component {
 	}
 
 	public void addCollisionListener(ICollisionListener listener) {
-		listeners.add(listener);
+		CollisionListeners.add(listener);
 	}
 
 	public void removeCollisionListener(ICollisionListener listener) {
-		listeners.remove(listener);
+		CollisionListeners.remove(listener);
+	}
+
+	public void addUpdateListener(IUpdateListener listener) {
+		UpdateListeners.add(listener);
+	}
+
+	public void removeUpdateListener(IUpdateListener listener) {
+		UpdateListeners.remove(listener);
 	}
 }

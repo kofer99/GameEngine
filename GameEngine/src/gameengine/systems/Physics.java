@@ -35,6 +35,13 @@ public class Physics extends EngineSystem {
 
 	@Override
 	public void update() {
+
+		// Call the 'local' update methods
+		for (PhysicComponent c : phy) {
+			c.update();
+		}
+
+		// Collision detection
 		int size = phy.size();
 		boolean[][] matrix = new boolean[size][size];
 
@@ -56,11 +63,11 @@ public class Physics extends EngineSystem {
 
 				Vec2f mvt = checkcollision(p, t);
 				if (mvt != null) {
-					for (ICollisionListener i : p.listeners) {
+					for (ICollisionListener i : p.CollisionListeners) {
 						i.onCollision(t, mvt);
 					}
 
-					for (ICollisionListener j : t.listeners)
+					for (ICollisionListener j : t.CollisionListeners)
 						j.onCollision(p, mvt);
 				}
 			}
@@ -69,8 +76,9 @@ public class Physics extends EngineSystem {
 
 		// Move and rotate objects after all collision is done
 		for (PhysicComponent c : phy) {
-			Transform tf = c.getTransform();
+			c.afterUpdate();
 
+			Transform tf = c.getTransform();
 			tf.add(Vec3f.div(c.getVelocity(), 10));
 			tf.setRot(Vec3f.add(tf.getRot(), new Vec3f(0, 0, c.getRotVel())));
 		}
