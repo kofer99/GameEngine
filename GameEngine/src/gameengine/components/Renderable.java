@@ -22,6 +22,7 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import far.math.vec.Vec2f;
 import gameengine.objects.Component;
 import gameengine.objects.ComponentType;
 import gameengine.systems.graphics.Mesh;
@@ -51,9 +52,22 @@ public class Renderable extends Component {
 		mesh = Mesh.Quad();
 
 	}
-	
-	public void updateTexture(String texture){
-		this.texture.textureID=Texture.loadTexture(texture);
+
+	public Renderable(String texture, Transform transform, Vec2f repeat) {
+		super(ComponentType.RENDERABLE);
+		this.transform = transform;
+		this.tex = texture;
+		this.texture = new Texture(tex);
+
+		if (repeat != null) {
+			mesh = Mesh.Quad(transform.getScale());
+		} else {
+			mesh = Mesh.Quad();
+		}
+	}
+
+	public void updateTexture(String texture) {
+		this.texture.textureID = Texture.loadTexture(texture);
 	}
 
 	public void render() {

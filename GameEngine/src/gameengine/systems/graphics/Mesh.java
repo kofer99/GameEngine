@@ -19,6 +19,7 @@ import java.nio.FloatBuffer;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 
+import far.math.vec.Vec2f;
 import gameengine.util.BufferUtils;
 
 /**
@@ -112,6 +113,29 @@ public class Mesh {
 				0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // bottom right
 				-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // bottom left
 				-0.5f, 0.5f, 0.0f, 0.0f, 0.0f // top left
+		};
+
+		int indices[] = { // note that we start from 0!
+				0, 1, 3, // first triangle
+				1, 2, 3 // second triangle
+		};
+
+		Mesh quad = new Mesh(vertices, indices);
+
+		return quad;
+	}
+
+	public static Mesh Quad(Vec2f scale) {
+		float vertices[] = {
+				// x,y,z
+				+0.5f, +0.5f, 0.0f, 1.0f * scale.x, 0.0f * scale.y,
+				// top right
+				+0.5f, -0.5f, 0.0f, 1.0f * scale.x, 1.0f * scale.y,
+				// bottom right
+				-0.5f, -0.5f, 0.0f, 0.0f * scale.x, 1.0f * scale.y,
+				// bottom left
+				-0.5f, +0.5f, 0.0f, 0.0f * scale.x, 0.0f * scale.y
+				// top left
 		};
 
 		int indices[] = { // note that we start from 0!
