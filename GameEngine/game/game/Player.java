@@ -1,12 +1,10 @@
 package game;
 
 import org.lwjgl.glfw.GLFW;
-
 import far.math.vec.Vec2f;
 import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
-import gameengine.components.AudioComponent;
 import gameengine.components.PhysicComponent;
 import gameengine.objects.Entity;
 
@@ -20,6 +18,7 @@ public class Player extends ActionComponent {
 	private Entity player;
 
 	public Player(Entity player) {
+		super(player);
 		this.player = player;
 	}
 

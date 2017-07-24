@@ -1,9 +1,7 @@
 package game;
 
 import org.lwjgl.glfw.GLFW;
-
 import far.math.vec.Vec2f;
-import far.math.vec.Vec3f;
 import gameengine.Engine;
 import gameengine.components.ActionComponent;
 import gameengine.components.PhysicComponent;
@@ -19,12 +17,13 @@ public class Player2 extends ActionComponent {
 	private Entity player2;
 
 	public Player2(Entity player2) {
+		super(player2);
 		this.player2 = player2;
 	}
 
 	@Override
 	public void action() {
-		updateMovement();
+		move(2, GLFW.GLFW_KEY_A, GLFW.GLFW_KEY_D, GLFW.GLFW_KEY_W, GLFW.GLFW_KEY_S);
 		updateRotation();
 	}
 
@@ -39,26 +38,6 @@ public class Player2 extends ActionComponent {
 		}
 
 		player2.pysics.setRotVel(rotvel);
-	}
-
-	private void updateMovement() {
-		float xmov = 0.0f;
-		float ymov = 0.0f;
-
-		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_D)) {
-			xmov += 2.0f;
-		}
-		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_A)) {
-			xmov += -2.0f;
-		}
-		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_W)) {
-			ymov += +2.0f;
-		}
-		if (Engine.keyboard.isDown(GLFW.GLFW_KEY_S)) {
-			ymov += -2.0f;
-		}
-
-		player2.pysics.setVelocity(Vec3f.normalize(new Vec3f(xmov, ymov, 0)));
 	}
 
 	@Override
