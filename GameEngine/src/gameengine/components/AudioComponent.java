@@ -16,7 +16,7 @@ public class AudioComponent extends Component{
 	  /** Buffers hold sound data. */
 	private int id;
 	private int sourcebuffer;
-	private String src;
+	public String src;
 
 	public AudioComponent(String src) {
 		super(ComponentType.AUDIO);

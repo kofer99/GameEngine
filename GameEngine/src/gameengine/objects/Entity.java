@@ -3,6 +3,8 @@
  */
 package gameengine.objects;
 
+import java.util.ArrayList;
+
 import gameengine.Main;
 import gameengine.components.ActionComponent;
 import gameengine.components.AudioComponent;
@@ -41,7 +43,7 @@ public class Entity {
 	public Transform transform;
 	public PhysicComponent pysics;
 	public ActionComponent action;
-	public AudioComponent audio;
+	public ArrayList<AudioComponent> audio = new ArrayList<AudioComponent>();
 
 	public void add(Component component) {
 		component.setEntityID(id);
@@ -59,7 +61,7 @@ public class Entity {
 			this.action = (ActionComponent) component;
 			break;
 		case AUDIO:
-			this.audio = (AudioComponent) component;
+			this.audio.add((AudioComponent) component);
 			break;
 		default:
 			break;
@@ -91,11 +93,11 @@ public class Entity {
 	public void setDeleted() {
 		deleted = true;
 	}
-	
+
 	/**
 	 * Deletes this entity;
 	 */
-	public void delete(){
+	public void delete() {
 		Main.engine.removeEntity(id);
 	}
 
