@@ -91,6 +91,13 @@ public class Entity {
 	public void setDeleted() {
 		deleted = true;
 	}
+	
+	/**
+	 * Deletes this entity;
+	 */
+	public void delete(){
+		Main.engine.removeEntity(id);
+	}
 
 	/**
 	 * 

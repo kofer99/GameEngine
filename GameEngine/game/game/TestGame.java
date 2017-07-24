@@ -105,9 +105,17 @@ public class TestGame implements Game {
 
 		if (i == 180) {
 			text.update("2. Text :)");
-			text.updateColor(new Vec3f(0.2f, 1.0f, 0.0f));
+			text.updateColor(new Vec3f(1.0f, 0.2f, 0.0f));
 
-			i = 0;
+			// if (k % 2 == 0) {
+			// playerRender.updateTexture("Grass.png");
+			// } else {
+			// playerRender.updateTexture("Player.png");
+			// }
+			// k++;
+
 		}
+		if (i == 360)
+			text.delete();
 	}
 }
