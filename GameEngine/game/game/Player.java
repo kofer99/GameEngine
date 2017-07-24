@@ -29,11 +29,6 @@ public class Player extends ActionComponent {
 		updateRotation();
 	}
 
-	@Override
-	public PhysicComponent getPhysicComponent() {
-		return player.pysics;
-	}
-
 	private void updateRotation() {
 		float rotvel = 0f;
 

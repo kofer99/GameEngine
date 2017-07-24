@@ -20,5 +20,4 @@ public abstract class ActionComponent extends Component implements ICollisionLis
 
 	public abstract void action();
 
-	public abstract PhysicComponent getPhysicComponent();
 }

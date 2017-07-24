@@ -10,7 +10,6 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import java.util.ArrayList;
 
-import game.TestGame;
 import gameengine.collections.EntityHandler;
 import gameengine.core.GLWindow;
 import gameengine.core.Keyboard;
@@ -25,6 +24,7 @@ import gameengine.systems.MasterRenderer;
 import gameengine.systems.Physics;
 import gameengine.util.EngineLogger;
 import gameengine.util.OpenGLErrorCatcher;
+import mariodemo.MarioGame;
 
 /**
  * @author Florian Albrecht, Daniel
@@ -107,7 +107,7 @@ public class Engine {
 
 		// Game init
 		try {
-			game = new TestGame();
+			game = new MarioGame();
 			game.init();
 		} catch (Exception e) {
 			e.printStackTrace();

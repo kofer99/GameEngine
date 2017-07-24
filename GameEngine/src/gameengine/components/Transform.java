@@ -14,6 +14,11 @@ import gameengine.objects.ComponentType;
  */
 public class Transform extends Component {
 
+	public static final Vec3f FACE_RIGHT = new Vec3f(0, 0, 0);
+	public static final Vec3f FACE_LFET = new Vec3f(0, 180, 0);
+	public static final Vec3f FACE_UP = new Vec3f(0, 0, 0);
+	public static final Vec3f FACE_DOWN = new Vec3f(180, 0, 0);
+
 	private Vec3f position;
 	private Vec2f scale;
 	private Vec3f rot;
@@ -31,6 +36,13 @@ public class Transform extends Component {
 		super(ComponentType.TRANSFORM);
 		this.position = position;
 		this.scale = new Vec2f(1, 1);
+		this.rot = new Vec3f(0, 0, 0);
+	}
+
+	public Transform(Vec3f position, Vec2f scale) {
+		super(ComponentType.TRANSFORM);
+		this.position = position;
+		this.scale = scale;
 		this.rot = new Vec3f(0, 0, 0);
 	}
 
