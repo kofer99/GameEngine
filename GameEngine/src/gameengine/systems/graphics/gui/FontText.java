@@ -7,20 +7,14 @@ import gameengine.systems.graphics.Mesh;
 
 public class FontText {
 
-	private String fontName;
 	private Font font;
 
 	private ArrayList<FontTextSequence> sequences;
 
-	public FontText(String fontName) {
-		this.fontName = fontName;
+	public FontText(Font font) {
 		sequences = new ArrayList<FontTextSequence>();
 
-		font = new Font(fontName);
-	}
-
-	public boolean isEqual(String fontName2) {
-		return this.fontName.matches(fontName2);
+		this.font = font;
 	}
 
 	public void addString(Vec3f position, String text) {
@@ -48,10 +42,6 @@ public class FontText {
 		Mesh mesh = new Mesh(verticesArr, texCoordsArr);
 
 		return mesh;
-	}
-
-	public String getFontName() {
-		return fontName;
 	}
 
 }

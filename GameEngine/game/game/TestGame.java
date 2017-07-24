@@ -113,7 +113,6 @@ public class TestGame implements Game {
 			// playerRender.updateTexture("Player.png");
 			// }
 			// k++;
-
 		}
 		if (i == 360)
 			text.delete();

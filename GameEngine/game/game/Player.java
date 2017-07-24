@@ -61,5 +61,7 @@ public class Player extends ActionComponent {
 	}
 
 	@Override
-	public void onCollision(PhysicComponent self, PhysicComponent other, Vec2f mvt) { }
+	public void onCollision(PhysicComponent self, PhysicComponent other, Vec2f mvt) {
+
+	}
 }

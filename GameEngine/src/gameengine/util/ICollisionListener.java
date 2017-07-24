@@ -4,5 +4,5 @@ import far.math.vec.Vec2f;
 import gameengine.components.PhysicComponent;
 
 public interface ICollisionListener {
-	public void onCollision(PhysicComponent self, PhysicComponent other,  Vec2f mvt);
+	public void onCollision(PhysicComponent self, PhysicComponent other, Vec2f mvt);
 }

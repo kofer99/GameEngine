@@ -30,16 +30,13 @@ public class Texture {
 	private static HashMap<String, Integer> loadedtextures = new HashMap<>();
 
 	public Texture(String name) {
-
-		textureID =loadTexture( name);
+		textureID = loadTexture(name);
 	}
 
 	public static int loadTexture(String path) {
-		
-		path = ("res/texture/"+path);
-		
+		path = ("res/texture/" + path);
+
 		if (loadedtextures.containsKey(path)) {
-			System.out.println("loaded from Map");
 			return loadedtextures.get(path);
 		} else {
 			int[] pixels = null;
@@ -54,7 +51,6 @@ public class Texture {
 			}
 			if (pixels == null)
 				return -1;
-			// return -1;
 
 			int[] data = new int[pixels.length];
 			for (int i = 0; i < pixels.length; i++) {

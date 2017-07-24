@@ -44,7 +44,6 @@ public class Font {
 	}
 
 	private void load() {
-		System.out.println("\nLoading font " + name);
 		if (!openFile())
 			return;
 		loadHeader();
@@ -125,7 +124,6 @@ public class Font {
 
 	private boolean openFile() {
 		try {
-			System.out.println("Reading fontfile: " + "res/fonts/" + name + ".fnt");
 			input = new BufferedReader(new FileReader("res/fonts/" + name + ".fnt"));
 			return true;
 		} catch (FileNotFoundException e) {
