@@ -37,6 +37,7 @@ public class Renderable extends Component {
 	private Transform transform;
 	private Texture texture;
 	private Mesh mesh;
+	private String tex;
 
 	/**
 	 * @param type
@@ -44,10 +45,15 @@ public class Renderable extends Component {
 	public Renderable(String texture, Transform transform) {
 		super(ComponentType.RENDERABLE);
 		this.transform = transform;
-		this.texture = new Texture(texture);
+		this.tex = texture;
+		this.texture = new Texture(tex);
 
 		mesh = Mesh.Quad();
 
+	}
+	
+	public void updateTexture(String texture){
+		this.texture.textureID=Texture.loadTexture(texture);
 	}
 
 	public void render() {
