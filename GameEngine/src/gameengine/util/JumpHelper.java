@@ -48,10 +48,14 @@ public class JumpHelper implements IUpdateListener, ICollisionListener {
 	}
 
 	@Override
-	public void afterUpdate(PhysicComponent self) { }
+	public void afterUpdate(PhysicComponent self) {
+	}
 
 	@Override
 	public void onCollision(PhysicComponent self, PhysicComponent other, Vec2f mvt) {
+		if (mvt != null && mvt.x != 0)
+			return;
+
 		isJumping = false;
 	}
 }

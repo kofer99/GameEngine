@@ -27,12 +27,13 @@ public class TestGame implements Game {
 	private Renderable playerRender;
 	private StandardGravity gravity = new StandardGravity(4f / 90);
 
-	public TestGame() { }
+	public TestGame() {
+	}
 
 	@Override
 	public void init() {
 		Entity player = new Entity();
-	
+
 		playerTransform = new Transform(new Vec3f(7f, 0f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 270));
 		PhysicComponent playerPhysics = new PhysicComponent(playerTransform);
 		ActionComponent playerAction = new Player(player);
@@ -52,8 +53,7 @@ public class TestGame implements Game {
 
 		Entity e = new Entity();
 
-		Transform player2Transform = new Transform(new Vec3f(0f, 0.5f * i, 0f), new Vec2f(1.0f, 1.0f),
-				new Vec3f(0, 0, 0));
+		Transform player2Transform = new Transform(new Vec3f(-8f, 0.0f, 0f), new Vec2f(1.0f, 1.0f), new Vec3f(0, 0, 0));
 		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
 		ActionComponent player2Action = new Player2(e);
 		player2Physics.standardInitialise(player2Action);
@@ -62,6 +62,17 @@ public class TestGame implements Game {
 		e.add(new Renderable("Grass.png", player2Transform));
 		e.add(player2Physics);
 		e.add(player2Action);
+
+		Entity g1 = new Entity();
+
+		Transform g1Transform = new Transform(new Vec3f(0, -0f, 0f), new Vec2f(2.5f, 2.5f), new Vec3f(0, 0, 0));
+		PhysicComponent g1Physics = new PhysicComponent(g1Transform);
+
+		g1Physics.OwnCollisionTypes.add(CollisionUtils.STATIC);
+
+		g1.add(g1Transform);
+		g1.add(new Renderable("Grass.png", g1Transform));
+		g1.add(g1Physics);
 
 		for (int i = 0; i < 5; i++) {
 			Entity g = new Entity();
@@ -84,6 +95,7 @@ public class TestGame implements Game {
 	Text text;
 	int i = 0;
 	int k = 0;
+
 	@Override
 	public void update() {
 		i++;

@@ -32,6 +32,10 @@ public class StandardGravity implements IUpdateListener, ICollisionListener {
 
 	@Override
 	public void onCollision(PhysicComponent self, PhysicComponent other, Vec2f mvt) {
-		hasCollided = timesToApply > 0 || CollisionUtils.NO_COLLISION != CollisionUtils.getCollidingEdgeWithVelocity(self, new Vec3f(0, (-force) * timesToApply, 0));
+		if (mvt != null && mvt.x != 0)
+			return;
+
+		hasCollided = timesToApply > 0 || CollisionUtils.NO_COLLISION != CollisionUtils
+				.getCollidingEdgeWithVelocity(self, new Vec3f(0, (-force) * timesToApply, 0));
 	}
 }
