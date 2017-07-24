@@ -18,7 +18,8 @@ public class StaticCollisionResponse implements ICollisionListener {
 		if (mvt == null)
 			return;
 
+		Vec3f currentVelocity = physics.getVelocity();
 		physics.setRotVel(0);
-		physics.addVelocity(new Vec3f(mvt, 0));
+		physics.setVelocity(new Vec3f(mvt.x == 0 ? currentVelocity.x : 0, mvt.y == 0 ? currentVelocity.y : 0, 0));
 	}
 }
