@@ -8,6 +8,8 @@ import gameengine.components.PhysicComponent;
 
 public class JumpHelper implements IUpdateListener, ICollisionListener {
 
+	public int JumpKey = GLFW.GLFW_KEY_UP;
+
 	boolean isJumping;
 	int maxDuration, currentDuration;
 	Vec3f force;
@@ -36,7 +38,7 @@ public class JumpHelper implements IUpdateListener, ICollisionListener {
 	@Override
 	public void update(PhysicComponent self) {
 		if (!isJumping) {
-			if (currentDuration-- > 0 || !Engine.keyboard.isDown(GLFW.GLFW_KEY_UP))
+			if (currentDuration-- > 0 || !Engine.keyboard.isDown(JumpKey))
 				return;
 
 			isJumping = true;
