@@ -10,6 +10,8 @@ public class Keyboard {
 	private boolean textInput = false;
 	private String inputString;
 
+	public boolean changed = false;
+
 	public Keyboard() {
 		clear();
 	}
@@ -25,6 +27,7 @@ public class Keyboard {
 				inputString += (char) key;
 			}
 		}
+		changed = true;
 	}
 
 	public void setKeyUp(int key) {
@@ -33,6 +36,8 @@ public class Keyboard {
 
 		keysUp[key] = true;
 		keysDown[key] = false;
+
+		changed = true;
 	}
 
 	public boolean isDown(int key) {
@@ -65,6 +70,8 @@ public class Keyboard {
 			keysUp[i] = false;
 		}
 		inputString = "";
+
+		changed = false;
 	}
 
 }

@@ -21,6 +21,8 @@ public class Mouse {
 
 	private boolean firstMotion = true;
 
+	public boolean changed = false;
+
 	public Mouse() {
 		mouse = new Vec2f(0, 0);
 		dMouse = new Vec2f(0, 0);
@@ -29,22 +31,35 @@ public class Mouse {
 	}
 
 	public void setButtonDown(int button) {
-		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
+		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+			leftMouseButtonUp = false;
 			leftMouseButtonDown = true;
-		if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)
+		}
+		if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+			rightMouseButtonUp = false;
 			rightMouseButtonDown = true;
-		if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE)
+		}
+		if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
+			middleMouseButtonUp = false;
 			middleMouseButtonDown = true;
-
+		}
+		changed = true;
 	}
 
 	public void setButtonUp(int button) {
-		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
+		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			leftMouseButtonUp = true;
-		if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT)
+			leftMouseButtonDown = false;
+		}
+		if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
 			rightMouseButtonUp = true;
-		if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE)
+			rightMouseButtonDown = false;
+		}
+		if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
 			middleMouseButtonUp = true;
+			middleMouseButtonDown = false;
+		}
+		changed = true;
 	}
 
 	public void move(int xpos, int ypos) {
@@ -57,6 +72,8 @@ public class Mouse {
 		}
 		mouse.x = xpos;
 		mouse.y = ypos;
+
+		changed = true;
 	}
 
 	public Vec2f getMouse() {
@@ -112,9 +129,11 @@ public class Mouse {
 
 		middleMouseButtonDown = false;
 		middleMouseButtonUp = false;
-		
+
 		dMouse.x = 0;
 		dMouse.y = 0;
+
+		changed = false;
 	}
 
 	public boolean isDown(int button) {
