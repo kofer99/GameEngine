@@ -3,6 +3,8 @@
  */
 package gameengine.systems;
 
+import org.lwjgl.opengl.GL11;
+
 import gameengine.collections.ComponentList;
 import gameengine.components.GUIRenderable;
 import gameengine.components.Renderable;
@@ -36,6 +38,7 @@ public class MasterRenderer extends EngineSystem {
 
 	@Override
 	protected void init() {
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
 	// AKA render()

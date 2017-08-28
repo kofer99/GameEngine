@@ -31,10 +31,10 @@ public class TestGame implements Game {
 	}
 
 	@Override
-	public void init() {
+	public void init() {		
 		Entity player = new Entity();
 
-		playerTransform = new Transform(new Vec3f(7f, 0f, 0f), new Vec2f(2f, 2f), new Vec3f(0, 0, 270));
+		playerTransform = new Transform(new Vec3f(7f, 0f, -1f), new Vec2f(2f, 2f), new Vec3f(0, 0, 270));
 		PhysicComponent playerPhysics = new PhysicComponent(playerTransform);
 		ActionComponent playerAction = new Player(player);
 		AudioComponent audio = new AudioComponent("bounce.wav");
@@ -54,7 +54,7 @@ public class TestGame implements Game {
 
 		Entity e = new Entity();
 
-		Transform player2Transform = new Transform(new Vec3f(-8f, 0.0f, 0f), new Vec2f(1.0f, 1.0f), new Vec3f(0, 0, 0));
+		Transform player2Transform = new Transform(new Vec3f(-8f, 0.0f, -1f), new Vec2f(1.0f, 1.0f), new Vec3f(0, 0, 0));
 		PhysicComponent player2Physics = new PhysicComponent(player2Transform);
 		ActionComponent player2Action = new Player2(e);
 		player2Physics.standardInitialise(player2Action);
@@ -66,7 +66,7 @@ public class TestGame implements Game {
 
 		Entity g1 = new Entity();
 
-		Transform g1Transform = new Transform(new Vec3f(0, -0f, 0f), new Vec2f(2.5f, 2.5f), new Vec3f(0, 0, 0));
+		Transform g1Transform = new Transform(new Vec3f(0, 0f, -1f), new Vec2f(2.5f, 2.5f), new Vec3f(0, 0, 0));
 		PhysicComponent g1Physics = new PhysicComponent(g1Transform);
 
 		g1Physics.OwnCollisionTypes.add(CollisionUtils.STATIC);
@@ -78,7 +78,7 @@ public class TestGame implements Game {
 		for (int i = 0; i < 5; i++) {
 			Entity g = new Entity();
 
-			Transform gTransform = new Transform(new Vec3f(-15f + (i * 7.5f), -5f, 0f), new Vec2f(2.5f, 0.5f),
+			Transform gTransform = new Transform(new Vec3f(-15f + (i * 7.5f), -5f, -1f), new Vec2f(2.5f, 0.5f),
 					new Vec3f(0, 0, 0));
 			PhysicComponent gPhysics = new PhysicComponent(gTransform);
 
@@ -89,8 +89,14 @@ public class TestGame implements Game {
 			g.add(gPhysics);
 		}
 
-		Transform tt = new Transform(new Vec3f(-3.0f, 1.5f, 0.0f), new Vec2f(2.0f, 2.0f), new Vec3f(0, 0, 0));
-		text = new Text("calibri", "Test Text gg xD !", tt, new Vec3f(0.5f, 1.0f, 0.5f));
+		Transform tt = new Transform(new Vec3f(-3.0f, 1.5f, -1.0f), new Vec2f(2.0f, 2.0f), new Vec3f(0, 0, 0));
+		text = new Text("calibri", "Test Text gg xD !", tt, new Vec3f(0.5f, 1.0f, -0.5f));
+		
+		Entity background = new Entity();
+		Transform backgroundT = new Transform(new Vec3f(0, 0, -9.0f), new Vec2f(32, 18));
+		background.add(backgroundT);
+		background.add(new Renderable("hintergrund.jpg", backgroundT));
+
 	}
 
 	Text text;

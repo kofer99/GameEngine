@@ -35,7 +35,7 @@ public class GuiShader extends Shader {
 		cameraloc = glGetUniformLocation(shaderProgram, "camera");
 
 		glUniformMatrix4fv(projmatloc, false, Mat4.createOrtho(-Game.camera.vRes / 4f, Game.camera.vRes / 4f,
-				-Game.camera.hRes / 4f, Game.camera.hRes / 4f, -0.1f, 1.0f).getValue());
+				-Game.camera.hRes / 4f, Game.camera.hRes / 4f, 0.1f, 10.0f).getValue());
 	}
 
 	public void updateShader(Transform transform, Vec3f color) {

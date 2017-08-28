@@ -33,7 +33,7 @@ public class StdShader extends Shader {
 	public void updateShader(Transform transform) {
 		projmatloc = glGetUniformLocation(shaderProgram, "projmat");
 		glUniformMatrix4fv(projmatloc, false,
-				Mat4.createOrtho(-Game.camera.vRes, Game.camera.vRes, -Game.camera.hRes, Game.camera.hRes, -1.0f, 1.0f)
+				Mat4.createOrtho(-Game.camera.vRes, Game.camera.vRes, -Game.camera.hRes, Game.camera.hRes, 0.1f, 10.0f)
 						.getValue());
 		movmatloc = glGetUniformLocation(shaderProgram, "movmat");
 		glUniformMatrix4fv(movmatloc, false, Mat4.createTransformMatrix(transform.getPosition()).getValue());
